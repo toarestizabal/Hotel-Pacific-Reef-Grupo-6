@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS hotel_pacific_reef
     CHARACTER SET utf8mb4
-    COLLATE utf8mb4_0900_ai_ci;
+    COLLATE utf8mb4_unicode_ci;
 
 USE hotel_pacific_reef;
 
@@ -120,4 +120,3 @@ INSERT INTO services (name, description, price) VALUES
     ('Desayuno', 'Desayuno por huésped y por día.', 12000),
     ('Traslado', 'Traslado coordinado entre el hotel y el aeropuerto.', 35000),
     ('Estacionamiento', 'Estacionamiento privado durante la estadía.', 10000);
-

@@ -11,5 +11,3 @@ Primer avance del sistema de reservas del Hotel Pacific Reef, desarrollado por e
 - Modelo inicial de la base de datos.
 
 El formulario entrega una estimación. El registro de usuarios, las reservas reales, los pagos y los paneles de administración se desarrollarán en los siguientes avances.
-
-
