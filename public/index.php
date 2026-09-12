@@ -2,7 +2,41 @@
 
 declare(strict_types=1);
 
-$rooms = require dirname(__DIR__) . '/src/Data/rooms.php';
+use App\Database\Connection;
+
+$projectRoot = dirname(__DIR__);
+$rooms = require $projectRoot . '/src/Data/rooms.php';
+
+require $projectRoot . '/src/Database/Connection.php';
+
+try {
+    $statement = Connection::create()->query(
+        "SELECT
+            rooms.id,
+            rooms.room_number AS number,
+            room_types.name AS category,
+            rooms.location,
+            room_types.max_guests AS capacity,
+            room_types.base_price AS price,
+            rooms.equipment
+         FROM rooms
+         INNER JOIN room_types ON room_types.id = rooms.room_type_id
+         WHERE rooms.status = 'available'
+         ORDER BY rooms.room_number"
+    );
+    $databaseRooms = array_map(
+        static function (array $room): array {
+            $equipment = json_decode((string) $room['equipment'], true);
+            $room['equipment'] = is_array($equipment) ? $equipment : [];
+            return $room;
+        },
+        $statement->fetchAll()
+    );
+
+    $rooms = $databaseRooms;
+} catch (Throwable) {
+    // El catálogo local mantiene disponible el prototipo cuando MariaDB está apagado.
+}
 
 function escape(string $value): string
 {

@@ -1,8 +1,9 @@
 .env
 config/database.php
+config/php.ini
+.local/
 vendor/
 node_modules/
 .idea/
 .vscode/
 *.log
-
