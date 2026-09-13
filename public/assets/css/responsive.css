@@ -1,0 +1,161 @@
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+main,
+.overview > *,
+.reservation-layout > *,
+.admin-layout > *,
+.dashboard-grid > *,
+.panel {
+    min-width: 0;
+}
+
+@media (max-width: 680px) {
+    main {
+        width: calc(100% - 24px);
+        max-width: 100%;
+    }
+
+    .overview h1,
+    .reservation-intro h1,
+    .confirmation-card h1,
+    .page-heading h1 {
+        overflow-wrap: anywhere;
+    }
+
+    .compact-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .compact-header .brand {
+        min-width: 0;
+    }
+
+    .compact-header .brand-copy strong {
+        font-size: 0.88rem;
+    }
+
+    .back-link {
+        max-width: 120px;
+        text-align: right;
+        line-height: 1.25;
+    }
+
+    .reservation-form-card,
+    .reservation-summary,
+    .confirmation-card,
+    .ticket,
+    .ticket > div {
+        min-width: 0;
+    }
+
+    .reservation-summary dl div,
+    .ticket dl div {
+        gap: 10px;
+    }
+
+    .reservation-summary dd,
+    .ticket dd {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .admin-header {
+        display: block;
+        padding: 16px;
+    }
+
+    .admin-header > div {
+        min-width: 0;
+    }
+
+    .admin-header nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+        margin-top: 14px;
+    }
+
+    .admin-header nav a {
+        min-width: 0;
+        padding: 8px 6px;
+        text-align: center;
+        overflow-wrap: anywhere;
+    }
+
+    body:has(.admin-header) main {
+        width: 100%;
+        padding: 20px 14px;
+    }
+
+    .page-heading h1 {
+        font-size: clamp(1.75rem, 9vw, 2.2rem);
+        line-height: 1.1;
+    }
+
+    .admin-layout,
+    .dashboard-grid,
+    .stats-grid,
+    .price-grid {
+        min-width: 0;
+    }
+
+    .form-panel,
+    .table-panel,
+    .quick-panel,
+    .price-card {
+        padding: 18px;
+    }
+
+    .table-wrap {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .table-wrap table {
+        min-width: 640px;
+    }
+
+    .panel-heading > small {
+        position: static;
+        display: block;
+        margin-top: 5px;
+    }
+
+    .status-form {
+        min-width: 0;
+        flex-wrap: wrap;
+    }
+
+    .status-form select {
+        min-width: 150px;
+        flex: 1;
+    }
+}
+
+@media (max-width: 520px) {
+    .property-visual {
+        min-width: 0;
+        min-height: 0;
+        gap: 28px;
+        padding: 22px;
+    }
+
+    .visual-content {
+        grid-template-columns: 1fr;
+    }
+
+    .visual-content > div + div {
+        border-top: 1px solid rgba(255, 255, 255, 0.18);
+        border-left: 0;
+    }
+
+    .visual-content small {
+        min-height: 0;
+    }
+}

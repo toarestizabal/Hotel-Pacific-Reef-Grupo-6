@@ -3,6 +3,7 @@ const bookingResult = document.querySelector('#bookingResult');
 const checkInInput = document.querySelector('#checkIn');
 const checkOutInput = document.querySelector('#checkOut');
 const roomSelect = document.querySelector('#room');
+const guestsSelect = document.querySelector('#guests');
 const languageButton = document.querySelector('#languageButton');
 
 const translations = {
@@ -97,6 +98,13 @@ function calculateBooking() {
 
     const selectedOption = roomSelect.options[roomSelect.selectedIndex];
     const dailyPrice = Number(selectedOption.dataset.price);
+    const guests = Number(guestsSelect.value);
+
+    if (guests > Number(selectedOption.dataset.capacity)) {
+        showError('La habitación seleccionada no admite la cantidad de huéspedes indicada.');
+        return;
+    }
+
     const total = dailyPrice * nights;
     const deposit = Math.round(total * 0.3);
 
@@ -106,6 +114,7 @@ function calculateBooking() {
         <div class="result-item"><span>Noches</span><strong>${nights}</strong></div>
         <div class="result-item"><span>Total estadía</span><strong>${currency(total)}</strong></div>
         <div class="result-item"><span>Abono requerido (30 %)</span><strong>${currency(deposit)}</strong></div>
+        <a class="primary-button continue-button" href="reservation.php?room=${encodeURIComponent(roomSelect.value)}&check_in=${encodeURIComponent(checkInInput.value)}&check_out=${encodeURIComponent(checkOutInput.value)}&guests=${encodeURIComponent(guestsSelect.value)}">Continuar reserva</a>
     `;
 }
 
@@ -130,8 +139,27 @@ checkInInput.addEventListener('change', () => {
 document.querySelectorAll('.room-select-button').forEach((button) => {
     button.addEventListener('click', () => {
         roomSelect.value = button.dataset.roomId;
+        button.closest('dialog')?.close();
         document.querySelector('#reserva').scrollIntoView({ behavior: 'smooth' });
         calculateBooking();
+    });
+});
+
+document.querySelectorAll('.room-detail-button').forEach((button) => {
+    button.addEventListener('click', () => {
+        document.querySelector(`#${button.dataset.dialogId}`)?.showModal();
+    });
+});
+
+document.querySelectorAll('.dialog-close').forEach((button) => {
+    button.addEventListener('click', () => button.closest('dialog')?.close());
+});
+
+document.querySelectorAll('.room-dialog').forEach((dialog) => {
+    dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) {
+            dialog.close();
+        }
     });
 });
 

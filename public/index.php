@@ -6,6 +6,7 @@ use App\Database\Connection;
 
 $projectRoot = dirname(__DIR__);
 $rooms = require $projectRoot . '/src/Data/rooms.php';
+$roomGalleries = require $projectRoot . '/src/Data/room_galleries.php';
 
 require $projectRoot . '/src/Database/Connection.php';
 
@@ -16,6 +17,7 @@ try {
             rooms.room_number AS number,
             room_types.name AS category,
             rooms.location,
+            rooms.description,
             room_types.max_guests AS capacity,
             room_types.base_price AS price,
             rooms.equipment
@@ -51,6 +53,7 @@ function escape(string $value): string
     <meta name="description" content="Prototipo inicial del sistema de reservas de Hotel Pacific Reef">
     <title>Hotel Pacific Reef | Sistema de reservas</title>
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
     <script src="assets/js/app.js" defer></script>
 </head>
 <body>
@@ -141,7 +144,7 @@ function escape(string $value): string
                     <span data-i18n="room">Habitación</span>
                     <select id="room" name="room">
                         <?php foreach ($rooms as $room): ?>
-                            <option value="<?= (int) $room['id'] ?>" data-price="<?= (int) $room['price'] ?>">
+                            <option value="<?= (int) $room['id'] ?>" data-price="<?= (int) $room['price'] ?>" data-capacity="<?= (int) $room['capacity'] ?>">
                                 <?= escape($room['number'] . ' · ' . $room['category']) ?>
                             </option>
                         <?php endforeach; ?>
@@ -169,9 +172,10 @@ function escape(string $value): string
 
             <div class="room-grid">
                 <?php foreach ($rooms as $index => $room): ?>
+                    <?php $gallery = $roomGalleries[$room['category']] ?? $roomGalleries['Turista']; ?>
                     <article class="room-card">
-                        <div class="room-visual tone-<?= ($index % 4) + 1 ?>" aria-hidden="true">
-                            <span><?= str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) ?></span>
+                        <div class="room-visual">
+                            <img src="<?= escape($gallery[0]['src']) ?>" alt="<?= escape($gallery[0]['alt']) ?>" loading="lazy">
                             <small><?= escape($room['category']) ?></small>
                         </div>
                         <div class="room-body">
@@ -191,15 +195,45 @@ function escape(string $value): string
                                     <li><?= escape($equipment) ?></li>
                                 <?php endforeach; ?>
                             </ul>
-                            <button
-                                class="secondary-button room-select-button"
-                                type="button"
-                                data-room-id="<?= (int) $room['id'] ?>"
-                            >
-                                Seleccionar
-                            </button>
+                            <div class="room-actions">
+                                <button class="secondary-button room-detail-button" type="button" data-dialog-id="roomDetail<?= (int) $room['id'] ?>">
+                                    Ver detalles
+                                </button>
+                                <button class="secondary-button room-select-button" type="button" data-room-id="<?= (int) $room['id'] ?>">
+                                    Seleccionar
+                                </button>
+                            </div>
                         </div>
                     </article>
+
+                    <dialog class="room-dialog" id="roomDetail<?= (int) $room['id'] ?>" aria-labelledby="roomDialogTitle<?= (int) $room['id'] ?>">
+                        <button class="dialog-close" type="button" aria-label="Cerrar detalles">×</button>
+                        <div class="room-gallery">
+                            <?php foreach ($gallery as $photoIndex => $photo): ?>
+                                <img src="<?= escape($photo['src']) ?>" alt="<?= escape($photo['alt']) ?>" <?= $photoIndex === 0 ? '' : 'loading="lazy"' ?>>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="dialog-content">
+                            <div>
+                                <span class="room-code"><?= escape($room['category']) ?> · <?= escape($room['number']) ?></span>
+                                <h3 id="roomDialogTitle<?= (int) $room['id'] ?>">Habitación <?= escape($room['number']) ?></h3>
+                                <p><?= escape((string) ($room['description'] ?? 'Habitación equipada para una estadía cómoda.')) ?></p>
+                                <p><?= escape($room['location']) ?> · Capacidad para <?= (int) $room['capacity'] ?> personas</p>
+                            </div>
+                            <div class="dialog-price">
+                                <strong>$<?= number_format((int) $room['price'], 0, ',', '.') ?></strong>
+                                <small>por noche</small>
+                            </div>
+                        </div>
+                        <ul class="equipment-list dialog-equipment">
+                            <?php foreach ($room['equipment'] as $equipment): ?>
+                                <li><?= escape($equipment) ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <button class="primary-button room-select-button dialog-select" type="button" data-room-id="<?= (int) $room['id'] ?>">
+                            Seleccionar esta habitación
+                        </button>
+                    </dialog>
                 <?php endforeach; ?>
             </div>
         </section>
