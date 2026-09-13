@@ -1,0 +1,4598 @@
+{
+	"_type": "Project",
+	"_id": "HPRCOMP_PROJECT",
+	"name": "Hotel Pacific Reef - Modelado UML",
+	"ownedElements": [
+		{
+			"_type": "UMLModel",
+			"_id": "HPRCOMP_MODEL",
+			"_parent": {
+				"$ref": "HPRCOMP_PROJECT"
+			},
+			"name": "Vista de componentes",
+			"ownedElements": [
+				{
+					"_type": "UMLComponentDiagram",
+					"_id": "HPRCOMP_DIAGRAM",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "Componentes - Sistema de Gestión de Reserva Hotelera",
+					"documentation": "Vista de componentes UML 4+1 del prototipo Hotel Pacific Reef. Las integraciones de pago, QR y correo se representan como servicios externos simulados o planificados.",
+					"defaultDiagram": true,
+					"ownedViews": [
+						{
+							"_type": "UMLComponentView",
+							"_id": "HPRCOMP_CLIENT_BROWSER_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_CLIENT_BROWSER"
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "HPRCOMP_CLIENT_BROWSER_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER"
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_CLIENT_BROWSER_VIEW_ST",
+											"_parent": {
+												"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_CLIENT_BROWSER"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 63,
+											"top": 263,
+											"width": 229,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_CLIENT_BROWSER_VIEW_NL",
+											"_parent": {
+												"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_CLIENT_BROWSER"
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;1",
+											"parentStyle": true,
+											"left": 65,
+											"top": 273,
+											"width": 225,
+											"height": 30,
+											"text": "Navegador cliente / turista",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_CLIENT_BROWSER_VIEW_NS",
+											"_parent": {
+												"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_CLIENT_BROWSER"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 63,
+											"top": 263,
+											"width": 229,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_CLIENT_BROWSER_VIEW_PL",
+											"_parent": {
+												"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_CLIENT_BROWSER"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 63,
+											"top": 263,
+											"width": 229,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#238CB7",
+									"fillColor": "#EAF5FB",
+									"fontColor": "#173447",
+									"font": "Arial;13;0",
+									"parentStyle": true,
+									"left": 60,
+									"top": 260,
+									"width": 235,
+									"height": 90,
+									"stereotypeLabel": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW_ST"
+									},
+									"nameLabel": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW_NL"
+									},
+									"namespaceLabel": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW_NS"
+									},
+									"propertyLabel": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW_PL"
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "HPRCOMP_CLIENT_BROWSER_VIEW_ATTR",
+									"_parent": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "HPRCOMP_CLIENT_BROWSER_VIEW_OPER",
+									"_parent": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "HPRCOMP_CLIENT_BROWSER_VIEW_RECP",
+									"_parent": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "HPRCOMP_CLIENT_BROWSER_VIEW_TMPL",
+									"_parent": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_CLIENT_BROWSER"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"containedViews": [],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#238CB7",
+							"fillColor": "#EAF5FB",
+							"fontColor": "#173447",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 55,
+							"top": 255,
+							"width": 245,
+							"height": 100,
+							"autoResize": false,
+							"stereotypeDisplay": "decoration",
+							"showVisibility": false,
+							"showNamespace": false,
+							"showProperty": false,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW_NAME"
+							},
+							"wordWrap": true,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": false,
+							"showOperationSignature": false,
+							"attributeCompartment": {
+								"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW_ATTR"
+							},
+							"operationCompartment": {
+								"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW_OPER"
+							},
+							"receptionCompartment": {
+								"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW_RECP"
+							},
+							"templateParameterCompartment": {
+								"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW_TMPL"
+							}
+						},
+						{
+							"_type": "UMLComponentView",
+							"_id": "HPRCOMP_ADMIN_BROWSER_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_ADMIN_BROWSER"
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "HPRCOMP_ADMIN_BROWSER_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER"
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ADMIN_BROWSER_VIEW_ST",
+											"_parent": {
+												"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ADMIN_BROWSER"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 63,
+											"top": 543,
+											"width": 229,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ADMIN_BROWSER_VIEW_NL",
+											"_parent": {
+												"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ADMIN_BROWSER"
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;1",
+											"parentStyle": true,
+											"left": 65,
+											"top": 553,
+											"width": 225,
+											"height": 30,
+											"text": "Navegador administrador",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ADMIN_BROWSER_VIEW_NS",
+											"_parent": {
+												"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ADMIN_BROWSER"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 63,
+											"top": 543,
+											"width": 229,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ADMIN_BROWSER_VIEW_PL",
+											"_parent": {
+												"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ADMIN_BROWSER"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 63,
+											"top": 543,
+											"width": 229,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#7651B5",
+									"fillColor": "#F3EEFB",
+									"fontColor": "#173447",
+									"font": "Arial;13;0",
+									"parentStyle": true,
+									"left": 60,
+									"top": 540,
+									"width": 235,
+									"height": 90,
+									"stereotypeLabel": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW_ST"
+									},
+									"nameLabel": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW_NL"
+									},
+									"namespaceLabel": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW_NS"
+									},
+									"propertyLabel": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW_PL"
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "HPRCOMP_ADMIN_BROWSER_VIEW_ATTR",
+									"_parent": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "HPRCOMP_ADMIN_BROWSER_VIEW_OPER",
+									"_parent": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "HPRCOMP_ADMIN_BROWSER_VIEW_RECP",
+									"_parent": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "HPRCOMP_ADMIN_BROWSER_VIEW_TMPL",
+									"_parent": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ADMIN_BROWSER"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"containedViews": [],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#7651B5",
+							"fillColor": "#F3EEFB",
+							"fontColor": "#173447",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 55,
+							"top": 535,
+							"width": 245,
+							"height": 100,
+							"autoResize": false,
+							"stereotypeDisplay": "decoration",
+							"showVisibility": false,
+							"showNamespace": false,
+							"showProperty": false,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW_NAME"
+							},
+							"wordWrap": true,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": false,
+							"showOperationSignature": false,
+							"attributeCompartment": {
+								"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW_ATTR"
+							},
+							"operationCompartment": {
+								"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW_OPER"
+							},
+							"receptionCompartment": {
+								"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW_RECP"
+							},
+							"templateParameterCompartment": {
+								"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW_TMPL"
+							}
+						},
+						{
+							"_type": "UMLComponentView",
+							"_id": "HPRCOMP_PUBLIC_UI_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_PUBLIC_UI"
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "HPRCOMP_PUBLIC_UI_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_PUBLIC_UI_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_PUBLIC_UI"
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_PUBLIC_UI_VIEW_ST",
+											"_parent": {
+												"$ref": "HPRCOMP_PUBLIC_UI_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_PUBLIC_UI"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 398,
+											"top": 183,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_PUBLIC_UI_VIEW_NL",
+											"_parent": {
+												"$ref": "HPRCOMP_PUBLIC_UI_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_PUBLIC_UI"
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;1",
+											"parentStyle": true,
+											"left": 400,
+											"top": 193,
+											"width": 280,
+											"height": 30,
+											"text": "Sitio público PHP",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_PUBLIC_UI_VIEW_NS",
+											"_parent": {
+												"$ref": "HPRCOMP_PUBLIC_UI_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_PUBLIC_UI"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 398,
+											"top": 183,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_PUBLIC_UI_VIEW_PL",
+											"_parent": {
+												"$ref": "HPRCOMP_PUBLIC_UI_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_PUBLIC_UI"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 398,
+											"top": 183,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#238CB7",
+									"fillColor": "#EAF5FB",
+									"fontColor": "#173447",
+									"font": "Arial;13;0",
+									"parentStyle": true,
+									"left": 395,
+									"top": 180,
+									"width": 290,
+									"height": 110,
+									"stereotypeLabel": {
+										"$ref": "HPRCOMP_PUBLIC_UI_VIEW_ST"
+									},
+									"nameLabel": {
+										"$ref": "HPRCOMP_PUBLIC_UI_VIEW_NL"
+									},
+									"namespaceLabel": {
+										"$ref": "HPRCOMP_PUBLIC_UI_VIEW_NS"
+									},
+									"propertyLabel": {
+										"$ref": "HPRCOMP_PUBLIC_UI_VIEW_PL"
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "HPRCOMP_PUBLIC_UI_VIEW_ATTR",
+									"_parent": {
+										"$ref": "HPRCOMP_PUBLIC_UI_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_PUBLIC_UI"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "HPRCOMP_PUBLIC_UI_VIEW_OPER",
+									"_parent": {
+										"$ref": "HPRCOMP_PUBLIC_UI_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_PUBLIC_UI"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "HPRCOMP_PUBLIC_UI_VIEW_RECP",
+									"_parent": {
+										"$ref": "HPRCOMP_PUBLIC_UI_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_PUBLIC_UI"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "HPRCOMP_PUBLIC_UI_VIEW_TMPL",
+									"_parent": {
+										"$ref": "HPRCOMP_PUBLIC_UI_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_PUBLIC_UI"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"containedViews": [],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#238CB7",
+							"fillColor": "#EAF5FB",
+							"fontColor": "#173447",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 390,
+							"top": 175,
+							"width": 300,
+							"height": 120,
+							"autoResize": false,
+							"stereotypeDisplay": "decoration",
+							"showVisibility": false,
+							"showNamespace": false,
+							"showProperty": false,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "HPRCOMP_PUBLIC_UI_VIEW_NAME"
+							},
+							"wordWrap": true,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": false,
+							"showOperationSignature": false,
+							"attributeCompartment": {
+								"$ref": "HPRCOMP_PUBLIC_UI_VIEW_ATTR"
+							},
+							"operationCompartment": {
+								"$ref": "HPRCOMP_PUBLIC_UI_VIEW_OPER"
+							},
+							"receptionCompartment": {
+								"$ref": "HPRCOMP_PUBLIC_UI_VIEW_RECP"
+							},
+							"templateParameterCompartment": {
+								"$ref": "HPRCOMP_PUBLIC_UI_VIEW_TMPL"
+							}
+						},
+						{
+							"_type": "UMLComponentView",
+							"_id": "HPRCOMP_ADMIN_UI_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_ADMIN_UI"
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "HPRCOMP_ADMIN_UI_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_ADMIN_UI_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ADMIN_UI"
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ADMIN_UI_VIEW_ST",
+											"_parent": {
+												"$ref": "HPRCOMP_ADMIN_UI_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ADMIN_UI"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 843,
+											"top": 183,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ADMIN_UI_VIEW_NL",
+											"_parent": {
+												"$ref": "HPRCOMP_ADMIN_UI_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ADMIN_UI"
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;1",
+											"parentStyle": true,
+											"left": 845,
+											"top": 193,
+											"width": 280,
+											"height": 30,
+											"text": "Panel administrativo PHP",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ADMIN_UI_VIEW_NS",
+											"_parent": {
+												"$ref": "HPRCOMP_ADMIN_UI_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ADMIN_UI"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 843,
+											"top": 183,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ADMIN_UI_VIEW_PL",
+											"_parent": {
+												"$ref": "HPRCOMP_ADMIN_UI_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ADMIN_UI"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 843,
+											"top": 183,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#7651B5",
+									"fillColor": "#F3EEFB",
+									"fontColor": "#173447",
+									"font": "Arial;13;0",
+									"parentStyle": true,
+									"left": 840,
+									"top": 180,
+									"width": 290,
+									"height": 110,
+									"stereotypeLabel": {
+										"$ref": "HPRCOMP_ADMIN_UI_VIEW_ST"
+									},
+									"nameLabel": {
+										"$ref": "HPRCOMP_ADMIN_UI_VIEW_NL"
+									},
+									"namespaceLabel": {
+										"$ref": "HPRCOMP_ADMIN_UI_VIEW_NS"
+									},
+									"propertyLabel": {
+										"$ref": "HPRCOMP_ADMIN_UI_VIEW_PL"
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "HPRCOMP_ADMIN_UI_VIEW_ATTR",
+									"_parent": {
+										"$ref": "HPRCOMP_ADMIN_UI_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ADMIN_UI"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "HPRCOMP_ADMIN_UI_VIEW_OPER",
+									"_parent": {
+										"$ref": "HPRCOMP_ADMIN_UI_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ADMIN_UI"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "HPRCOMP_ADMIN_UI_VIEW_RECP",
+									"_parent": {
+										"$ref": "HPRCOMP_ADMIN_UI_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ADMIN_UI"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "HPRCOMP_ADMIN_UI_VIEW_TMPL",
+									"_parent": {
+										"$ref": "HPRCOMP_ADMIN_UI_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ADMIN_UI"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"containedViews": [],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#7651B5",
+							"fillColor": "#F3EEFB",
+							"fontColor": "#173447",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 835,
+							"top": 175,
+							"width": 300,
+							"height": 120,
+							"autoResize": false,
+							"stereotypeDisplay": "decoration",
+							"showVisibility": false,
+							"showNamespace": false,
+							"showProperty": false,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "HPRCOMP_ADMIN_UI_VIEW_NAME"
+							},
+							"wordWrap": true,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": false,
+							"showOperationSignature": false,
+							"attributeCompartment": {
+								"$ref": "HPRCOMP_ADMIN_UI_VIEW_ATTR"
+							},
+							"operationCompartment": {
+								"$ref": "HPRCOMP_ADMIN_UI_VIEW_OPER"
+							},
+							"receptionCompartment": {
+								"$ref": "HPRCOMP_ADMIN_UI_VIEW_RECP"
+							},
+							"templateParameterCompartment": {
+								"$ref": "HPRCOMP_ADMIN_UI_VIEW_TMPL"
+							}
+						},
+						{
+							"_type": "UMLComponentView",
+							"_id": "HPRCOMP_ASSETS_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_ASSETS"
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "HPRCOMP_ASSETS_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_ASSETS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ASSETS"
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ASSETS_VIEW_ST",
+											"_parent": {
+												"$ref": "HPRCOMP_ASSETS_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ASSETS"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 618,
+											"top": 348,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ASSETS_VIEW_NL",
+											"_parent": {
+												"$ref": "HPRCOMP_ASSETS_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ASSETS"
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;1",
+											"parentStyle": true,
+											"left": 620,
+											"top": 358,
+											"width": 280,
+											"height": 30,
+											"text": "Recursos de interfaz",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ASSETS_VIEW_NS",
+											"_parent": {
+												"$ref": "HPRCOMP_ASSETS_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ASSETS"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 618,
+											"top": 348,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ASSETS_VIEW_PL",
+											"_parent": {
+												"$ref": "HPRCOMP_ASSETS_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ASSETS"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 618,
+											"top": 348,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#4C6A78",
+									"fillColor": "#F4F7F7",
+									"fontColor": "#173447",
+									"font": "Arial;13;0",
+									"parentStyle": true,
+									"left": 615,
+									"top": 345,
+									"width": 290,
+									"height": 95,
+									"stereotypeLabel": {
+										"$ref": "HPRCOMP_ASSETS_VIEW_ST"
+									},
+									"nameLabel": {
+										"$ref": "HPRCOMP_ASSETS_VIEW_NL"
+									},
+									"namespaceLabel": {
+										"$ref": "HPRCOMP_ASSETS_VIEW_NS"
+									},
+									"propertyLabel": {
+										"$ref": "HPRCOMP_ASSETS_VIEW_PL"
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "HPRCOMP_ASSETS_VIEW_ATTR",
+									"_parent": {
+										"$ref": "HPRCOMP_ASSETS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ASSETS"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "HPRCOMP_ASSETS_VIEW_OPER",
+									"_parent": {
+										"$ref": "HPRCOMP_ASSETS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ASSETS"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "HPRCOMP_ASSETS_VIEW_RECP",
+									"_parent": {
+										"$ref": "HPRCOMP_ASSETS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ASSETS"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "HPRCOMP_ASSETS_VIEW_TMPL",
+									"_parent": {
+										"$ref": "HPRCOMP_ASSETS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ASSETS"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"containedViews": [],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#4C6A78",
+							"fillColor": "#F4F7F7",
+							"fontColor": "#173447",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 610,
+							"top": 340,
+							"width": 300,
+							"height": 105,
+							"autoResize": false,
+							"stereotypeDisplay": "decoration",
+							"showVisibility": false,
+							"showNamespace": false,
+							"showProperty": false,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "HPRCOMP_ASSETS_VIEW_NAME"
+							},
+							"wordWrap": true,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": false,
+							"showOperationSignature": false,
+							"attributeCompartment": {
+								"$ref": "HPRCOMP_ASSETS_VIEW_ATTR"
+							},
+							"operationCompartment": {
+								"$ref": "HPRCOMP_ASSETS_VIEW_OPER"
+							},
+							"receptionCompartment": {
+								"$ref": "HPRCOMP_ASSETS_VIEW_RECP"
+							},
+							"templateParameterCompartment": {
+								"$ref": "HPRCOMP_ASSETS_VIEW_TMPL"
+							}
+						},
+						{
+							"_type": "UMLComponentView",
+							"_id": "HPRCOMP_RESERVATIONS_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_RESERVATIONS"
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "HPRCOMP_RESERVATIONS_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_RESERVATIONS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_RESERVATIONS"
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_RESERVATIONS_VIEW_ST",
+											"_parent": {
+												"$ref": "HPRCOMP_RESERVATIONS_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_RESERVATIONS"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 398,
+											"top": 513,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_RESERVATIONS_VIEW_NL",
+											"_parent": {
+												"$ref": "HPRCOMP_RESERVATIONS_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_RESERVATIONS"
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;1",
+											"parentStyle": true,
+											"left": 400,
+											"top": 523,
+											"width": 280,
+											"height": 30,
+											"text": "Gestión de reservas",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_RESERVATIONS_VIEW_NS",
+											"_parent": {
+												"$ref": "HPRCOMP_RESERVATIONS_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_RESERVATIONS"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 398,
+											"top": 513,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_RESERVATIONS_VIEW_PL",
+											"_parent": {
+												"$ref": "HPRCOMP_RESERVATIONS_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_RESERVATIONS"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 398,
+											"top": 513,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#2C8065",
+									"fillColor": "#EAF6F1",
+									"fontColor": "#173447",
+									"font": "Arial;13;0",
+									"parentStyle": true,
+									"left": 395,
+									"top": 510,
+									"width": 290,
+									"height": 110,
+									"stereotypeLabel": {
+										"$ref": "HPRCOMP_RESERVATIONS_VIEW_ST"
+									},
+									"nameLabel": {
+										"$ref": "HPRCOMP_RESERVATIONS_VIEW_NL"
+									},
+									"namespaceLabel": {
+										"$ref": "HPRCOMP_RESERVATIONS_VIEW_NS"
+									},
+									"propertyLabel": {
+										"$ref": "HPRCOMP_RESERVATIONS_VIEW_PL"
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "HPRCOMP_RESERVATIONS_VIEW_ATTR",
+									"_parent": {
+										"$ref": "HPRCOMP_RESERVATIONS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_RESERVATIONS"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "HPRCOMP_RESERVATIONS_VIEW_OPER",
+									"_parent": {
+										"$ref": "HPRCOMP_RESERVATIONS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_RESERVATIONS"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "HPRCOMP_RESERVATIONS_VIEW_RECP",
+									"_parent": {
+										"$ref": "HPRCOMP_RESERVATIONS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_RESERVATIONS"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "HPRCOMP_RESERVATIONS_VIEW_TMPL",
+									"_parent": {
+										"$ref": "HPRCOMP_RESERVATIONS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_RESERVATIONS"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"containedViews": [],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#2C8065",
+							"fillColor": "#EAF6F1",
+							"fontColor": "#173447",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 390,
+							"top": 505,
+							"width": 300,
+							"height": 120,
+							"autoResize": false,
+							"stereotypeDisplay": "decoration",
+							"showVisibility": false,
+							"showNamespace": false,
+							"showProperty": false,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "HPRCOMP_RESERVATIONS_VIEW_NAME"
+							},
+							"wordWrap": true,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": false,
+							"showOperationSignature": false,
+							"attributeCompartment": {
+								"$ref": "HPRCOMP_RESERVATIONS_VIEW_ATTR"
+							},
+							"operationCompartment": {
+								"$ref": "HPRCOMP_RESERVATIONS_VIEW_OPER"
+							},
+							"receptionCompartment": {
+								"$ref": "HPRCOMP_RESERVATIONS_VIEW_RECP"
+							},
+							"templateParameterCompartment": {
+								"$ref": "HPRCOMP_RESERVATIONS_VIEW_TMPL"
+							}
+						},
+						{
+							"_type": "UMLComponentView",
+							"_id": "HPRCOMP_ROOMS_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_ROOMS"
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "HPRCOMP_ROOMS_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_ROOMS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ROOMS"
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ROOMS_VIEW_ST",
+											"_parent": {
+												"$ref": "HPRCOMP_ROOMS_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ROOMS"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 843,
+											"top": 513,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ROOMS_VIEW_NL",
+											"_parent": {
+												"$ref": "HPRCOMP_ROOMS_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ROOMS"
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;1",
+											"parentStyle": true,
+											"left": 845,
+											"top": 523,
+											"width": 280,
+											"height": 30,
+											"text": "Gestión de habitaciones y precios",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ROOMS_VIEW_NS",
+											"_parent": {
+												"$ref": "HPRCOMP_ROOMS_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ROOMS"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 843,
+											"top": 513,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_ROOMS_VIEW_PL",
+											"_parent": {
+												"$ref": "HPRCOMP_ROOMS_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_ROOMS"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 843,
+											"top": 513,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#2C8065",
+									"fillColor": "#EAF6F1",
+									"fontColor": "#173447",
+									"font": "Arial;13;0",
+									"parentStyle": true,
+									"left": 840,
+									"top": 510,
+									"width": 290,
+									"height": 110,
+									"stereotypeLabel": {
+										"$ref": "HPRCOMP_ROOMS_VIEW_ST"
+									},
+									"nameLabel": {
+										"$ref": "HPRCOMP_ROOMS_VIEW_NL"
+									},
+									"namespaceLabel": {
+										"$ref": "HPRCOMP_ROOMS_VIEW_NS"
+									},
+									"propertyLabel": {
+										"$ref": "HPRCOMP_ROOMS_VIEW_PL"
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "HPRCOMP_ROOMS_VIEW_ATTR",
+									"_parent": {
+										"$ref": "HPRCOMP_ROOMS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ROOMS"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "HPRCOMP_ROOMS_VIEW_OPER",
+									"_parent": {
+										"$ref": "HPRCOMP_ROOMS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ROOMS"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "HPRCOMP_ROOMS_VIEW_RECP",
+									"_parent": {
+										"$ref": "HPRCOMP_ROOMS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ROOMS"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "HPRCOMP_ROOMS_VIEW_TMPL",
+									"_parent": {
+										"$ref": "HPRCOMP_ROOMS_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_ROOMS"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"containedViews": [],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#2C8065",
+							"fillColor": "#EAF6F1",
+							"fontColor": "#173447",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 835,
+							"top": 505,
+							"width": 300,
+							"height": 120,
+							"autoResize": false,
+							"stereotypeDisplay": "decoration",
+							"showVisibility": false,
+							"showNamespace": false,
+							"showProperty": false,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "HPRCOMP_ROOMS_VIEW_NAME"
+							},
+							"wordWrap": true,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": false,
+							"showOperationSignature": false,
+							"attributeCompartment": {
+								"$ref": "HPRCOMP_ROOMS_VIEW_ATTR"
+							},
+							"operationCompartment": {
+								"$ref": "HPRCOMP_ROOMS_VIEW_OPER"
+							},
+							"receptionCompartment": {
+								"$ref": "HPRCOMP_ROOMS_VIEW_RECP"
+							},
+							"templateParameterCompartment": {
+								"$ref": "HPRCOMP_ROOMS_VIEW_TMPL"
+							}
+						},
+						{
+							"_type": "UMLComponentView",
+							"_id": "HPRCOMP_DB_CONNECTION_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_DB_CONNECTION"
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "HPRCOMP_DB_CONNECTION_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_DB_CONNECTION_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_DB_CONNECTION"
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_DB_CONNECTION_VIEW_ST",
+											"_parent": {
+												"$ref": "HPRCOMP_DB_CONNECTION_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_DB_CONNECTION"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 618,
+											"top": 698,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_DB_CONNECTION_VIEW_NL",
+											"_parent": {
+												"$ref": "HPRCOMP_DB_CONNECTION_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_DB_CONNECTION"
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;1",
+											"parentStyle": true,
+											"left": 620,
+											"top": 708,
+											"width": 280,
+											"height": 30,
+											"text": "Acceso a datos PDO",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_DB_CONNECTION_VIEW_NS",
+											"_parent": {
+												"$ref": "HPRCOMP_DB_CONNECTION_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_DB_CONNECTION"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 618,
+											"top": 698,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_DB_CONNECTION_VIEW_PL",
+											"_parent": {
+												"$ref": "HPRCOMP_DB_CONNECTION_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_DB_CONNECTION"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 618,
+											"top": 698,
+											"width": 284,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#C66A2C",
+									"fillColor": "#FFF3E6",
+									"fontColor": "#173447",
+									"font": "Arial;13;0",
+									"parentStyle": true,
+									"left": 615,
+									"top": 695,
+									"width": 290,
+									"height": 100,
+									"stereotypeLabel": {
+										"$ref": "HPRCOMP_DB_CONNECTION_VIEW_ST"
+									},
+									"nameLabel": {
+										"$ref": "HPRCOMP_DB_CONNECTION_VIEW_NL"
+									},
+									"namespaceLabel": {
+										"$ref": "HPRCOMP_DB_CONNECTION_VIEW_NS"
+									},
+									"propertyLabel": {
+										"$ref": "HPRCOMP_DB_CONNECTION_VIEW_PL"
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "HPRCOMP_DB_CONNECTION_VIEW_ATTR",
+									"_parent": {
+										"$ref": "HPRCOMP_DB_CONNECTION_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_DB_CONNECTION"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "HPRCOMP_DB_CONNECTION_VIEW_OPER",
+									"_parent": {
+										"$ref": "HPRCOMP_DB_CONNECTION_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_DB_CONNECTION"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "HPRCOMP_DB_CONNECTION_VIEW_RECP",
+									"_parent": {
+										"$ref": "HPRCOMP_DB_CONNECTION_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_DB_CONNECTION"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "HPRCOMP_DB_CONNECTION_VIEW_TMPL",
+									"_parent": {
+										"$ref": "HPRCOMP_DB_CONNECTION_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_DB_CONNECTION"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"containedViews": [],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#C66A2C",
+							"fillColor": "#FFF3E6",
+							"fontColor": "#173447",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 610,
+							"top": 690,
+							"width": 300,
+							"height": 110,
+							"autoResize": false,
+							"stereotypeDisplay": "decoration",
+							"showVisibility": false,
+							"showNamespace": false,
+							"showProperty": false,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "HPRCOMP_DB_CONNECTION_VIEW_NAME"
+							},
+							"wordWrap": true,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": false,
+							"showOperationSignature": false,
+							"attributeCompartment": {
+								"$ref": "HPRCOMP_DB_CONNECTION_VIEW_ATTR"
+							},
+							"operationCompartment": {
+								"$ref": "HPRCOMP_DB_CONNECTION_VIEW_OPER"
+							},
+							"receptionCompartment": {
+								"$ref": "HPRCOMP_DB_CONNECTION_VIEW_RECP"
+							},
+							"templateParameterCompartment": {
+								"$ref": "HPRCOMP_DB_CONNECTION_VIEW_TMPL"
+							}
+						},
+						{
+							"_type": "UMLComponentView",
+							"_id": "HPRCOMP_MARIADB_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_MARIADB"
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "HPRCOMP_MARIADB_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_MARIADB_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_MARIADB"
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_MARIADB_VIEW_ST",
+											"_parent": {
+												"$ref": "HPRCOMP_MARIADB_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_MARIADB"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 1288,
+											"top": 698,
+											"width": 234,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_MARIADB_VIEW_NL",
+											"_parent": {
+												"$ref": "HPRCOMP_MARIADB_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_MARIADB"
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;1",
+											"parentStyle": true,
+											"left": 1290,
+											"top": 708,
+											"width": 230,
+											"height": 30,
+											"text": "Base de datos MariaDB",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_MARIADB_VIEW_NS",
+											"_parent": {
+												"$ref": "HPRCOMP_MARIADB_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_MARIADB"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 1288,
+											"top": 698,
+											"width": 234,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_MARIADB_VIEW_PL",
+											"_parent": {
+												"$ref": "HPRCOMP_MARIADB_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_MARIADB"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 1288,
+											"top": 698,
+											"width": 234,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#C66A2C",
+									"fillColor": "#FFF3E6",
+									"fontColor": "#173447",
+									"font": "Arial;13;0",
+									"parentStyle": true,
+									"left": 1285,
+									"top": 695,
+									"width": 240,
+									"height": 100,
+									"stereotypeLabel": {
+										"$ref": "HPRCOMP_MARIADB_VIEW_ST"
+									},
+									"nameLabel": {
+										"$ref": "HPRCOMP_MARIADB_VIEW_NL"
+									},
+									"namespaceLabel": {
+										"$ref": "HPRCOMP_MARIADB_VIEW_NS"
+									},
+									"propertyLabel": {
+										"$ref": "HPRCOMP_MARIADB_VIEW_PL"
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "HPRCOMP_MARIADB_VIEW_ATTR",
+									"_parent": {
+										"$ref": "HPRCOMP_MARIADB_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_MARIADB"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "HPRCOMP_MARIADB_VIEW_OPER",
+									"_parent": {
+										"$ref": "HPRCOMP_MARIADB_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_MARIADB"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "HPRCOMP_MARIADB_VIEW_RECP",
+									"_parent": {
+										"$ref": "HPRCOMP_MARIADB_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_MARIADB"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "HPRCOMP_MARIADB_VIEW_TMPL",
+									"_parent": {
+										"$ref": "HPRCOMP_MARIADB_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_MARIADB"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"containedViews": [],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#C66A2C",
+							"fillColor": "#FFF3E6",
+							"fontColor": "#173447",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 1280,
+							"top": 690,
+							"width": 250,
+							"height": 110,
+							"autoResize": false,
+							"stereotypeDisplay": "decoration",
+							"showVisibility": false,
+							"showNamespace": false,
+							"showProperty": false,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "HPRCOMP_MARIADB_VIEW_NAME"
+							},
+							"wordWrap": true,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": false,
+							"showOperationSignature": false,
+							"attributeCompartment": {
+								"$ref": "HPRCOMP_MARIADB_VIEW_ATTR"
+							},
+							"operationCompartment": {
+								"$ref": "HPRCOMP_MARIADB_VIEW_OPER"
+							},
+							"receptionCompartment": {
+								"$ref": "HPRCOMP_MARIADB_VIEW_RECP"
+							},
+							"templateParameterCompartment": {
+								"$ref": "HPRCOMP_MARIADB_VIEW_TMPL"
+							}
+						},
+						{
+							"_type": "UMLComponentView",
+							"_id": "HPRCOMP_PAYMENT_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_PAYMENT"
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "HPRCOMP_PAYMENT_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_PAYMENT_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_PAYMENT"
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_PAYMENT_VIEW_ST",
+											"_parent": {
+												"$ref": "HPRCOMP_PAYMENT_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_PAYMENT"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 1288,
+											"top": 228,
+											"width": 234,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_PAYMENT_VIEW_NL",
+											"_parent": {
+												"$ref": "HPRCOMP_PAYMENT_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_PAYMENT"
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;1",
+											"parentStyle": true,
+											"left": 1290,
+											"top": 238,
+											"width": 230,
+											"height": 30,
+											"text": "Servicio de pago",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_PAYMENT_VIEW_NS",
+											"_parent": {
+												"$ref": "HPRCOMP_PAYMENT_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_PAYMENT"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 1288,
+											"top": 228,
+											"width": 234,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_PAYMENT_VIEW_PL",
+											"_parent": {
+												"$ref": "HPRCOMP_PAYMENT_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_PAYMENT"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 1288,
+											"top": 228,
+											"width": 234,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#B6601E",
+									"fillColor": "#FFF7EB",
+									"fontColor": "#173447",
+									"font": "Arial;13;0",
+									"parentStyle": true,
+									"left": 1285,
+									"top": 225,
+									"width": 240,
+									"height": 90,
+									"stereotypeLabel": {
+										"$ref": "HPRCOMP_PAYMENT_VIEW_ST"
+									},
+									"nameLabel": {
+										"$ref": "HPRCOMP_PAYMENT_VIEW_NL"
+									},
+									"namespaceLabel": {
+										"$ref": "HPRCOMP_PAYMENT_VIEW_NS"
+									},
+									"propertyLabel": {
+										"$ref": "HPRCOMP_PAYMENT_VIEW_PL"
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "HPRCOMP_PAYMENT_VIEW_ATTR",
+									"_parent": {
+										"$ref": "HPRCOMP_PAYMENT_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_PAYMENT"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "HPRCOMP_PAYMENT_VIEW_OPER",
+									"_parent": {
+										"$ref": "HPRCOMP_PAYMENT_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_PAYMENT"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "HPRCOMP_PAYMENT_VIEW_RECP",
+									"_parent": {
+										"$ref": "HPRCOMP_PAYMENT_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_PAYMENT"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "HPRCOMP_PAYMENT_VIEW_TMPL",
+									"_parent": {
+										"$ref": "HPRCOMP_PAYMENT_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_PAYMENT"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"containedViews": [],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#B6601E",
+							"fillColor": "#FFF7EB",
+							"fontColor": "#173447",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 1280,
+							"top": 220,
+							"width": 250,
+							"height": 100,
+							"autoResize": false,
+							"stereotypeDisplay": "decoration",
+							"showVisibility": false,
+							"showNamespace": false,
+							"showProperty": false,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "HPRCOMP_PAYMENT_VIEW_NAME"
+							},
+							"wordWrap": true,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": false,
+							"showOperationSignature": false,
+							"attributeCompartment": {
+								"$ref": "HPRCOMP_PAYMENT_VIEW_ATTR"
+							},
+							"operationCompartment": {
+								"$ref": "HPRCOMP_PAYMENT_VIEW_OPER"
+							},
+							"receptionCompartment": {
+								"$ref": "HPRCOMP_PAYMENT_VIEW_RECP"
+							},
+							"templateParameterCompartment": {
+								"$ref": "HPRCOMP_PAYMENT_VIEW_TMPL"
+							}
+						},
+						{
+							"_type": "UMLComponentView",
+							"_id": "HPRCOMP_QR_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_QR"
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "HPRCOMP_QR_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_QR_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_QR"
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_QR_VIEW_ST",
+											"_parent": {
+												"$ref": "HPRCOMP_QR_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_QR"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 1288,
+											"top": 398,
+											"width": 234,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_QR_VIEW_NL",
+											"_parent": {
+												"$ref": "HPRCOMP_QR_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_QR"
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;1",
+											"parentStyle": true,
+											"left": 1290,
+											"top": 408,
+											"width": 230,
+											"height": 30,
+											"text": "Servicio de código QR",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_QR_VIEW_NS",
+											"_parent": {
+												"$ref": "HPRCOMP_QR_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_QR"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 1288,
+											"top": 398,
+											"width": 234,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_QR_VIEW_PL",
+											"_parent": {
+												"$ref": "HPRCOMP_QR_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_QR"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 1288,
+											"top": 398,
+											"width": 234,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#B6601E",
+									"fillColor": "#FFF7EB",
+									"fontColor": "#173447",
+									"font": "Arial;13;0",
+									"parentStyle": true,
+									"left": 1285,
+									"top": 395,
+									"width": 240,
+									"height": 90,
+									"stereotypeLabel": {
+										"$ref": "HPRCOMP_QR_VIEW_ST"
+									},
+									"nameLabel": {
+										"$ref": "HPRCOMP_QR_VIEW_NL"
+									},
+									"namespaceLabel": {
+										"$ref": "HPRCOMP_QR_VIEW_NS"
+									},
+									"propertyLabel": {
+										"$ref": "HPRCOMP_QR_VIEW_PL"
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "HPRCOMP_QR_VIEW_ATTR",
+									"_parent": {
+										"$ref": "HPRCOMP_QR_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_QR"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "HPRCOMP_QR_VIEW_OPER",
+									"_parent": {
+										"$ref": "HPRCOMP_QR_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_QR"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "HPRCOMP_QR_VIEW_RECP",
+									"_parent": {
+										"$ref": "HPRCOMP_QR_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_QR"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "HPRCOMP_QR_VIEW_TMPL",
+									"_parent": {
+										"$ref": "HPRCOMP_QR_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_QR"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"containedViews": [],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#B6601E",
+							"fillColor": "#FFF7EB",
+							"fontColor": "#173447",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 1280,
+							"top": 390,
+							"width": 250,
+							"height": 100,
+							"autoResize": false,
+							"stereotypeDisplay": "decoration",
+							"showVisibility": false,
+							"showNamespace": false,
+							"showProperty": false,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "HPRCOMP_QR_VIEW_NAME"
+							},
+							"wordWrap": true,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": false,
+							"showOperationSignature": false,
+							"attributeCompartment": {
+								"$ref": "HPRCOMP_QR_VIEW_ATTR"
+							},
+							"operationCompartment": {
+								"$ref": "HPRCOMP_QR_VIEW_OPER"
+							},
+							"receptionCompartment": {
+								"$ref": "HPRCOMP_QR_VIEW_RECP"
+							},
+							"templateParameterCompartment": {
+								"$ref": "HPRCOMP_QR_VIEW_TMPL"
+							}
+						},
+						{
+							"_type": "UMLComponentView",
+							"_id": "HPRCOMP_EMAIL_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_EMAIL"
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "HPRCOMP_EMAIL_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_EMAIL_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_EMAIL"
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_EMAIL_VIEW_ST",
+											"_parent": {
+												"$ref": "HPRCOMP_EMAIL_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_EMAIL"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 1288,
+											"top": 568,
+											"width": 234,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_EMAIL_VIEW_NL",
+											"_parent": {
+												"$ref": "HPRCOMP_EMAIL_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_EMAIL"
+											},
+											"visible": true,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;1",
+											"parentStyle": true,
+											"left": 1290,
+											"top": 578,
+											"width": 230,
+											"height": 30,
+											"text": "Servicio de correo",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_EMAIL_VIEW_NS",
+											"_parent": {
+												"$ref": "HPRCOMP_EMAIL_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_EMAIL"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 1288,
+											"top": 568,
+											"width": 234,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										},
+										{
+											"_type": "LabelView",
+											"_id": "HPRCOMP_EMAIL_VIEW_PL",
+											"_parent": {
+												"$ref": "HPRCOMP_EMAIL_VIEW_NAME"
+											},
+											"model": {
+												"$ref": "HPRCOMP_EMAIL"
+											},
+											"visible": false,
+											"enabled": true,
+											"lineColor": "#173447",
+											"fillColor": "#FFFFFF",
+											"fontColor": "#173447",
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 1288,
+											"top": 568,
+											"width": 234,
+											"height": 30,
+											"text": "",
+											"horizontalAlignment": 2,
+											"verticalAlignment": 5,
+											"wordWrap": true
+										}
+									],
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#B6601E",
+									"fillColor": "#FFF7EB",
+									"fontColor": "#173447",
+									"font": "Arial;13;0",
+									"parentStyle": true,
+									"left": 1285,
+									"top": 565,
+									"width": 240,
+									"height": 90,
+									"stereotypeLabel": {
+										"$ref": "HPRCOMP_EMAIL_VIEW_ST"
+									},
+									"nameLabel": {
+										"$ref": "HPRCOMP_EMAIL_VIEW_NL"
+									},
+									"namespaceLabel": {
+										"$ref": "HPRCOMP_EMAIL_VIEW_NS"
+									},
+									"propertyLabel": {
+										"$ref": "HPRCOMP_EMAIL_VIEW_PL"
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "HPRCOMP_EMAIL_VIEW_ATTR",
+									"_parent": {
+										"$ref": "HPRCOMP_EMAIL_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_EMAIL"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "HPRCOMP_EMAIL_VIEW_OPER",
+									"_parent": {
+										"$ref": "HPRCOMP_EMAIL_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_EMAIL"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "HPRCOMP_EMAIL_VIEW_RECP",
+									"_parent": {
+										"$ref": "HPRCOMP_EMAIL_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_EMAIL"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "HPRCOMP_EMAIL_VIEW_TMPL",
+									"_parent": {
+										"$ref": "HPRCOMP_EMAIL_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_EMAIL"
+									},
+									"subViews": [],
+									"visible": false,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"containedViews": [],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#B6601E",
+							"fillColor": "#FFF7EB",
+							"fontColor": "#173447",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": true,
+							"containerExtending": false,
+							"left": 1280,
+							"top": 560,
+							"width": 250,
+							"height": 100,
+							"autoResize": false,
+							"stereotypeDisplay": "decoration",
+							"showVisibility": false,
+							"showNamespace": false,
+							"showProperty": false,
+							"showType": true,
+							"nameCompartment": {
+								"$ref": "HPRCOMP_EMAIL_VIEW_NAME"
+							},
+							"wordWrap": true,
+							"suppressAttributes": true,
+							"suppressOperations": true,
+							"suppressReceptions": true,
+							"showMultiplicity": false,
+							"showOperationSignature": false,
+							"attributeCompartment": {
+								"$ref": "HPRCOMP_EMAIL_VIEW_ATTR"
+							},
+							"operationCompartment": {
+								"$ref": "HPRCOMP_EMAIL_VIEW_OPER"
+							},
+							"receptionCompartment": {
+								"$ref": "HPRCOMP_EMAIL_VIEW_RECP"
+							},
+							"templateParameterCompartment": {
+								"$ref": "HPRCOMP_EMAIL_VIEW_TMPL"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D01_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D01"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D01_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D01_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D01"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 265,
+									"top": 252,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D01_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "HTTPS / formularios",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D01_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D01_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D01"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D01_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D01_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D01_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D01"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D01_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_PUBLIC_UI_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_CLIENT_BROWSER_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "300:305;390:235",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D01_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D01_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D01_VIEW_PROP"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D02_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D02"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D02_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D02_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D02"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 488,
+									"top": 392,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D02_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "HTTPS / gestión",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D02_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D02_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D02"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D02_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D02_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D02_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D02"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D02_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_ADMIN_UI_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_ADMIN_BROWSER_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "300:585;835:235",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D02_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D02_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D02_VIEW_PROP"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D03_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D03"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D03_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D03_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D03"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 535,
+									"top": 300,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D03_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "presenta",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D03_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D03_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D03"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D03_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D03_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D03_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D03"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D03_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_ASSETS_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_PUBLIC_UI_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "540:295;690:340",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D03_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D03_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D03_VIEW_PROP"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D04_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D04"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D04_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D04_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D04"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 828,
+									"top": 300,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D04_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "presenta",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D04_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D04_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D04"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D04_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D04_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D04_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D04"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D04_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_ASSETS_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_ADMIN_UI_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "985:295;830:340",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D04_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D04_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D04_VIEW_PROP"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D05_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D05"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D05_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D05_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D05"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 460,
+									"top": 382,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D05_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "crea y consulta reservas",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D05_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D05_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D05"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D05_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D05_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D05_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D05"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D05_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_RESERVATIONS_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_PUBLIC_UI_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "540:295;540:505",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D05_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D05_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D05_VIEW_PROP"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D06_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D06"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D06_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D06_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D06"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 843,
+									"top": 307,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D06_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "consulta catálogo",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D06_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D06_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D06"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D06_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D06_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D06_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D06"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D06_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_ROOMS_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_PUBLIC_UI_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "690:235;1040:235;1040:505",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D06_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D06_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D06_VIEW_PROP"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D07_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D07"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D07_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D07_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D07"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 669,
+									"top": 382,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D07_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "administra reservas",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D07_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D07_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D07"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D07_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D07_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D07_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D07"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D07_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_RESERVATIONS_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_ADMIN_UI_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "835:235;735:235;735:565;690:565",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D07_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D07_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D07_VIEW_PROP"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D08_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D08"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D08_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D08_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D08"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 905,
+									"top": 382,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D08_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "CRUD y precios",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D08_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D08_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D08"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D08_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D08_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D08_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D08"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D08_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_ROOMS_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_ADMIN_UI_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "985:295;985:505",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D08_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D08_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D08_VIEW_PROP"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D09_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D09"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D09_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D09_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D09"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 535,
+									"top": 640,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D09_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "PDO",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D09_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D09_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D09"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D09_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D09_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D09_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D09"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D09_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_DB_CONNECTION_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_RESERVATIONS_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "540:625;690:690",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D09_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D09_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D09_VIEW_PROP"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D10_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D10"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D10_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D10_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D10"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 828,
+									"top": 640,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D10_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "PDO",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D10_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D10_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D10"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D10_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D10_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D10_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D10"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D10_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_DB_CONNECTION_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_ROOMS_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "985:625;830:690",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D10_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D10_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D10_VIEW_PROP"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D11_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D11"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D11_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D11_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D11"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 1015,
+									"top": 727,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D11_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "SQL",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D11_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D11_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D11"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D11_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D11_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D11_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D11"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D11_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_MARIADB_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_DB_CONNECTION_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "910:745;1280:745",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D11_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D11_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D11_VIEW_PROP"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D12_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D12"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D12_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D12_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D12"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 1005,
+									"top": 385,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D12_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "API prevista · prueba",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D12_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D12_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D12"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D12_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D12_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D12_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D12"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D12_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_PAYMENT_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_RESERVATIONS_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "690:535;1185:535;1185:270;1280:270",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D12_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D12_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D12_VIEW_PROP"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D13_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D13"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D13_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D13_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D13"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 980,
+									"top": 485,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D13_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "genera confirmación",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D13_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D13_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D13"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D13_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D13_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D13_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D13"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D13_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_QR_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_RESERVATIONS_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "690:565;1135:565;1135:440;1280:440",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D13_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D13_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D13_VIEW_PROP"
+							}
+						},
+						{
+							"_type": "UMLDependencyView",
+							"_id": "HPRCOMP_D14_VIEW",
+							"_parent": {
+								"$ref": "HPRCOMP_DIAGRAM"
+							},
+							"model": {
+								"$ref": "HPRCOMP_D14"
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D14_VIEW_NAME",
+									"_parent": {
+										"$ref": "HPRCOMP_D14_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D14"
+									},
+									"visible": true,
+									"fontColor": "#536D7A",
+									"font": "Arial;11;0",
+									"left": 955,
+									"top": 585,
+									"width": 160,
+									"height": 26,
+									"hostEdge": {
+										"$ref": "HPRCOMP_D14_VIEW"
+									},
+									"edgePosition": 1,
+									"text": "envía confirmación",
+									"wordWrap": true
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D14_VIEW_ST",
+									"_parent": {
+										"$ref": "HPRCOMP_D14_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D14"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D14_VIEW"
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "HPRCOMP_D14_VIEW_PROP",
+									"_parent": {
+										"$ref": "HPRCOMP_D14_VIEW"
+									},
+									"model": {
+										"$ref": "HPRCOMP_D14"
+									},
+									"visible": false,
+									"font": "Arial;11;0",
+									"hostEdge": {
+										"$ref": "HPRCOMP_D14_VIEW"
+									},
+									"edgePosition": 1
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#68808E",
+							"fontColor": "#536D7A",
+							"font": "Arial;11;0",
+							"showShadow": false,
+							"head": {
+								"$ref": "HPRCOMP_EMAIL_VIEW"
+							},
+							"tail": {
+								"$ref": "HPRCOMP_RESERVATIONS_VIEW"
+							},
+							"lineStyle": 2,
+							"points": "690:595;1085:595;1085:610;1280:610",
+							"showVisibility": false,
+							"nameLabel": {
+								"$ref": "HPRCOMP_D14_VIEW_NAME"
+							},
+							"stereotypeLabel": {
+								"$ref": "HPRCOMP_D14_VIEW_ST"
+							},
+							"propertyLabel": {
+								"$ref": "HPRCOMP_D14_VIEW_PROP"
+							}
+						}
+					]
+				},
+				{
+					"_type": "UMLComponent",
+					"_id": "HPRCOMP_CLIENT_BROWSER",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "Navegador cliente / turista",
+					"documentation": "Accede al catálogo y al proceso de reserva.",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLComponent",
+					"_id": "HPRCOMP_ADMIN_BROWSER",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "Navegador administrador",
+					"documentation": "Accede a las vistas internas de gestión.",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLComponent",
+					"_id": "HPRCOMP_PUBLIC_UI",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "Sitio público PHP",
+					"documentation": "public/index.php y public/reservation.php",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLComponent",
+					"_id": "HPRCOMP_ADMIN_UI",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "Panel administrativo PHP",
+					"documentation": "public/admin/*.php",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLComponent",
+					"_id": "HPRCOMP_ASSETS",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "Recursos de interfaz",
+					"documentation": "HTML · CSS · JavaScript · imágenes",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLComponent",
+					"_id": "HPRCOMP_RESERVATIONS",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "Gestión de reservas",
+					"documentation": "ReservationRepository.php",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLComponent",
+					"_id": "HPRCOMP_ROOMS",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "Gestión de habitaciones y precios",
+					"documentation": "RoomRepository.php",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLComponent",
+					"_id": "HPRCOMP_DB_CONNECTION",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "Acceso a datos PDO",
+					"documentation": "Connection.php y configuración local",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLComponent",
+					"_id": "HPRCOMP_MARIADB",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "Base de datos MariaDB",
+					"documentation": "hotel_pacific_reef · puerto local 3307",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLComponent",
+					"_id": "HPRCOMP_PAYMENT",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "Servicio de pago",
+					"documentation": "Integración simulada en el prototipo",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLComponent",
+					"_id": "HPRCOMP_QR",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "Servicio de código QR",
+					"documentation": "Representación de prueba",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLComponent",
+					"_id": "HPRCOMP_EMAIL",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "Servicio de correo",
+					"documentation": "Confirmación planificada",
+					"visibility": "public",
+					"isAbstract": false,
+					"isFinalSpecialization": false,
+					"isLeaf": false
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D01",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "HTTPS / formularios",
+					"source": {
+						"$ref": "HPRCOMP_CLIENT_BROWSER"
+					},
+					"target": {
+						"$ref": "HPRCOMP_PUBLIC_UI"
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D02",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "HTTPS / gestión",
+					"source": {
+						"$ref": "HPRCOMP_ADMIN_BROWSER"
+					},
+					"target": {
+						"$ref": "HPRCOMP_ADMIN_UI"
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D03",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "presenta",
+					"source": {
+						"$ref": "HPRCOMP_PUBLIC_UI"
+					},
+					"target": {
+						"$ref": "HPRCOMP_ASSETS"
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D04",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "presenta",
+					"source": {
+						"$ref": "HPRCOMP_ADMIN_UI"
+					},
+					"target": {
+						"$ref": "HPRCOMP_ASSETS"
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D05",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "crea y consulta reservas",
+					"source": {
+						"$ref": "HPRCOMP_PUBLIC_UI"
+					},
+					"target": {
+						"$ref": "HPRCOMP_RESERVATIONS"
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D06",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "consulta catálogo",
+					"source": {
+						"$ref": "HPRCOMP_PUBLIC_UI"
+					},
+					"target": {
+						"$ref": "HPRCOMP_ROOMS"
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D07",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "administra reservas",
+					"source": {
+						"$ref": "HPRCOMP_ADMIN_UI"
+					},
+					"target": {
+						"$ref": "HPRCOMP_RESERVATIONS"
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D08",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "CRUD y precios",
+					"source": {
+						"$ref": "HPRCOMP_ADMIN_UI"
+					},
+					"target": {
+						"$ref": "HPRCOMP_ROOMS"
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D09",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "PDO",
+					"source": {
+						"$ref": "HPRCOMP_RESERVATIONS"
+					},
+					"target": {
+						"$ref": "HPRCOMP_DB_CONNECTION"
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D10",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "PDO",
+					"source": {
+						"$ref": "HPRCOMP_ROOMS"
+					},
+					"target": {
+						"$ref": "HPRCOMP_DB_CONNECTION"
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D11",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "SQL",
+					"source": {
+						"$ref": "HPRCOMP_DB_CONNECTION"
+					},
+					"target": {
+						"$ref": "HPRCOMP_MARIADB"
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D12",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "API prevista · prueba",
+					"source": {
+						"$ref": "HPRCOMP_RESERVATIONS"
+					},
+					"target": {
+						"$ref": "HPRCOMP_PAYMENT"
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D13",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "genera confirmación",
+					"source": {
+						"$ref": "HPRCOMP_RESERVATIONS"
+					},
+					"target": {
+						"$ref": "HPRCOMP_QR"
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLDependency",
+					"_id": "HPRCOMP_D14",
+					"_parent": {
+						"$ref": "HPRCOMP_MODEL"
+					},
+					"name": "envía confirmación",
+					"source": {
+						"$ref": "HPRCOMP_RESERVATIONS"
+					},
+					"target": {
+						"$ref": "HPRCOMP_EMAIL"
+					},
+					"visibility": "public"
+				}
+			],
+			"visibility": "public"
+		}
+	]
+}
