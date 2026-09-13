@@ -105,16 +105,16 @@ $form = $editingRoom ?? [
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administración de habitaciones | Hotel Pacific Reef</title>
     <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
 </head>
 <body>
 <header class="admin-header">
     <div><span>HPR</span><div><strong>Hotel Pacific Reef</strong><small>Administración de habitaciones</small></div></div>
-    <a href="../index.php">Volver al sitio</a>
+    <nav aria-label="Navegación administrativa"><a href="index.php">Resumen</a><a class="active" href="rooms.php">Habitaciones</a><a href="prices.php">Precios</a><a href="reservations.php">Reservas</a><a href="../index.php">Sitio público</a></nav>
 </header>
 <main>
     <section class="page-heading">
-        <div><p>Gestión interna</p><h1>CRUD de habitaciones</h1></div>
-        <span class="database-badge">MariaDB · Conectado</span>
+        <div><p>Gestión interna</p><h1>Administración de habitaciones</h1></div>
     </section>
 
     <?php if (isset($_GET['result'], $messages[$_GET['result']])): ?>
@@ -153,4 +153,3 @@ $form = $editingRoom ?? [
 </main>
 </body>
 </html>
-

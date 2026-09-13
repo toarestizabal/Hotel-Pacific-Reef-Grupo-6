@@ -33,7 +33,16 @@ final class RoomRepository
 
     public function roomTypes(): array
     {
-        return $this->pdo->query('SELECT id, name FROM room_types ORDER BY name')->fetchAll();
+        return $this->pdo->query('SELECT id, name, description, base_price, max_guests FROM room_types ORDER BY name')->fetchAll();
+    }
+
+    public function updateRoomTypePrice(int $id, float $price): void
+    {
+        if ($price <= 0) {
+            throw new \InvalidArgumentException('El precio debe ser mayor que cero.');
+        }
+        $statement = $this->pdo->prepare('UPDATE room_types SET base_price = :price WHERE id = :id');
+        $statement->execute(['price' => $price, 'id' => $id]);
     }
 
     public function create(array $data): void
@@ -89,4 +98,3 @@ final class RoomRepository
         ];
     }
 }
-
