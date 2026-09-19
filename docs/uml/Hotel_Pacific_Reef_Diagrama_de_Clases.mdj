@@ -1037,7 +1037,28 @@
 											"height": 13,
 											"text": "-estado: EstadoHabitacion",
 											"horizontalAlignment": 0
-										}
+									},
+									{
+										"_type": "UMLAttributeView",
+										"_id": "HPR_S6_ROOM_CAPACITY_CLASS_VIEW",
+										"_parent": {
+											"$ref": "AAAAAAGgluwZ6N5yGPM="
+										},
+										"model": {
+											"$ref": "HPR_S6_ROOM_CAPACITY_CLASS"
+										},
+										"lineColor": "#173447",
+										"fillColor": "#EDF7F2",
+										"fontColor": "#173447",
+										"font": "Arial;13;0",
+										"parentStyle": true,
+										"left": 995,
+										"top": 215,
+										"width": 321,
+										"height": 13,
+										"text": "-capacidad: TINYINT",
+										"horizontalAlignment": 0
+									}
 									],
 									"lineColor": "#173447",
 									"fillColor": "#EDF7F2",
@@ -1047,7 +1068,7 @@
 									"left": 990,
 									"top": 105,
 									"width": 331,
-									"height": 113
+									"height": 128
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -1074,7 +1095,7 @@
 											"font": "Arial;13;0",
 											"parentStyle": true,
 											"left": 995,
-											"top": 223,
+											"top": 238,
 											"width": 321,
 											"height": 13,
 											"text": "+estaDisponible()()",
@@ -1095,7 +1116,7 @@
 											"font": "Arial;13;0",
 											"parentStyle": true,
 											"left": 995,
-											"top": 238,
+											"top": 253,
 											"width": 321,
 											"height": 13,
 											"text": "+actualizarEstado()()",
@@ -1108,7 +1129,7 @@
 									"font": "Arial;13;0",
 									"parentStyle": true,
 									"left": 990,
-									"top": 218,
+									"top": 233,
 									"width": 331,
 									"height": 38
 								},
@@ -4742,6 +4763,16 @@
 							"name": "estado",
 							"visibility": "private",
 							"type": "EstadoHabitacion"
+						},
+						{
+							"_type": "UMLAttribute",
+							"_id": "HPR_S6_ROOM_CAPACITY_CLASS",
+							"_parent": {
+								"$ref": "AAAAAAGgluwZ6N5qSbc="
+							},
+							"name": "capacidad",
+							"visibility": "private",
+							"type": "TINYINT"
 						}
 					],
 					"operations": [

@@ -19,8 +19,7 @@ final class ReservationRepository
     {
         $statement = $this->pdo->prepare(
             'SELECT rooms.*, room_types.name AS category,
-                    room_types.base_price AS price,
-                    room_types.max_guests AS capacity
+                    room_types.base_price AS price
              FROM rooms
              INNER JOIN room_types ON room_types.id = rooms.room_type_id
              WHERE rooms.id = :id'

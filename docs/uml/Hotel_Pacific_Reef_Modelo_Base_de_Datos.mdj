@@ -643,9 +643,9 @@
 											"width": 330,
 											"height": 13
 										},
-										{
-											"_type": "ERDColumnView",
-											"_id": "AAAAAAGgluxgFxd66kI=",
+						{
+							"_type": "ERDColumnView",
+							"_id": "AAAAAAGgluxgFxd66kI=",
 											"_parent": {
 												"$ref": "AAAAAAGgluxfKhc5AmQ="
 											},
@@ -659,19 +659,38 @@
 											"parentStyle": true,
 											"left": 945,
 											"top": 233,
-											"width": 330,
-											"height": 13
-										}
+							"width": 330,
+							"height": 13
+						},
+						{
+							"_type": "ERDColumnView",
+							"_id": "HPR_S6_ROOM_CAPACITY_VIEW",
+							"_parent": {
+								"$ref": "AAAAAAGgluxfKhc5AmQ="
+							},
+							"model": {
+								"$ref": "HPR_S6_ROOM_CAPACITY"
+							},
+							"lineColor": "#173447",
+							"fillColor": "#EDF7F2",
+							"fontColor": "#173447",
+							"font": "Arial;13;0",
+							"parentStyle": true,
+							"left": 945,
+							"top": 248,
+							"width": 330,
+							"height": 13
+						}
 									],
 									"lineColor": "#173447",
 									"fillColor": "#EDF7F2",
 									"fontColor": "#173447",
 									"font": "Arial;13;0",
 									"parentStyle": true,
-									"left": 940,
-									"top": 93,
-									"width": 340,
-									"height": 158
+							"left": 940,
+							"top": 93,
+							"width": 340,
+							"height": 173
 								}
 							],
 							"lineColor": "#173447",
@@ -2097,7 +2116,7 @@
 								"$ref": "AAAAAAGgluxdsxbDKc0="
 							},
 							"name": "id",
-							"type": "BIGINT",
+							"type": "BIGINT UNSIGNED",
 							"primaryKey": true
 						},
 						{
@@ -2138,8 +2157,7 @@
 								"$ref": "AAAAAAGgluxdsxbDKc0="
 							},
 							"name": "role",
-							"type": "VARCHAR",
-							"length": "20"
+							"type": "ENUM"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2148,8 +2166,7 @@
 								"$ref": "AAAAAAGgluxdsxbDKc0="
 							},
 							"name": "preferred_language",
-							"type": "CHAR",
-							"length": "2"
+							"type": "ENUM"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2227,7 +2244,7 @@
 								"$ref": "AAAAAAGgluxekhcFjTU="
 							},
 							"name": "id",
-							"type": "BIGINT",
+							"type": "BIGINT UNSIGNED",
 							"primaryKey": true
 						},
 						{
@@ -2268,7 +2285,7 @@
 								"$ref": "AAAAAAGgluxekhcFjTU="
 							},
 							"name": "max_guests",
-							"type": "TINYINT"
+							"type": "TINYINT UNSIGNED"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2328,7 +2345,7 @@
 								"$ref": "AAAAAAGgluxfKhc1KYI="
 							},
 							"name": "id",
-							"type": "BIGINT",
+							"type": "BIGINT UNSIGNED",
 							"primaryKey": true
 						},
 						{
@@ -2338,7 +2355,7 @@
 								"$ref": "AAAAAAGgluxfKhc1KYI="
 							},
 							"name": "room_type_id",
-							"type": "BIGINT",
+							"type": "BIGINT UNSIGNED",
 							"foreignKey": true
 						},
 						{
@@ -2399,8 +2416,7 @@
 								"$ref": "AAAAAAGgluxfKhc1KYI="
 							},
 							"name": "status",
-							"type": "VARCHAR",
-							"length": "20"
+							"type": "ENUM"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2419,6 +2435,15 @@
 							},
 							"name": "updated_at",
 							"type": "TIMESTAMP"
+						},
+						{
+							"_type": "ERDColumn",
+							"_id": "HPR_S6_ROOM_CAPACITY",
+							"_parent": {
+								"$ref": "AAAAAAGgluxfKhc1KYI="
+							},
+							"name": "capacity",
+							"type": "TINYINT UNSIGNED"
 						}
 					]
 				},
@@ -2498,7 +2523,7 @@
 								"$ref": "AAAAAAGgluxgKRd9Trc="
 							},
 							"name": "id",
-							"type": "BIGINT",
+							"type": "BIGINT UNSIGNED",
 							"primaryKey": true
 						},
 						{
@@ -2519,7 +2544,7 @@
 								"$ref": "AAAAAAGgluxgKRd9Trc="
 							},
 							"name": "user_id",
-							"type": "BIGINT",
+							"type": "BIGINT UNSIGNED",
 							"foreignKey": true
 						},
 						{
@@ -2529,7 +2554,7 @@
 								"$ref": "AAAAAAGgluxgKRd9Trc="
 							},
 							"name": "room_id",
-							"type": "BIGINT",
+							"type": "BIGINT UNSIGNED",
 							"foreignKey": true
 						},
 						{
@@ -2557,7 +2582,7 @@
 								"$ref": "AAAAAAGgluxgKRd9Trc="
 							},
 							"name": "guests",
-							"type": "TINYINT"
+							"type": "TINYINT UNSIGNED"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2596,8 +2621,7 @@
 								"$ref": "AAAAAAGgluxgKRd9Trc="
 							},
 							"name": "status",
-							"type": "VARCHAR",
-							"length": "20"
+							"type": "ENUM"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2634,7 +2658,7 @@
 								"$ref": "AAAAAAGgluxhlBfXS64="
 							},
 							"name": "id",
-							"type": "BIGINT",
+							"type": "BIGINT UNSIGNED",
 							"primaryKey": true
 						},
 						{
@@ -2644,7 +2668,7 @@
 								"$ref": "AAAAAAGgluxhlBfXS64="
 							},
 							"name": "reservation_id",
-							"type": "BIGINT",
+							"type": "BIGINT UNSIGNED",
 							"foreignKey": true
 						},
 						{
@@ -2664,8 +2688,7 @@
 								"$ref": "AAAAAAGgluxhlBfXS64="
 							},
 							"name": "method",
-							"type": "VARCHAR",
-							"length": "20"
+							"type": "ENUM"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2674,8 +2697,7 @@
 								"$ref": "AAAAAAGgluxhlBfXS64="
 							},
 							"name": "status",
-							"type": "VARCHAR",
-							"length": "20"
+							"type": "ENUM"
 						},
 						{
 							"_type": "ERDColumn",
@@ -2755,7 +2777,7 @@
 								"$ref": "AAAAAAGgluxidRgT/Ac="
 							},
 							"name": "id",
-							"type": "BIGINT",
+							"type": "BIGINT UNSIGNED",
 							"primaryKey": true
 						},
 						{
@@ -2815,7 +2837,7 @@
 								"$ref": "AAAAAAGgluxjchg9g9I="
 							},
 							"name": "reservation_id",
-							"type": "BIGINT",
+							"type": "BIGINT UNSIGNED",
 							"primaryKey": true,
 							"foreignKey": true
 						},
@@ -2826,7 +2848,7 @@
 								"$ref": "AAAAAAGgluxjchg9g9I="
 							},
 							"name": "service_id",
-							"type": "BIGINT",
+							"type": "BIGINT UNSIGNED",
 							"primaryKey": true,
 							"foreignKey": true
 						},
@@ -2837,7 +2859,7 @@
 								"$ref": "AAAAAAGgluxjchg9g9I="
 							},
 							"name": "quantity",
-							"type": "SMALLINT"
+							"type": "SMALLINT UNSIGNED"
 						},
 						{
 							"_type": "ERDColumn",

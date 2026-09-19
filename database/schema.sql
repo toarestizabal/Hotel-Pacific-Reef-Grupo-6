@@ -30,6 +30,7 @@ CREATE TABLE room_types (
 CREATE TABLE rooms (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     room_type_id BIGINT UNSIGNED NOT NULL,
+    capacity TINYINT UNSIGNED NOT NULL,
     room_number VARCHAR(20) NOT NULL UNIQUE,
     location VARCHAR(120) NOT NULL,
     description VARCHAR(500) NOT NULL,
@@ -39,7 +40,8 @@ CREATE TABLE rooms (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_rooms_room_type
-        FOREIGN KEY (room_type_id) REFERENCES room_types(id)
+        FOREIGN KEY (room_type_id) REFERENCES room_types(id),
+    CONSTRAINT chk_room_capacity CHECK (capacity > 0)
 );
 
 CREATE TABLE reservations (
@@ -110,11 +112,11 @@ INSERT INTO room_types (name, description, base_price, max_guests) VALUES
     ('Turista', 'Habitación cómoda con equipamiento esencial.', 68000, 3),
     ('Premium', 'Habitación superior con vista privilegiada y equipamiento ampliado.', 125000, 4);
 
-INSERT INTO rooms (room_type_id, room_number, location, description, equipment) VALUES
-    (1, 'T-101', 'Primer piso, vista jardín', 'Habitación Turista para dos personas.', JSON_ARRAY('Wi-Fi', 'TV', 'Baño privado')),
-    (1, 'T-204', 'Segundo piso, vista interior', 'Habitación Turista para tres personas.', JSON_ARRAY('Wi-Fi', 'TV', 'Minibar')),
-    (2, 'P-301', 'Tercer piso, vista al mar', 'Habitación Premium para dos personas.', JSON_ARRAY('Wi-Fi', 'Smart TV', 'Jacuzzi')),
-    (2, 'P-305', 'Tercer piso, terraza privada', 'Habitación Premium para cuatro personas.', JSON_ARRAY('Wi-Fi', 'Smart TV', 'Terraza'));
+INSERT INTO rooms (room_type_id, capacity, room_number, location, description, equipment) VALUES
+    (1, 2, 'T-101', 'Primer piso, vista jardín', 'Habitación Turista para dos personas.', JSON_ARRAY('Wi-Fi', 'TV', 'Baño privado')),
+    (1, 3, 'T-204', 'Segundo piso, vista interior', 'Habitación Turista para tres personas.', JSON_ARRAY('Wi-Fi', 'TV', 'Minibar')),
+    (2, 2, 'P-301', 'Tercer piso, vista al mar', 'Habitación Premium para dos personas.', JSON_ARRAY('Wi-Fi', 'Smart TV', 'Jacuzzi')),
+    (2, 4, 'P-305', 'Tercer piso, terraza privada', 'Habitación Premium para cuatro personas.', JSON_ARRAY('Wi-Fi', 'Smart TV', 'Terraza'));
 
 INSERT INTO services (name, description, price) VALUES
     ('Desayuno', 'Desayuno por huésped y por día.', 12000),

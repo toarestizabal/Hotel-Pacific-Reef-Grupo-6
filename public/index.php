@@ -18,7 +18,7 @@ try {
             room_types.name AS category,
             rooms.location,
             rooms.description,
-            room_types.max_guests AS capacity,
+            rooms.capacity,
             room_types.base_price AS price,
             rooms.equipment
          FROM rooms

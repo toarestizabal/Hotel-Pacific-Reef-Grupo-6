@@ -8,12 +8,16 @@ use App\Repositories\RoomRepository;
 require dirname(__DIR__) . '/src/Database/Connection.php';
 require dirname(__DIR__) . '/src/Repositories/RoomRepository.php';
 
-$repository = new RoomRepository(Connection::create());
-$roomNumber = 'CRUD-' . date('His');
+$pdo = Connection::create();
+$repository = new RoomRepository($pdo);
+$roomNumber = 'CRUD-' . strtoupper(bin2hex(random_bytes(4)));
+$failed = false;
 
 try {
+    $pdo->beginTransaction();
     $repository->create([
         'room_type_id' => 1,
+        'capacity' => 2,
         'room_number' => $roomNumber,
         'location' => 'Área de pruebas',
         'description' => 'Registro temporal para comprobar el CRUD.',
@@ -33,6 +37,7 @@ try {
 
     $repository->update((int) $created['id'], [
         'room_type_id' => 1,
+        'capacity' => 3,
         'room_number' => $roomNumber,
         'location' => 'Área de pruebas actualizada',
         'description' => 'Registro temporal actualizado.',
@@ -41,7 +46,7 @@ try {
         'status' => 'maintenance',
     ]);
     $updated = $repository->find((int) $created['id']);
-    if ($updated === null || $updated['status'] !== 'maintenance') {
+    if ($updated === null || $updated['status'] !== 'maintenance' || (int) $updated['capacity'] !== 3) {
         throw new RuntimeException('No se pudo verificar la actualización.');
     }
     echo "UPDATE: OK\n";
@@ -53,5 +58,13 @@ try {
     echo "DELETE: OK\nCRUD COMPLETO: OK\n";
 } catch (Throwable $exception) {
     fwrite(STDERR, 'CRUD: ERROR - ' . $exception->getMessage() . PHP_EOL);
+    $failed = true;
+} finally {
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+}
+
+if ($failed) {
     exit(1);
 }

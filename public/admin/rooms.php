@@ -57,7 +57,7 @@ try {
             exit;
         }
 
-        foreach (['room_type_id', 'room_number', 'location', 'description', 'equipment', 'status'] as $field) {
+        foreach (['room_type_id', 'capacity', 'room_number', 'location', 'description', 'equipment', 'status'] as $field) {
             if (trim((string) ($_POST[$field] ?? '')) === '') {
                 throw new InvalidArgumentException('Completa todos los campos obligatorios.');
             }
@@ -90,6 +90,7 @@ try {
 $form = $editingRoom ?? [
     'id' => 0,
     'room_type_id' => $roomTypes[0]['id'] ?? 1,
+    'capacity' => 2,
     'room_number' => '',
     'location' => '',
     'description' => '',
@@ -132,6 +133,7 @@ $form = $editingRoom ?? [
                 <input type="hidden" name="action" value="<?= $editingRoom ? 'update' : 'create' ?>">
                 <input type="hidden" name="id" value="<?= (int) $form['id'] ?>">
                 <label>Tipo de habitación<select name="room_type_id" required><?php foreach ($roomTypes as $type): ?><option value="<?= (int) $type['id'] ?>" <?= (int) $form['room_type_id'] === (int) $type['id'] ? 'selected' : '' ?>><?= escape($type['name']) ?></option><?php endforeach; ?></select></label>
+                <label>Capacidad <small>Personas por habitación</small><input name="capacity" type="number" min="1" max="255" value="<?= (int) $form['capacity'] ?>" required></label>
                 <label>Número<input name="room_number" value="<?= escape((string) $form['room_number']) ?>" maxlength="20" required></label>
                 <label>Ubicación<input name="location" value="<?= escape((string) $form['location']) ?>" maxlength="120" required></label>
                 <label>Descripción<textarea name="description" maxlength="500" required><?= escape((string) $form['description']) ?></textarea></label>
@@ -144,9 +146,9 @@ $form = $editingRoom ?? [
 
         <section class="panel table-panel">
             <div class="panel-heading"><span>Registros</span><h2>Habitaciones</h2><small><?= count($rooms) ?> registros</small></div>
-            <div class="table-wrap"><table><thead><tr><th>Número</th><th>Tipo</th><th>Ubicación</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
-            <?php foreach ($rooms as $room): ?><tr><td><strong><?= escape($room['room_number']) ?></strong><small><?= escape(equipmentText($room['equipment'])) ?></small></td><td><?= escape($room['room_type_name']) ?></td><td><?= escape($room['location']) ?></td><td><span class="status status-<?= escape($room['status']) ?>"><?= escape($statusOptions[$room['status']] ?? $room['status']) ?></span></td><td><div class="row-actions"><a href="?edit=<?= (int) $room['id'] ?>">Editar</a><form method="post" onsubmit="return confirm('¿Eliminar esta habitación?');"><input type="hidden" name="csrf_token" value="<?= escape($_SESSION['csrf_token']) ?>"><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= (int) $room['id'] ?>"><button class="delete" type="submit">Eliminar</button></form></div></td></tr><?php endforeach; ?>
-            <?php if ($rooms === []): ?><tr><td colspan="5" class="empty">No existen habitaciones registradas.</td></tr><?php endif; ?>
+            <div class="table-wrap"><table><thead><tr><th>Número</th><th>Tipo</th><th>Capacidad</th><th>Ubicación</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
+            <?php foreach ($rooms as $room): ?><tr><td><strong><?= escape($room['room_number']) ?></strong><small><?= escape(equipmentText($room['equipment'])) ?></small></td><td><?= escape($room['room_type_name']) ?></td><td><?= (int) $room['capacity'] ?> personas</td><td><?= escape($room['location']) ?></td><td><span class="status status-<?= escape($room['status']) ?>"><?= escape($statusOptions[$room['status']] ?? $room['status']) ?></span></td><td><div class="row-actions"><a href="?edit=<?= (int) $room['id'] ?>">Editar</a><form method="post" onsubmit="return confirm('¿Eliminar esta habitación?');"><input type="hidden" name="csrf_token" value="<?= escape($_SESSION['csrf_token']) ?>"><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= (int) $room['id'] ?>"><button class="delete" type="submit">Eliminar</button></form></div></td></tr><?php endforeach; ?>
+            <?php if ($rooms === []): ?><tr><td colspan="6" class="empty">No existen habitaciones registradas.</td></tr><?php endif; ?>
             </tbody></table></div>
         </section>
     </div>

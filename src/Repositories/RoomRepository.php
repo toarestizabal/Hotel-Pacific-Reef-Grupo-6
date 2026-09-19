@@ -49,9 +49,9 @@ final class RoomRepository
     {
         $statement = $this->pdo->prepare(
             'INSERT INTO rooms
-                (room_type_id, room_number, location, description, equipment, image_url, status)
+                (room_type_id, capacity, room_number, location, description, equipment, image_url, status)
              VALUES
-                (:room_type_id, :room_number, :location, :description, :equipment, :image_url, :status)'
+                (:room_type_id, :capacity, :room_number, :location, :description, :equipment, :image_url, :status)'
         );
         $statement->execute($this->parameters($data));
     }
@@ -61,6 +61,7 @@ final class RoomRepository
         $statement = $this->pdo->prepare(
             'UPDATE rooms SET
                 room_type_id = :room_type_id,
+                capacity = :capacity,
                 room_number = :room_number,
                 location = :location,
                 description = :description,
@@ -82,13 +83,27 @@ final class RoomRepository
 
     private function parameters(array $data): array
     {
+        $roomTypeId = filter_var($data['room_type_id'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        $capacity = filter_var($data['capacity'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        if ($roomTypeId === false || $capacity === false) {
+            throw new \InvalidArgumentException('Selecciona un tipo y una capacidad válidos.');
+        }
+
+        $type = $this->pdo->prepare('SELECT max_guests FROM room_types WHERE id = :id');
+        $type->execute(['id' => $roomTypeId]);
+        $maxGuests = $type->fetchColumn();
+        if ($maxGuests === false || $capacity > (int) $maxGuests) {
+            throw new \InvalidArgumentException('La capacidad supera el máximo de la categoría.');
+        }
+
         $equipment = array_values(array_filter(array_map(
             static fn (string $item): string => trim($item),
             explode(',', (string) $data['equipment'])
         )));
 
         return [
-            'room_type_id' => (int) $data['room_type_id'],
+            'room_type_id' => $roomTypeId,
+            'capacity' => $capacity,
             'room_number' => trim((string) $data['room_number']),
             'location' => trim((string) $data['location']),
             'description' => trim((string) $data['description']),

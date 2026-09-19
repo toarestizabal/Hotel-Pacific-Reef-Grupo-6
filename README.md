@@ -1,8 +1,4 @@
-# Hotel Pacific Reef
-
-Prototipo del sistema de reservas del Hotel Pacific Reef, desarrollado por el Grupo 6.
-
-## Funciones disponibles
+## Funciones 
 
 - Catálogo de habitaciones Turista y Premium.
 - Formulario con fechas, cantidad de huéspedes y tipo de habitación.
@@ -15,7 +11,7 @@ El catálogo público y el módulo administrativo utilizan MariaDB. Los cambios 
 
 ## Puesta en marcha
 
-1. Importar `database/schema.sql` en MariaDB.
+1. Para una base nueva, importar `database/schema.sql` en MariaDB. Este archivo ya incluye la capacidad individual de cada habitación.
 2. Copiar `config/database.example.php` como `config/database.php` y completar los datos de la conexión local.
 3. Copiar `config/php.example.ini` como `config/php.ini`, ajustar `extension_dir` y habilitar `pdo_mysql`.
 4. Iniciar el servidor desde la raíz del proyecto:
@@ -28,10 +24,14 @@ Sitio público: `http://localhost:8000`
 
 CRUD de habitaciones: `http://localhost:8000/admin/rooms.php`
 
-La comprobación automática de las cuatro operaciones se ejecuta con:
+### Actualizar una base de datos anterior
+
+Si ya existen las tablas y quieres conservar sus datos, **no vuelver a importar `schema.sql`**: crear un respaldo y ejecutar `database/migrations/20260917_room_capacity.sql` en HeidiSQL sobre la base `hotel_pacific_reef`. La migración añade `rooms.capacity`, asigna las capacidades de las habitaciones existentes y agrega su validación; no elimina tablas ni reservas. Puede ejecutarse otra vez sin duplicar la columna o la restricción. En una instalación nueva basta con `schema.sql`; no hace falta ejecutar la migración.
+
+Comprobación automática de las cuatro operaciones se ejecuta con:
 
 ```powershell
 php -c config\php.ini tests\crud_smoke.php
+php -c config\php.ini tests\reservation_capacity_smoke.php
 ```
 
-Los archivos `config/database.php`, `config/php.ini` y `.local/` son configuraciones locales y no se incluyen en Git.
