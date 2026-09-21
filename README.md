@@ -1,6 +1,6 @@
 ## Funciones 
 
-- Catálogo de habitaciones Turista y Premium.
+- Catalogo de habitaciones Turista y Premium.
 - Formulario con fechas, cantidad de huéspedes y tipo de habitación.
 - Cálculo del valor de la estadía y del abono del 30 %.
 - Interfaz en español e ingles.
