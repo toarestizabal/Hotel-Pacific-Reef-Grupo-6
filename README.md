@@ -24,14 +24,27 @@ Sitio público: `http://localhost:8000`
 
 CRUD de habitaciones: `http://localhost:8000/admin/rooms.php`
 
+La aplicación incluye registro, inicio de sesión, preferencia persistente de idioma y control de acceso por roles. Una instalación nueva creada con `database/schema.sql` incluye esta cuenta administrativa de demostración:
+
+- Correo: `admin@hotelpacificreef.cl`
+- Contraseña: `Pacific.Reef2026`
+
+Para crearla o restablecerla en una base existente:
+
+```powershell
+php -c config\php.ini scripts\create_admin.php "Administrador Hotel" "admin@hotelpacificreef.cl" "Pacific.Reef2026"
+```
+
+Panel administrativo: `http://localhost:8000/admin/index.php`
+
 ### Actualizar una base de datos anterior
 
-Si ya existen las tablas y quieres conservar sus datos, **no vuelver a importar `schema.sql`**: crear un respaldo y ejecutar `database/migrations/20260917_room_capacity.sql` en HeidiSQL sobre la base `hotel_pacific_reef`. La migración añade `rooms.capacity`, asigna las capacidades de las habitaciones existentes y agrega su validación; no elimina tablas ni reservas. Puede ejecutarse otra vez sin duplicar la columna o la restricción. En una instalación nueva basta con `schema.sql`; no hace falta ejecutar la migración.
+Si ya existen las tablas y quieres conservar sus datos, **no volver a importar `schema.sql`**: crear un respaldo y ejecutar `database/migrations/20260917_room_capacity.sql` en HeidiSQL sobre la base `hotel_pacific_reef`. La migración añade `rooms.capacity`, asigna las capacidades de las habitaciones existentes y agrega su validación; no elimina tablas ni reservas. Puede ejecutarse otra vez sin duplicar la columna o la restricción. En una instalación nueva basta con `schema.sql`; no hace falta ejecutar la migración.
 
 Comprobación automática de las cuatro operaciones se ejecuta con:
 
 ```powershell
 php -c config\php.ini tests\crud_smoke.php
 php -c config\php.ini tests\reservation_capacity_smoke.php
+php -c config\php.ini tests\auth_smoke.php
 ```
-

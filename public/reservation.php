@@ -2,20 +2,16 @@
 
 declare(strict_types=1);
 
+use App\Auth\Auth;
 use App\Database\Connection;
 use App\Repositories\ReservationRepository;
-
-session_start();
+use App\Support\I18n;
 
 $projectRoot = dirname(__DIR__);
+require __DIR__ . '/_bootstrap.php';
 require $projectRoot . '/src/Database/Connection.php';
 require $projectRoot . '/src/Repositories/ReservationRepository.php';
 $roomGalleries = require $projectRoot . '/src/Data/room_galleries.php';
-
-function escape(string $value): string
-{
-    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-}
 
 function money(float $value): string
 {
@@ -29,6 +25,7 @@ if (empty($_SESSION['reservation_csrf'])) {
 $error = null;
 $confirmation = null;
 $repository = null;
+$authUser = Auth::user();
 $roomId = (int) ($_POST['room_id'] ?? $_GET['room'] ?? 0);
 $checkIn = (string) ($_POST['check_in'] ?? $_GET['check_in'] ?? '');
 $checkOut = (string) ($_POST['check_out'] ?? $_GET['check_out'] ?? '');
@@ -68,13 +65,14 @@ $total = $room !== null ? (float) $room['price'] * $nights : 0;
 $deposit = round($total * 0.30, 2);
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= I18n::language() ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Proceso de reserva de Hotel Pacific Reef">
     <title><?= $confirmation ? 'Reserva confirmada' : 'Completar reserva' ?> | Hotel Pacific Reef</title>
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
     <link rel="stylesheet" href="assets/css/reservation.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
@@ -84,7 +82,7 @@ $deposit = round($total * 0.30, 2);
         <span class="brand-mark" aria-hidden="true">HPR</span>
         <span class="brand-copy"><strong>Hotel Pacific Reef</strong><small>Sistema de reservas</small></span>
     </a>
-    <a class="back-link" href="index.php#habitaciones">← Volver al catálogo</a>
+    <div class="account-links"><a class="back-link" href="index.php#habitaciones">← Volver al catálogo</a><a class="language-button" href="<?= escape(languageUrl(I18n::language() === 'es' ? 'en' : 'es')) ?>" aria-label="Cambiar idioma">ES <span>/</span> EN</a></div>
 </header>
 
 <main class="reservation-main">
@@ -132,8 +130,8 @@ $deposit = round($total * 0.30, 2);
                     <input type="hidden" name="csrf_token" value="<?= escape($_SESSION['reservation_csrf']) ?>">
                     <input type="hidden" name="room_id" value="<?= (int) $room['id'] ?>">
                     <div class="field-grid">
-                        <label>Nombre completo<input name="full_name" value="<?= escape((string) ($_POST['full_name'] ?? '')) ?>" autocomplete="name" required></label>
-                        <label>Correo electrónico<input name="email" type="email" value="<?= escape((string) ($_POST['email'] ?? '')) ?>" autocomplete="email" required></label>
+                        <label>Nombre completo<input name="full_name" value="<?= escape((string) ($_POST['full_name'] ?? $authUser['full_name'] ?? '')) ?>" autocomplete="name" required></label>
+                        <label>Correo electrónico<input name="email" type="email" value="<?= escape((string) ($_POST['email'] ?? $authUser['email'] ?? '')) ?>" autocomplete="email" required></label>
                         <label>Fecha de llegada<input name="check_in" type="date" value="<?= escape($checkIn) ?>" required></label>
                         <label>Fecha de salida<input name="check_out" type="date" value="<?= escape($checkOut) ?>" required></label>
                         <label>Huéspedes<input name="guests" type="number" min="1" max="<?= (int) $room['capacity'] ?>" value="<?= $guests ?>" required></label>

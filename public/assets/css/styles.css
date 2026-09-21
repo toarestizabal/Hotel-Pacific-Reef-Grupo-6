@@ -115,6 +115,9 @@ a {
 }
 
 .language-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     justify-self: end;
     padding: 8px 13px;
     border: 1px solid var(--line);
@@ -124,6 +127,7 @@ a {
     cursor: pointer;
     font-size: 0.8rem;
     font-weight: 750;
+    text-decoration: none;
 }
 
 .language-button span {

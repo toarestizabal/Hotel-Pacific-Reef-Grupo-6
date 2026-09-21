@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
+use App\Auth\Auth;
 use App\Database\Connection;
 use App\Repositories\ReservationRepository;
+use App\Support\I18n;
 
+require dirname(__DIR__) . '/_bootstrap.php';
 require dirname(__DIR__, 2) . '/src/Database/Connection.php';
 require dirname(__DIR__, 2) . '/src/Repositories/ReservationRepository.php';
-
-function escape(string $value): string
-{
-    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-}
+Auth::requireRole('administrator');
 
 $error = null;
 $stats = ['rooms' => 0, 'available_rooms' => 0, 'confirmed_reservations' => 0, 'clients' => 0];
@@ -27,7 +26,7 @@ try {
 $statusLabels = ['pending' => 'Pendiente', 'confirmed' => 'Confirmada', 'cancelled' => 'Cancelada', 'completed' => 'Completada'];
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= I18n::language() ?>">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel administrativo | Hotel Pacific Reef</title>
@@ -35,10 +34,7 @@ $statusLabels = ['pending' => 'Pendiente', 'confirmed' => 'Confirmada', 'cancell
     <link rel="stylesheet" href="../assets/css/responsive.css">
 </head>
 <body>
-<header class="admin-header">
-    <div><span>HPR</span><div><strong>Hotel Pacific Reef</strong><small>Panel administrativo</small></div></div>
-    <nav aria-label="Navegación administrativa"><a class="active" href="index.php">Resumen</a><a href="rooms.php">Habitaciones</a><a href="prices.php">Precios</a><a href="reservations.php">Reservas</a><a href="../index.php">Sitio público</a></nav>
-</header>
+<?php renderAdminHeader('index'); ?>
 <main>
     <section class="page-heading"><div><p>Gestión interna</p><h1>Resumen operativo</h1><span>Información principal del Hotel Pacific Reef</span></div></section>
     <?php if ($error !== null): ?><div class="notice error"><?= escape($error) ?></div><?php endif; ?>

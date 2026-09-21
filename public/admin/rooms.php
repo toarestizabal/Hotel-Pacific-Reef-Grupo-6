@@ -2,18 +2,15 @@
 
 declare(strict_types=1);
 
+use App\Auth\Auth;
 use App\Database\Connection;
 use App\Repositories\RoomRepository;
+use App\Support\I18n;
 
-session_start();
-
+require dirname(__DIR__) . '/_bootstrap.php';
 require dirname(__DIR__, 2) . '/src/Database/Connection.php';
 require dirname(__DIR__, 2) . '/src/Repositories/RoomRepository.php';
-
-function escape(string $value): string
-{
-    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-}
+Auth::requireRole('administrator');
 
 function equipmentText(string $json): string
 {
@@ -100,7 +97,7 @@ $form = $editingRoom ?? [
 ];
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= I18n::language() ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -109,10 +106,7 @@ $form = $editingRoom ?? [
     <link rel="stylesheet" href="../assets/css/responsive.css">
 </head>
 <body>
-<header class="admin-header">
-    <div><span>HPR</span><div><strong>Hotel Pacific Reef</strong><small>Administración de habitaciones</small></div></div>
-    <nav aria-label="Navegación administrativa"><a href="index.php">Resumen</a><a class="active" href="rooms.php">Habitaciones</a><a href="prices.php">Precios</a><a href="reservations.php">Reservas</a><a href="../index.php">Sitio público</a></nav>
-</header>
+<?php renderAdminHeader('rooms'); ?>
 <main>
     <section class="page-heading">
         <div><p>Gestión interna</p><h1>Administración de habitaciones</h1></div>

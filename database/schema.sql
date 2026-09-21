@@ -108,6 +108,12 @@ CREATE TABLE reservation_services (
     CONSTRAINT chk_reservation_service_price CHECK (unit_price >= 0)
 );
 
+-- Cuenta de demostración para la revisión académica.
+-- Correo: admin@hotelpacificreef.cl
+-- Contraseña: Pacific.Reef2026
+INSERT INTO users (full_name, email, password_hash, role, preferred_language, is_active) VALUES
+    ('Administrador Hotel', 'admin@hotelpacificreef.cl', '$2y$10$gu2.zDGXG8kKTGnSsa8dC.E2pDnMPbGrBNImZXZsvuJDdaZi7ZfUC', 'administrator', 'es', TRUE);
+
 INSERT INTO room_types (name, description, base_price, max_guests) VALUES
     ('Turista', 'Habitación cómoda con equipamiento esencial.', 68000, 3),
     ('Premium', 'Habitación superior con vista privilegiada y equipamiento ampliado.', 125000, 4);

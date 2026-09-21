@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Auth\Auth;
 use App\Database\Connection;
+use App\Support\I18n;
 
 $projectRoot = dirname(__DIR__);
+require __DIR__ . '/_bootstrap.php';
 $rooms = require $projectRoot . '/src/Data/rooms.php';
 $roomGalleries = require $projectRoot . '/src/Data/room_galleries.php';
 
@@ -40,19 +43,17 @@ try {
     // El catálogo local mantiene disponible el prototipo cuando MariaDB está apagado.
 }
 
-function escape(string $value): string
-{
-    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-}
+$authUser = Auth::user();
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="<?= I18n::language() ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Prototipo inicial del sistema de reservas de Hotel Pacific Reef">
     <title>Hotel Pacific Reef | Sistema de reservas</title>
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
     <script src="assets/js/app.js" defer></script>
 </head>
@@ -71,9 +72,17 @@ function escape(string $value): string
             <a href="#habitaciones" data-i18n="navRooms">Habitaciones</a>
         </nav>
 
-        <button class="language-button" id="languageButton" type="button" aria-label="Cambiar idioma">
-            ES <span>/</span> EN
-        </button>
+        <div class="account-links">
+            <?php if ($authUser === null): ?>
+                <a href="login.php">Iniciar sesión</a>
+                <a href="register.php">Crear cuenta</a>
+            <?php else: ?>
+                <span class="account-name"><?= escape($authUser['full_name']) ?></span>
+                <?php if ($authUser['role'] === 'administrator'): ?><a href="admin/index.php">Administración</a><?php endif; ?>
+                <form action="logout.php" method="post"><input type="hidden" name="csrf_token" value="<?= escape(Auth::csrfToken()) ?>"><button type="submit">Cerrar sesión</button></form>
+            <?php endif; ?>
+            <a class="language-button" href="<?= escape(languageUrl(I18n::language() === 'es' ? 'en' : 'es')) ?>" aria-label="Cambiar idioma">ES <span>/</span> EN</a>
+        </div>
     </header>
 
     <main>

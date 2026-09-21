@@ -4,44 +4,21 @@ const checkInInput = document.querySelector('#checkIn');
 const checkOutInput = document.querySelector('#checkOut');
 const roomSelect = document.querySelector('#room');
 const guestsSelect = document.querySelector('#guests');
-const languageButton = document.querySelector('#languageButton');
-
-const translations = {
+const language = document.documentElement.lang === 'en' ? 'en' : 'es';
+const copy = {
     es: {
-        navRooms: 'Habitaciones',
-        navBooking: 'Reservar',
-        heroTitle: 'Hotel Pacific Reef',
-        heroText: 'Consulta fechas disponibles, compara nuestras habitaciones y calcula el valor de tu estadía.',
-        heroButton: 'Consultar disponibilidad',
-        bookingTitle: 'Consulta de disponibilidad',
-        checkIn: 'Llegada',
-        checkOut: 'Salida',
-        guests: 'Huéspedes',
-        room: 'Habitación',
-        calculate: 'Calcular reserva',
-        resultHint: 'Selecciona las fechas para obtener un cálculo preliminar.',
-        roomsTitle: 'Habitaciones disponibles',
-        roomsText: 'Muestra inicial de las categorías Turista y Premium definidas para el sistema.',
+        datesRequired: 'Debes seleccionar las fechas de llegada y salida.',
+        invalidDates: 'La fecha de salida debe ser posterior a la fecha de llegada.',
+        invalidCapacity: 'La habitación seleccionada no admite la cantidad de huéspedes indicada.',
+        room: 'Habitación', nights: 'Noches', total: 'Total estadía', deposit: 'Abono requerido (30 %)', continue: 'Continuar reserva',
     },
     en: {
-        navRooms: 'Rooms',
-        navBooking: 'Book',
-        heroTitle: 'Hotel Pacific Reef',
-        heroText: 'Check available dates, compare our rooms and calculate the cost of your stay.',
-        heroButton: 'Check availability',
-        bookingTitle: 'Availability search',
-        checkIn: 'Check-in',
-        checkOut: 'Check-out',
-        guests: 'Guests',
-        room: 'Room',
-        calculate: 'Calculate booking',
-        resultHint: 'Select dates to get a preliminary estimate.',
-        roomsTitle: 'Available rooms',
-        roomsText: 'Initial sample of the Tourist and Premium categories defined for the system.',
+        datesRequired: 'You must select the check-in and check-out dates.',
+        invalidDates: 'The check-out date must be after the check-in date.',
+        invalidCapacity: 'The selected room does not allow the requested number of guests.',
+        room: 'Room', nights: 'Nights', total: 'Stay total', deposit: 'Required deposit (30%)', continue: 'Continue booking',
     },
-};
-
-let currentLanguage = 'es';
+}[language];
 
 function formatDate(date) {
     const year = date.getFullYear();
@@ -87,12 +64,12 @@ function calculateBooking() {
     const nights = Math.round((checkOut - checkIn) / millisecondsPerDay);
 
     if (!checkInInput.value || !checkOutInput.value || Number.isNaN(nights)) {
-        showError('Debes seleccionar las fechas de llegada y salida.');
+        showError(copy.datesRequired);
         return;
     }
 
     if (nights < 1) {
-        showError('La fecha de salida debe ser posterior a la fecha de llegada.');
+        showError(copy.invalidDates);
         return;
     }
 
@@ -101,7 +78,7 @@ function calculateBooking() {
     const guests = Number(guestsSelect.value);
 
     if (guests > Number(selectedOption.dataset.capacity)) {
-        showError('La habitación seleccionada no admite la cantidad de huéspedes indicada.');
+        showError(copy.invalidCapacity);
         return;
     }
 
@@ -110,11 +87,11 @@ function calculateBooking() {
 
     bookingResult.classList.add('is-visible');
     bookingResult.innerHTML = `
-        <div class="result-item"><span>Habitación</span><strong>${selectedOption.textContent.trim()}</strong></div>
-        <div class="result-item"><span>Noches</span><strong>${nights}</strong></div>
-        <div class="result-item"><span>Total estadía</span><strong>${currency(total)}</strong></div>
-        <div class="result-item"><span>Abono requerido (30 %)</span><strong>${currency(deposit)}</strong></div>
-        <a class="primary-button continue-button" href="reservation.php?room=${encodeURIComponent(roomSelect.value)}&check_in=${encodeURIComponent(checkInInput.value)}&check_out=${encodeURIComponent(checkOutInput.value)}&guests=${encodeURIComponent(guestsSelect.value)}">Continuar reserva</a>
+        <div class="result-item"><span>${copy.room}</span><strong>${selectedOption.textContent.trim()}</strong></div>
+        <div class="result-item"><span>${copy.nights}</span><strong>${nights}</strong></div>
+        <div class="result-item"><span>${copy.total}</span><strong>${currency(total)}</strong></div>
+        <div class="result-item"><span>${copy.deposit}</span><strong>${currency(deposit)}</strong></div>
+        <a class="primary-button continue-button" href="reservation.php?room=${encodeURIComponent(roomSelect.value)}&check_in=${encodeURIComponent(checkInInput.value)}&check_out=${encodeURIComponent(checkOutInput.value)}&guests=${encodeURIComponent(guestsSelect.value)}">${copy.continue}</a>
     `;
 }
 
@@ -160,16 +137,6 @@ document.querySelectorAll('.room-dialog').forEach((dialog) => {
         if (event.target === dialog) {
             dialog.close();
         }
-    });
-});
-
-languageButton.addEventListener('click', () => {
-    currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
-    document.documentElement.lang = currentLanguage;
-
-    document.querySelectorAll('[data-i18n]').forEach((element) => {
-        const key = element.dataset.i18n;
-        element.textContent = translations[currentLanguage][key];
     });
 });
 
