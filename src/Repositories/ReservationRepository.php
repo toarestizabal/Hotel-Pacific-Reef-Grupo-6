@@ -45,7 +45,7 @@ final class ReservationRepository
         return (int) $statement->fetchColumn() === 0;
     }
 
-    public function createConfirmed(array $data): array
+    public function createConfirmed(array $data, int $userId): array
     {
         $room = $this->room((int) $data['room_id']);
         if ($room === null || $room['status'] !== 'available') {
@@ -64,6 +64,11 @@ final class ReservationRepository
             throw new RuntimeException('La cantidad de huéspedes no es válida para esta habitación.');
         }
 
+        $user = $this->activeUser($userId);
+        if ($user === null) {
+            throw new RuntimeException('Debes iniciar sesión con una cuenta activa para reservar.');
+        }
+
         $dailyRate = (float) $room['price'];
         $total = $dailyRate * $nights;
         $deposit = round($total * 0.30, 2);
@@ -74,11 +79,6 @@ final class ReservationRepository
             if (!$this->isAvailable((int) $room['id'], $checkIn->format('Y-m-d'), $checkOut->format('Y-m-d'))) {
                 throw new RuntimeException('La habitación ya fue reservada para parte del período seleccionado.');
             }
-
-            $userId = $this->findOrCreateClient(
-                trim((string) $data['full_name']),
-                strtolower(trim((string) $data['email']))
-            );
 
             $reservation = $this->pdo->prepare(
                 "INSERT INTO reservations
@@ -132,7 +132,7 @@ final class ReservationRepository
             'guests' => $guests,
             'total' => $total,
             'deposit' => $deposit,
-            'email' => strtolower(trim((string) $data['email'])),
+            'email' => $user['email'],
         ];
     }
 
@@ -195,29 +195,14 @@ final class ReservationRepository
         $statement->execute(['status' => $status, 'id' => $id]);
     }
 
-    private function findOrCreateClient(string $fullName, string $email): int
+    private function activeUser(int $userId): ?array
     {
-        if ($fullName === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new RuntimeException('Ingresa un nombre y correo electrónico válidos.');
-        }
-
-        $find = $this->pdo->prepare('SELECT id FROM users WHERE email = :email');
-        $find->execute(['email' => $email]);
-        $existing = $find->fetchColumn();
-        if ($existing !== false) {
-            return (int) $existing;
-        }
-
-        $insert = $this->pdo->prepare(
-            "INSERT INTO users (full_name, email, password_hash, role)
-             VALUES (:full_name, :email, :password_hash, 'client')"
+        $statement = $this->pdo->prepare(
+            'SELECT id, full_name, email FROM users WHERE id = :id AND is_active = 1'
         );
-        $insert->execute([
-            'full_name' => $fullName,
-            'email' => $email,
-            'password_hash' => password_hash(bin2hex(random_bytes(16)), PASSWORD_DEFAULT),
-        ]);
+        $statement->execute(['id' => $userId]);
+        $user = $statement->fetch();
 
-        return (int) $this->pdo->lastInsertId();
+        return $user === false ? null : $user;
     }
 }

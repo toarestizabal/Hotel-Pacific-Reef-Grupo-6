@@ -27,12 +27,24 @@ try {
         'check_in' => $checkIn->format('Y-m-d'),
         'check_out' => $checkOut->format('Y-m-d'),
         'guests' => 3,
-        'full_name' => 'Prueba de capacidad',
-        'email' => 'capacidad@example.test',
-    ]);
+    ], 0);
     throw new RuntimeException('Se aceptó una reserva que excede la capacidad.');
 } catch (RuntimeException $exception) {
     if (!str_contains($exception->getMessage(), 'cantidad de huéspedes')) {
+        throw $exception;
+    }
+}
+
+try {
+    $repository->createConfirmed([
+        'room_id' => $roomId,
+        'check_in' => $checkIn->format('Y-m-d'),
+        'check_out' => $checkOut->format('Y-m-d'),
+        'guests' => 1,
+    ], 0);
+    throw new RuntimeException('Se aceptó una reserva sin una cuenta autenticada.');
+} catch (RuntimeException $exception) {
+    if (!str_contains($exception->getMessage(), 'iniciar sesión')) {
         throw $exception;
     }
 }
@@ -42,4 +54,4 @@ if ($after !== $before) {
     throw new RuntimeException('La prueba dejó una reserva en la base.');
 }
 
-echo "CAPACIDAD POR HABITACIÓN: OK\nRESERVA EXCEDIDA: RECHAZADA\nSIN DATOS DE PRUEBA PERMANENTES: OK\n";
+echo "CAPACIDAD POR HABITACIÓN: OK\nRESERVA EXCEDIDA: RECHAZADA\nRESERVA SIN USUARIO: RECHAZADA\nSIN DATOS DE PRUEBA PERMANENTES: OK\n";

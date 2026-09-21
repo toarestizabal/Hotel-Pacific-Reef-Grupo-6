@@ -26,6 +26,15 @@ $error = null;
 $confirmation = null;
 $repository = null;
 $authUser = Auth::user();
+
+if ($authUser === null) {
+    $return = $_SERVER['REQUEST_METHOD'] === 'GET'
+        ? (string) ($_SERVER['REQUEST_URI'] ?? '/index.php#reserva')
+        : '/index.php#reserva';
+    header('Location: /login.php?return=' . rawurlencode($return));
+    exit;
+}
+
 $roomId = (int) ($_POST['room_id'] ?? $_GET['room'] ?? 0);
 $checkIn = (string) ($_POST['check_in'] ?? $_GET['check_in'] ?? '');
 $checkOut = (string) ($_POST['check_out'] ?? $_GET['check_out'] ?? '');
@@ -46,7 +55,7 @@ try {
         if (!isset($_POST['confirm_terms'])) {
             throw new RuntimeException('Debes confirmar los datos y fechas de la reserva.');
         }
-        $confirmation = $repository->createConfirmed($_POST);
+        $confirmation = $repository->createConfirmed($_POST, (int) $authUser['id']);
     }
 } catch (Throwable $exception) {
     $error = $exception->getMessage();
@@ -75,6 +84,7 @@ $deposit = round($total * 0.30, 2);
     <link rel="stylesheet" href="assets/css/auth.css">
     <link rel="stylesheet" href="assets/css/reservation.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
+    <style>.reservation-page .ticket{display:block;max-width:680px;margin-left:auto;margin-right:auto}</style>
 </head>
 <body class="reservation-page">
 <header class="site-header compact-header">
@@ -91,7 +101,7 @@ $deposit = round($total * 0.30, 2);
             <div class="confirmation-icon" aria-hidden="true">✓</div>
             <p class="section-kicker">Pago de prueba aprobado</p>
             <h1 id="confirmationTitle">Reserva confirmada</h1>
-            <p>La confirmación fue preparada para enviarse a <strong><?= escape($confirmation['email']) ?></strong>.</p>
+            <p>La reserva fue registrada correctamente. Guarda el código para identificarla.</p>
 
             <div class="ticket">
                 <div>
@@ -105,9 +115,8 @@ $deposit = round($total * 0.30, 2);
                         <div><dt>Abono pagado</dt><dd><?= money((float) $confirmation['deposit']) ?></dd></div>
                     </dl>
                 </div>
-                <div class="qr-preview" role="img" aria-label="Representación del código QR asociado a la reserva"><span>QR</span></div>
             </div>
-            <p class="prototype-note">Prototipo: el pago, el correo y el código QR se representan en ambiente de prueba.</p>
+            <p class="prototype-note">El pago fue procesado en el ambiente de prueba. El ticket con código QR y la notificación por correo se completarán en HU-08.</p>
             <a class="primary-button" href="index.php">Volver al inicio</a>
         </section>
     <?php elseif ($room !== null): ?>
@@ -130,8 +139,8 @@ $deposit = round($total * 0.30, 2);
                     <input type="hidden" name="csrf_token" value="<?= escape($_SESSION['reservation_csrf']) ?>">
                     <input type="hidden" name="room_id" value="<?= (int) $room['id'] ?>">
                     <div class="field-grid">
-                        <label>Nombre completo<input name="full_name" value="<?= escape((string) ($_POST['full_name'] ?? $authUser['full_name'] ?? '')) ?>" autocomplete="name" required></label>
-                        <label>Correo electrónico<input name="email" type="email" value="<?= escape((string) ($_POST['email'] ?? $authUser['email'] ?? '')) ?>" autocomplete="email" required></label>
+                        <label>Nombre completo<input value="<?= escape((string) $authUser['full_name']) ?>" autocomplete="name" readonly></label>
+                        <label>Correo electrónico<input type="email" value="<?= escape((string) $authUser['email']) ?>" autocomplete="email" readonly></label>
                         <label>Fecha de llegada<input name="check_in" type="date" value="<?= escape($checkIn) ?>" required></label>
                         <label>Fecha de salida<input name="check_out" type="date" value="<?= escape($checkOut) ?>" required></label>
                         <label>Huéspedes<input name="guests" type="number" min="1" max="<?= (int) $room['capacity'] ?>" value="<?= $guests ?>" required></label>

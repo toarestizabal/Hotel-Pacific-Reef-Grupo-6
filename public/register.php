@@ -17,6 +17,10 @@ if (Auth::user() !== null) {
 }
 
 $error = null;
+$return = rawurldecode((string) ($_POST['return'] ?? $_GET['return'] ?? ''));
+if ($return !== '' && (!str_starts_with($return, '/') || str_starts_with($return, '//'))) {
+    $return = '';
+}
 $values = [
     'full_name' => trim((string) ($_POST['full_name'] ?? '')),
     'email' => trim((string) ($_POST['email'] ?? '')),
@@ -33,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $user = (new UserRepository(Connection::create()))->register($_POST);
         Auth::login($user);
-        header('Location: /index.php?registered=1');
+        header('Location: ' . ($return !== '' ? $return : '/index.php?registered=1'));
         exit;
     } catch (Throwable $exception) {
         $error = $exception->getMessage();
@@ -63,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if ($error !== null): ?><div class="auth-alert" role="alert"><?= escape($error) ?></div><?php endif; ?>
         <form method="post">
             <input type="hidden" name="csrf_token" value="<?= escape(Auth::csrfToken()) ?>">
+            <input type="hidden" name="return" value="<?= escape($return) ?>">
             <label>Nombre completo<input name="full_name" autocomplete="name" value="<?= escape($values['full_name']) ?>" required></label>
             <label>Correo electrónico<input name="email" type="email" autocomplete="email" value="<?= escape($values['email']) ?>" required></label>
             <label>Contraseña<input name="password" type="password" minlength="8" autocomplete="new-password" required></label>
@@ -70,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Idioma preferido<select name="preferred_language"><option value="es" <?= $values['preferred_language'] === 'es' ? 'selected' : '' ?>>Español</option><option value="en" <?= $values['preferred_language'] === 'en' ? 'selected' : '' ?>>Inglés</option></select></label>
             <button class="primary-button" type="submit">Registrarme</button>
         </form>
-        <a class="auth-alternative" href="login.php">Ya tengo una cuenta</a>
+        <a class="auth-alternative" href="login.php<?= $return !== '' ? '?return=' . rawurlencode($return) : '' ?>">Ya tengo una cuenta</a>
     </section>
 </main>
 </body>

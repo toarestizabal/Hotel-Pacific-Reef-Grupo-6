@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Contraseña<input name="password" type="password" autocomplete="current-password" required></label>
             <button class="primary-button" type="submit">Ingresar</button>
         </form>
-        <a class="auth-alternative" href="register.php">No tengo una cuenta</a>
+        <a class="auth-alternative" href="register.php<?= $return !== '' ? '?return=' . rawurlencode($return) : '' ?>">No tengo una cuenta</a>
     </section>
 </main>
 </body>
