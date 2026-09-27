@@ -79,6 +79,7 @@ $authUser = Auth::user();
             <?php else: ?>
                 <span class="account-name"><?= escape($authUser['full_name']) ?></span>
                 <?php if ($authUser['role'] === 'administrator'): ?><a href="admin/index.php">Administración</a><?php endif; ?>
+                <?php if ($authUser['role'] === 'worker'): ?><a href="worker/index.php">Panel trabajador</a><?php endif; ?>
                 <form action="logout.php" method="post"><input type="hidden" name="csrf_token" value="<?= escape(Auth::csrfToken()) ?>"><button type="submit">Cerrar sesión</button></form>
             <?php endif; ?>
             <a class="language-button" href="<?= escape(languageUrl(I18n::language() === 'es' ? 'en' : 'es')) ?>" aria-label="Cambiar idioma">ES <span>/</span> EN</a>

@@ -33,7 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new RuntimeException('Credenciales incorrectas o cuenta inactiva.');
         }
         Auth::login($user);
-        $destination = $return !== '' ? $return : ($user['role'] === 'administrator' ? '/admin/index.php' : '/index.php');
+        $defaultDestination = match ($user['role']) {
+            'administrator' => '/admin/index.php',
+            'worker' => '/worker/index.php',
+            default => '/index.php',
+        };
+        $destination = $return !== '' ? $return : $defaultDestination;
         header('Location: ' . $destination);
         exit;
     } catch (Throwable $exception) {

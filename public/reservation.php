@@ -5,12 +5,14 @@ declare(strict_types=1);
 use App\Auth\Auth;
 use App\Database\Connection;
 use App\Repositories\ReservationRepository;
+use App\Services\ConfirmationService;
 use App\Support\I18n;
 
 $projectRoot = dirname(__DIR__);
 require __DIR__ . '/_bootstrap.php';
 require $projectRoot . '/src/Database/Connection.php';
 require $projectRoot . '/src/Repositories/ReservationRepository.php';
+require $projectRoot . '/src/Services/ConfirmationService.php';
 $roomGalleries = require $projectRoot . '/src/Data/room_galleries.php';
 
 function money(float $value): string
@@ -25,6 +27,7 @@ if (empty($_SESSION['reservation_csrf'])) {
 $error = null;
 $confirmation = null;
 $repository = null;
+$services = [];
 $authUser = Auth::user();
 
 if ($authUser === null) {
@@ -43,6 +46,7 @@ $room = null;
 
 try {
     $repository = new ReservationRepository(Connection::create());
+    $services = $repository->services();
     $room = $repository->room($roomId);
     if ($room === null) {
         throw new RuntimeException('Selecciona una habitación válida desde el catálogo.');
@@ -56,6 +60,10 @@ try {
             throw new RuntimeException('Debes confirmar los datos y fechas de la reserva.');
         }
         $confirmation = $repository->createConfirmed($_POST, (int) $authUser['id']);
+        $confirmation = array_merge(
+            $confirmation,
+            (new ConfirmationService())->deliverToTestOutbox($confirmation, applicationUrl())
+        );
     }
 } catch (Throwable $exception) {
     $error = $exception->getMessage();
@@ -83,6 +91,7 @@ $deposit = round($total * 0.30, 2);
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/auth.css">
     <link rel="stylesheet" href="assets/css/reservation.css">
+    <link rel="stylesheet" href="assets/css/week7.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
     <style>.reservation-page .ticket{display:block;max-width:680px;margin-left:auto;margin-right:auto}</style>
 </head>
@@ -101,9 +110,9 @@ $deposit = round($total * 0.30, 2);
             <div class="confirmation-icon" aria-hidden="true">✓</div>
             <p class="section-kicker">Pago de prueba aprobado</p>
             <h1 id="confirmationTitle">Reserva confirmada</h1>
-            <p>La reserva fue registrada correctamente. Guarda el código para identificarla.</p>
+            <p>La reserva, el ticket y el correo de confirmación de prueba fueron generados correctamente.</p>
 
-            <div class="ticket">
+            <div class="ticket ticket-result">
                 <div>
                     <span>Código de reserva</span>
                     <strong><?= escape($confirmation['code']) ?></strong>
@@ -111,13 +120,28 @@ $deposit = round($total * 0.30, 2);
                         <div><dt>Habitación</dt><dd><?= escape($confirmation['room_number'] . ' · ' . $confirmation['category']) ?></dd></div>
                         <div><dt>Estadía</dt><dd><?= escape($confirmation['check_in']) ?> al <?= escape($confirmation['check_out']) ?></dd></div>
                         <div><dt>Huéspedes</dt><dd><?= (int) $confirmation['guests'] ?></dd></div>
+                        <div><dt>Habitación</dt><dd><?= money((float) $confirmation['room_total']) ?></dd></div>
+                        <div><dt>Servicios</dt><dd><?= money((float) $confirmation['service_total']) ?></dd></div>
                         <div><dt>Total</dt><dd><?= money((float) $confirmation['total']) ?></dd></div>
                         <div><dt>Abono pagado</dt><dd><?= money((float) $confirmation['deposit']) ?></dd></div>
                     </dl>
+                    <?php if ($confirmation['services'] !== []): ?>
+                        <p><strong>Servicios contratados:</strong></p>
+                        <ul>
+                            <?php foreach ($confirmation['services'] as $service): ?>
+                                <li><?= escape((string) $service['name']) ?> × <?= (int) $service['quantity'] ?> — <?= money((float) $service['subtotal']) ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
                 </div>
+                <img src="<?= escape($confirmation['qr_url']) ?>" width="260" height="260" alt="Código QR del ticket <?= escape($confirmation['code']) ?>">
             </div>
-            <p class="prototype-note">El pago fue procesado en el ambiente de prueba. El ticket con código QR y la notificación por correo se completarán en HU-08.</p>
-            <a class="primary-button" href="index.php">Volver al inicio</a>
+            <p class="mail-status">El pago fue procesado y el correo quedó disponible en la bandeja de prueba del sistema.</p>
+            <div class="confirmation-actions">
+                <a class="secondary-button" href="<?= escape($confirmation['ticket_url']) ?>" target="_blank" rel="noopener">Abrir ticket verificable</a>
+                <a class="secondary-button" href="<?= escape($confirmation['mail_preview_url']) ?>" target="_blank" rel="noopener">Ver correo generado</a>
+                <a class="primary-button" href="index.php">Volver al inicio</a>
+            </div>
         </section>
     <?php elseif ($room !== null): ?>
         <section class="reservation-intro">
@@ -141,18 +165,31 @@ $deposit = round($total * 0.30, 2);
                     <div class="field-grid">
                         <label>Nombre completo<input value="<?= escape((string) $authUser['full_name']) ?>" autocomplete="name" readonly></label>
                         <label>Correo electrónico<input type="email" value="<?= escape((string) $authUser['email']) ?>" autocomplete="email" readonly></label>
-                        <label>Fecha de llegada<input name="check_in" type="date" value="<?= escape($checkIn) ?>" required></label>
-                        <label>Fecha de salida<input name="check_out" type="date" value="<?= escape($checkOut) ?>" required></label>
+                        <label>Fecha de llegada<input name="check_in" type="date" min="<?= date('Y-m-d') ?>" value="<?= escape($checkIn) ?>" required></label>
+                        <label>Fecha de salida<input name="check_out" type="date" min="<?= date('Y-m-d', strtotime('+1 day')) ?>" value="<?= escape($checkOut) ?>" required></label>
                         <label>Huéspedes<input name="guests" type="number" min="1" max="<?= (int) $room['capacity'] ?>" value="<?= $guests ?>" required></label>
                         <label>Método de pago<select name="payment_method"><option>Tarjeta de prueba</option></select></label>
                     </div>
+                    <?php if ($services !== []): ?>
+                        <fieldset class="service-options">
+                            <legend>Traslado opcional</legend>
+                            <p class="included-services">Desayuno y estacionamiento incluidos sin costo adicional.</p>
+                            <?php foreach ($services as $service): ?>
+                                <label class="service-option">
+                                    <input type="checkbox" name="services[]" value="<?= (int) $service['id'] ?>" data-price="<?= escape((string) $service['price']) ?>" data-name="<?= escape((string) $service['name']) ?>">
+                                    <span><strong><?= escape((string) $service['name']) ?></strong><small><?= escape((string) $service['description']) ?></small></span>
+                                    <span class="service-price"><?= money((float) $service['price']) ?></span>
+                                </label>
+                            <?php endforeach; ?>
+                        </fieldset>
+                    <?php endif; ?>
                     <div class="test-payment"><strong>Ambiente de prueba</strong><span>No se solicitarán ni almacenarán datos bancarios reales.</span></div>
                     <label class="terms"><input type="checkbox" name="confirm_terms" value="1" required> Confirmo que los datos y fechas de la reserva son correctos.</label>
                     <button class="primary-button confirm-button" type="submit">Pagar abono y confirmar</button>
                 </form>
             </section>
 
-            <aside class="reservation-summary" aria-labelledby="summaryTitle">
+            <aside class="reservation-summary" aria-labelledby="summaryTitle" data-daily-rate="<?= escape((string) $room['price']) ?>" data-guests="<?= $guests ?>" data-nights="<?= $nights ?>">
                 <?php if ($gallery !== []): ?><img src="<?= escape($gallery[0]['src']) ?>" alt="<?= escape($gallery[0]['alt']) ?>"><?php endif; ?>
                 <div>
                     <span class="room-code"><?= escape($room['category']) ?></span>
@@ -160,10 +197,12 @@ $deposit = round($total * 0.30, 2);
                     <p><?= escape($room['location']) ?></p>
                     <dl>
                         <div><dt>Fechas</dt><dd><?= escape($checkIn ?: 'Por definir') ?> — <?= escape($checkOut ?: 'Por definir') ?></dd></div>
-                        <div><dt>Noches</dt><dd><?= $nights ?></dd></div>
+                        <div><dt>Noches</dt><dd id="nightsCount"><?= $nights ?></dd></div>
                         <div><dt>Tarifa diaria</dt><dd><?= money((float) $room['price']) ?></dd></div>
-                        <div><dt>Total estadía</dt><dd><?= money($total) ?></dd></div>
-                        <div class="deposit"><dt>Abono requerido (30 %)</dt><dd><?= money($deposit) ?></dd></div>
+                        <div><dt>Total estadía</dt><dd id="roomTotal"><?= money($total) ?></dd></div>
+                        <div><dt>Servicios adicionales</dt><dd id="serviceTotal"><?= money(0) ?></dd></div>
+                        <div><dt>Total general</dt><dd id="grandTotal"><?= money($total) ?></dd></div>
+                        <div class="deposit"><dt>Abono requerido (30 %)</dt><dd id="depositTotal"><?= money($deposit) ?></dd></div>
                     </dl>
                 </div>
             </aside>
@@ -172,5 +211,6 @@ $deposit = round($total * 0.30, 2);
         <section class="confirmation-card"><h1>No fue posible abrir la reserva</h1><p><?= escape($error ?? 'Selecciona una habitación desde el catálogo.') ?></p><a class="primary-button" href="index.php#habitaciones">Ver habitaciones</a></section>
     <?php endif; ?>
 </main>
+<script src="assets/js/reservation.js" defer></script>
 </body>
 </html>

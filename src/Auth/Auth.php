@@ -51,14 +51,19 @@ final class Auth
 
     public static function requireRole(string $role): void
     {
+        self::requireAnyRole([$role]);
+    }
+
+    public static function requireAnyRole(array $roles): void
+    {
         $user = self::user();
         if ($user === null) {
-            $return = rawurlencode((string) ($_SERVER['REQUEST_URI'] ?? '/admin/index.php'));
+            $return = rawurlencode((string) ($_SERVER['REQUEST_URI'] ?? '/index.php'));
             header('Location: /login.php?return=' . $return);
             exit;
         }
 
-        if ($user['role'] !== $role) {
+        if (!in_array($user['role'], $roles, true)) {
             http_response_code(403);
             echo 'No tienes permisos para acceder a esta página.';
             exit;

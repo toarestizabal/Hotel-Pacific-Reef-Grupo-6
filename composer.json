@@ -1,0 +1,9 @@
+{
+    "name": "grupo-6/hotel-pacific-reef",
+    "description": "Sistema de reservas del Hotel Pacific Reef",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "endroid/qr-code": "^5.0"
+    }
+}

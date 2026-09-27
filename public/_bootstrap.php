@@ -28,6 +28,27 @@ if (!function_exists('languageUrl')) {
     }
 }
 
+if (!function_exists('applicationUrl')) {
+    function applicationUrl(): string
+    {
+        $configured = rtrim(trim((string) getenv('APP_URL')), '/');
+        if ($configured !== '' && filter_var($configured, FILTER_VALIDATE_URL)) {
+            $scheme = strtolower((string) parse_url($configured, PHP_URL_SCHEME));
+            if (in_array($scheme, ['http', 'https'], true)) {
+                return $configured;
+            }
+        }
+
+        $host = (string) ($_SERVER['HTTP_HOST'] ?? 'localhost:8000');
+        if (!preg_match('/^[A-Za-z0-9.:-]+$/', $host)) {
+            $host = 'localhost:8000';
+        }
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+
+        return $scheme . '://' . $host;
+    }
+}
+
 if (!function_exists('renderAdminHeader')) {
     function renderAdminHeader(string $active): void
     {
@@ -36,6 +57,7 @@ if (!function_exists('renderAdminHeader')) {
             'rooms' => ['rooms.php', 'Habitaciones'],
             'prices' => ['prices.php', 'Precios'],
             'reservations' => ['reservations.php', 'Reservas'],
+            'reports' => ['reports.php', 'Reportes'],
             'users' => ['users.php', 'Usuarios'],
         ];
         echo '<header class="admin-header"><div><span>HPR</span><div><strong>Hotel Pacific Reef</strong><small>Administración</small></div></div>';

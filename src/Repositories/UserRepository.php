@@ -129,6 +129,19 @@ final class UserRepository
 
     public function upsertAdministrator(string $fullName, string $email, string $password): array
     {
+        return $this->upsertRoleAccount($fullName, $email, $password, 'administrator');
+    }
+
+    public function upsertWorker(string $fullName, string $email, string $password): array
+    {
+        return $this->upsertRoleAccount($fullName, $email, $password, 'worker');
+    }
+
+    private function upsertRoleAccount(string $fullName, string $email, string $password, string $role): array
+    {
+        if (!in_array($role, self::ROLES, true) || $role === 'client') {
+            throw new RuntimeException('El rol de demostración no es válido.');
+        }
         $statement = $this->pdo->prepare('SELECT id FROM users WHERE email = :email');
         $statement->execute(['email' => strtolower(trim($email))]);
         $id = $statement->fetchColumn();
@@ -138,21 +151,22 @@ final class UserRepository
                 'email' => $email,
                 'password' => $password,
                 'preferred_language' => 'es',
-            ], 'administrator');
+            ], $role);
         }
 
         if (strlen($password) < 8) {
             throw new RuntimeException('La contraseña debe tener al menos 8 caracteres.');
         }
         $update = $this->pdo->prepare(
-            "UPDATE users
+            'UPDATE users
              SET full_name = :full_name, password_hash = :password_hash,
-                 role = 'administrator', is_active = 1
-             WHERE id = :id"
+                 role = :role, is_active = 1
+             WHERE id = :id'
         );
         $update->execute([
             'full_name' => trim($fullName),
             'password_hash' => password_hash($password, PASSWORD_DEFAULT),
+            'role' => $role,
             'id' => (int) $id,
         ]);
 

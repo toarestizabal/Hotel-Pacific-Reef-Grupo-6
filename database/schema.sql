@@ -47,6 +47,7 @@ CREATE TABLE rooms (
 CREATE TABLE reservations (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     reservation_code VARCHAR(30) NOT NULL UNIQUE,
+    verification_token CHAR(64) NOT NULL UNIQUE,
     user_id BIGINT UNSIGNED NOT NULL,
     room_id BIGINT UNSIGNED NOT NULL,
     check_in DATE NOT NULL,
@@ -114,6 +115,12 @@ CREATE TABLE reservation_services (
 INSERT INTO users (full_name, email, password_hash, role, preferred_language, is_active) VALUES
     ('Administrador Hotel', 'admin@hotelpacificreef.cl', '$2y$10$gu2.zDGXG8kKTGnSsa8dC.E2pDnMPbGrBNImZXZsvuJDdaZi7ZfUC', 'administrator', 'es', TRUE);
 
+-- Cuenta de trabajador para probar el módulo operativo.
+-- Correo: trabajador@hotelpacificreef.cl
+-- Contraseña: Pacific.Reef2026
+INSERT INTO users (full_name, email, password_hash, role, preferred_language, is_active) VALUES
+    ('Trabajador Hotel', 'trabajador@hotelpacificreef.cl', '$2y$10$wSWgRe/fSTrotQOvXCMs2O.ue5WVwVGUt4tuCdy11JUEvZbAxDObi', 'worker', 'es', TRUE);
+
 INSERT INTO room_types (name, description, base_price, max_guests) VALUES
     ('Turista', 'Habitación cómoda con equipamiento esencial.', 68000, 3),
     ('Premium', 'Habitación superior con vista privilegiada y equipamiento ampliado.', 125000, 4);
@@ -125,6 +132,4 @@ INSERT INTO rooms (room_type_id, capacity, room_number, location, description, e
     (2, 4, 'P-305', 'Tercer piso, terraza privada', 'Habitación Premium para cuatro personas.', JSON_ARRAY('Wi-Fi', 'Smart TV', 'Terraza'));
 
 INSERT INTO services (name, description, price) VALUES
-    ('Desayuno', 'Desayuno por huésped y por día.', 12000),
-    ('Traslado', 'Traslado coordinado entre el hotel y el aeropuerto.', 35000),
-    ('Estacionamiento', 'Estacionamiento privado durante la estadía.', 10000);
+    ('Traslado', 'Traslado coordinado entre el hotel y el aeropuerto.', 35000);
