@@ -48,6 +48,45 @@ final class RoomRepository
         }, $rooms);
     }
 
+    public function availableForStay(string $checkIn, string $checkOut, int $guests): array
+    {
+        $statement = $this->pdo->prepare(
+            "SELECT
+                rooms.id,
+                rooms.room_number,
+                room_types.name AS category,
+                rooms.location,
+                rooms.capacity,
+                room_types.base_price AS daily_rate
+             FROM rooms
+             INNER JOIN room_types ON room_types.id = rooms.room_type_id
+             WHERE rooms.status = 'available'
+               AND rooms.capacity >= :guests
+               AND NOT EXISTS (
+                    SELECT 1
+                    FROM reservations
+                    WHERE reservations.room_id = rooms.id
+                      AND reservations.status IN ('pending', 'confirmed')
+                      AND reservations.check_in < :check_out
+                      AND reservations.check_out > :check_in
+               )
+             ORDER BY room_types.base_price, rooms.room_number"
+        );
+        $statement->execute([
+            'guests' => $guests,
+            'check_in' => $checkIn,
+            'check_out' => $checkOut,
+        ]);
+
+        return array_map(static function (array $room): array {
+            $room['id'] = (int) $room['id'];
+            $room['capacity'] = (int) $room['capacity'];
+            $room['daily_rate'] = (float) $room['daily_rate'];
+
+            return $room;
+        }, $statement->fetchAll());
+    }
+
     public function find(int $id): ?array
     {
         $statement = $this->pdo->prepare('SELECT * FROM rooms WHERE id = :id');

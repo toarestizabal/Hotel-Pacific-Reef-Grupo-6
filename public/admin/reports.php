@@ -26,6 +26,10 @@ try {
     $error = $exception->getMessage();
 }
 
+$referenceRates = referenceExchangeRates();
+$usdRate = $referenceRates['USD'];
+$eurRate = $referenceRates['EUR'];
+
 if ($error === null && ($_GET['format'] ?? '') === 'csv') {
     while (ob_get_level() > 0) {
         ob_end_clean();
@@ -43,7 +47,8 @@ $statusLabels = ['all' => 'Todos', 'pending' => 'Pendiente', 'confirmed' => 'Con
 <!DOCTYPE html>
 <html lang="<?= I18n::language() ?>">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reportes | Hotel Pacific Reef</title>
     <link rel="stylesheet" href="../assets/css/admin.css">
     <link rel="stylesheet" href="../assets/css/week7.css">
@@ -52,30 +57,152 @@ $statusLabels = ['all' => 'Todos', 'pending' => 'Pendiente', 'confirmed' => 'Con
 <body class="report-page">
 <?php renderAdminHeader('reports'); ?>
 <main class="report-main">
-    <section class="page-heading"><div><p>Información de gestión</p><h1>Reporte de reservas</h1><span>Filtra por período y estado, revisa los totales y descarga los resultados.</span></div></section>
-    <?php if ($error !== null): ?><div class="notice error"><?= escape($error) ?></div><?php endif; ?>
+    <section class="page-heading">
+        <div>
+            <p>Información de gestión</p>
+            <h1>Reporte de reservas</h1>
+            <span>Filtra por período y estado, revisa los totales y descarga los resultados.</span>
+        </div>
+    </section>
+
+    <?php if ($error !== null): ?>
+        <div class="notice error"><?= escape($error) ?></div>
+    <?php endif; ?>
 
     <div class="report-actions">
         <form class="filter-panel" method="get">
-            <label>Desde<input type="date" name="from" value="<?= escape($from) ?>" required></label>
-            <label>Hasta<input type="date" name="to" value="<?= escape($to) ?>" required></label>
-            <label>Estado<select name="status"><?php foreach ($statusLabels as $value => $label): ?><option value="<?= escape($value) ?>" <?= $status === $value ? 'selected' : '' ?>><?= escape($label) ?></option><?php endforeach; ?></select></label>
+            <label>
+                Desde
+                <input type="date" name="from" value="<?= escape($from) ?>" required>
+            </label>
+            <label>
+                Hasta
+                <input type="date" name="to" value="<?= escape($to) ?>" required>
+            </label>
+            <label>
+                Estado
+                <select name="status">
+                    <?php foreach ($statusLabels as $value => $label): ?>
+                        <option value="<?= escape($value) ?>" <?= $status === $value ? 'selected' : '' ?>>
+                            <?= escape($label) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
             <button type="submit">Generar reporte</button>
         </form>
-        <a class="download-button" href="?<?= escape(http_build_query(['from' => $from, 'to' => $to, 'status' => $status, 'format' => 'csv'])) ?>">Descargar CSV</a>
+        <a
+            class="download-button"
+            href="?<?= escape(http_build_query(['from' => $from, 'to' => $to, 'status' => $status, 'format' => 'csv'])) ?>"
+        >
+            Descargar CSV
+        </a>
     </div>
 
     <section class="stats-grid" aria-label="Resumen del reporte">
-        <article><span>Reservas</span><strong><?= (int) $summary['reservations'] ?></strong><small>Registros encontrados</small></article>
-        <article><span>Huéspedes</span><strong><?= (int) $summary['guests'] ?></strong><small>Total del período</small></article>
-        <article><span>Ventas</span><strong><?= money((float) $summary['total']) ?></strong><small>Valor total reservado</small></article>
-        <article><span>Abonos</span><strong><?= money((float) $summary['deposits']) ?></strong><small>Pagos registrados</small></article>
+        <article>
+            <span>Reservas</span>
+            <strong><?= (int) $summary['reservations'] ?></strong>
+            <small>Registros encontrados</small>
+        </article>
+        <article>
+            <span>Huéspedes</span>
+            <strong><?= (int) $summary['guests'] ?></strong>
+            <small>Total del período</small>
+        </article>
+        <article>
+            <span>Ventas</span>
+            <strong><?= money((float) $summary['total']) ?></strong>
+            <small>Valor total reservado</small>
+            <?php if ($usdRate > 0 && $eurRate > 0): ?>
+                <small class="exchange-value">
+                    <?= foreignMoney((float) $summary['total'] * $usdRate, 'USD') ?> ·
+                    <?= foreignMoney((float) $summary['total'] * $eurRate, 'EUR') ?>
+                </small>
+            <?php endif; ?>
+        </article>
+        <article>
+            <span>Abonos</span>
+            <strong><?= money((float) $summary['deposits']) ?></strong>
+            <small>Pagos registrados</small>
+            <?php if ($usdRate > 0 && $eurRate > 0): ?>
+                <small class="exchange-value">
+                    <?= foreignMoney((float) $summary['deposits'] * $usdRate, 'USD') ?> ·
+                    <?= foreignMoney((float) $summary['deposits'] * $eurRate, 'EUR') ?>
+                </small>
+            <?php endif; ?>
+        </article>
     </section>
 
-    <section class="panel table-panel"><div class="panel-heading"><span>Detalle</span><h2>Reservas del período</h2></div><div class="table-wrap"><table><thead><tr><th>Código</th><th>Cliente</th><th>Habitación</th><th>Estadía</th><th>Huéspedes</th><th>Total</th><th>Estado</th></tr></thead><tbody>
-    <?php foreach ($rows as $row): ?><tr><td><strong><?= escape((string) $row['reservation_code']) ?></strong></td><td><?= escape((string) $row['full_name']) ?><small><?= escape((string) $row['email']) ?></small></td><td><?= escape((string) $row['room_number'] . ' · ' . (string) $row['category']) ?></td><td><?= escape((string) $row['check_in']) ?> — <?= escape((string) $row['check_out']) ?></td><td><?= (int) $row['guests'] ?></td><td><?= money((float) $row['total_amount']) ?></td><td><span class="status status-<?= escape((string) $row['status']) ?>"><?= escape($statusLabels[$row['status']] ?? (string) $row['status']) ?></span></td></tr><?php endforeach; ?>
-    <?php if ($rows === []): ?><tr><td colspan="7" class="empty">No se encontraron reservas para los filtros seleccionados.</td></tr><?php endif; ?>
-    </tbody></table></div></section>
+    <section class="panel table-panel">
+        <div class="panel-heading">
+            <span>Detalle</span>
+            <h2>Reservas del período</h2>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Cliente</th>
+                        <th>Habitación</th>
+                        <th>Estadía</th>
+                        <th>Huéspedes</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($rows as $row): ?>
+                        <tr>
+                            <td><strong><?= escape((string) $row['reservation_code']) ?></strong></td>
+                            <td>
+                                <?= escape((string) $row['full_name']) ?>
+                                <small><?= escape((string) $row['email']) ?></small>
+                            </td>
+                            <td><?= escape((string) $row['room_number'] . ' · ' . (string) $row['category']) ?></td>
+                            <td>
+                                <?= escape((string) $row['check_in']) ?> —
+                                <?= escape((string) $row['check_out']) ?>
+                            </td>
+                            <td><?= (int) $row['guests'] ?></td>
+                            <td>
+                                <?= money((float) $row['total_amount']) ?>
+                                <?php if ($usdRate > 0 && $eurRate > 0): ?>
+                                    <small class="exchange-value">
+                                        <?= foreignMoney((float) $row['total_amount'] * $usdRate, 'USD') ?><br>
+                                        <?= foreignMoney((float) $row['total_amount'] * $eurRate, 'EUR') ?>
+                                    </small>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <span class="status status-<?= escape((string) $row['status']) ?>">
+                                    <?= escape($statusLabels[$row['status']] ?? (string) $row['status']) ?>
+                                </span>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    <?php if ($rows === []): ?>
+                        <tr>
+                            <td colspan="7" class="empty">
+                                No se encontraron reservas para los filtros seleccionados.
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <?php if ($usdRate > 0 && $eurRate > 0): ?>
+        <p class="exchange-attribution">
+            Equivalencias aproximadas; los pagos se registran en CLP.
+            <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">
+                Rates by Exchange Rate API
+            </a>
+        </p>
+    <?php endif; ?>
 </main>
 </body>
 </html>

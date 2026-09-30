@@ -69,6 +69,9 @@ if ($checkIn !== '' && $checkOut !== '') {
 }
 $total = $room !== null ? (float) $room['price'] * $nights : 0;
 $deposit = round($total * 0.30, 2);
+$referenceRates = referenceExchangeRates();
+$usdRate = $referenceRates['USD'];
+$eurRate = $referenceRates['EUR'];
 ?>
 <!DOCTYPE html>
 <html lang="<?= I18n::language() ?>">
@@ -112,6 +115,9 @@ $deposit = round($total * 0.30, 2);
                         <div><dt>Habitación</dt><dd><?= money((float) $confirmation['room_total']) ?></dd></div>
                         <div><dt>Servicios</dt><dd><?= money((float) $confirmation['service_total']) ?></dd></div>
                         <div><dt>Total</dt><dd><?= money((float) $confirmation['total']) ?></dd></div>
+                        <?php if ($usdRate > 0 && $eurRate > 0): ?>
+                            <div><dt>Valor referencial</dt><dd><?= foreignMoney((float) $confirmation['total'] * $usdRate, 'USD') ?><br><?= foreignMoney((float) $confirmation['total'] * $eurRate, 'EUR') ?></dd></div>
+                        <?php endif; ?>
                         <div><dt>Abono pagado</dt><dd><?= money((float) $confirmation['deposit']) ?></dd></div>
                     </dl>
                     <?php if ($confirmation['services'] !== []): ?>
@@ -178,7 +184,7 @@ $deposit = round($total * 0.30, 2);
                 </form>
             </section>
 
-            <aside class="reservation-summary" aria-labelledby="summaryTitle" data-daily-rate="<?= escape((string) $room['price']) ?>" data-guests="<?= $guests ?>" data-nights="<?= $nights ?>">
+            <aside class="reservation-summary" aria-labelledby="summaryTitle" data-daily-rate="<?= escape((string) $room['price']) ?>" data-usd-rate="<?= escape((string) $usdRate) ?>" data-eur-rate="<?= escape((string) $eurRate) ?>" data-guests="<?= $guests ?>" data-nights="<?= $nights ?>">
                 <?php if ($gallery !== []): ?><img src="<?= escape($gallery[0]['src']) ?>" alt="<?= escape($gallery[0]['alt']) ?>"><?php endif; ?>
                 <div>
                     <span class="room-code"><?= escape($room['category']) ?></span>
@@ -191,8 +197,14 @@ $deposit = round($total * 0.30, 2);
                         <div><dt>Total estadía</dt><dd id="roomTotal"><?= money($total) ?></dd></div>
                         <div><dt>Servicios adicionales</dt><dd id="serviceTotal"><?= money(0) ?></dd></div>
                         <div><dt>Total general</dt><dd id="grandTotal"><?= money($total) ?></dd></div>
+                        <?php if ($usdRate > 0 && $eurRate > 0): ?>
+                            <div><dt>Valor referencial</dt><dd id="foreignTotal"><?= foreignMoney($total * $usdRate, 'USD') ?><br><?= foreignMoney($total * $eurRate, 'EUR') ?></dd></div>
+                        <?php endif; ?>
                         <div class="deposit"><dt>Abono requerido (30 %)</dt><dd id="depositTotal"><?= money($deposit) ?></dd></div>
                     </dl>
+                    <?php if ($usdRate > 0 && $eurRate > 0): ?>
+                        <a class="exchange-reference" href="https://www.exchangerate-api.com" target="_blank" rel="noopener">Valores aproximados · Rates by Exchange Rate API</a>
+                    <?php endif; ?>
                 </div>
             </aside>
         </div>

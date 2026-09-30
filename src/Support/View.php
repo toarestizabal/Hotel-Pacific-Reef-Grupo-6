@@ -16,6 +16,15 @@ final class View
         return '$' . number_format($value, 0, ',', '.');
     }
 
+    public static function foreignMoney(float $value, string $currency): string
+    {
+        if (!in_array($currency, ['USD', 'EUR'], true)) {
+            return self::money($value);
+        }
+
+        return $currency . ' ' . number_format($value, 2, '.', ',');
+    }
+
     public static function equipment(string $json): string
     {
         $items = json_decode($json, true);

@@ -8,6 +8,12 @@
         currency: 'CLP',
         maximumFractionDigits: 0,
     });
+    const foreignMoney = (value, currency) => new Intl.NumberFormat('es-CL', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    }).format(value);
 
     const update = () => {
         const checkIn = document.querySelector('input[name="check_in"]')?.value;
@@ -32,6 +38,12 @@
         document.querySelector('#serviceTotal').textContent = money.format(serviceTotal);
         document.querySelector('#grandTotal').textContent = money.format(grandTotal);
         document.querySelector('#depositTotal').textContent = money.format(grandTotal * 0.3);
+        const foreignTotal = document.querySelector('#foreignTotal');
+        const usdRate = Number(summary.dataset.usdRate || 0);
+        const eurRate = Number(summary.dataset.eurRate || 0);
+        if (foreignTotal && usdRate > 0 && eurRate > 0) {
+            foreignTotal.innerHTML = `${foreignMoney(grandTotal * usdRate, 'USD')}<br>${foreignMoney(grandTotal * eurRate, 'EUR')}`;
+        }
     };
 
     serviceInputs.forEach((input) => input.addEventListener('change', update));

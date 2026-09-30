@@ -12,22 +12,160 @@ Auth::requireRole('administrator');
 
 $labels = ['pending' => 'Pendiente', 'confirmed' => 'Confirmada', 'cancelled' => 'Cancelada', 'completed' => 'Completada'];
 $search = trim((string) ($_GET['q'] ?? ''));
-$error = null; $reservations = [];
+$error = null;
+$reservations = [];
+
 try {
     $repository = new ReservationRepository(Connection::create());
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (!Auth::validCsrf($_POST['csrf_token'] ?? null)) { throw new RuntimeException('La sesión del formulario expiró.'); }
+        if (!Auth::validCsrf($_POST['csrf_token'] ?? null)) {
+            throw new RuntimeException('La sesión del formulario expiró.');
+        }
+
         $repository->updateStatus((int) $_POST['id'], (string) $_POST['status']);
-        header('Location: reservations.php?updated=1'); exit;
+        header('Location: reservations.php?updated=1');
+        exit;
     }
+
     $reservations = $repository->all($search);
-} catch (Throwable $exception) { $error = $exception->getMessage(); }
+} catch (Throwable $exception) {
+    $error = $exception->getMessage();
+}
+
+$referenceRates = referenceExchangeRates();
+$usdRate = $referenceRates['USD'];
+$eurRate = $referenceRates['EUR'];
 ?>
-<!DOCTYPE html><html lang="<?= I18n::language() ?>"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reservas | Hotel Pacific Reef</title><link rel="stylesheet" href="../assets/css/admin.css"><link rel="stylesheet" href="../assets/css/responsive.css"></head><body>
+<!DOCTYPE html>
+<html lang="<?= I18n::language() ?>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas | Hotel Pacific Reef</title>
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
 <?php renderAdminHeader('reservations'); ?>
-<main><section class="page-heading"><div><p>Operación</p><h1>Gestión de reservas</h1><span>Consulta y actualiza las reservas registradas.</span></div></section>
-<?php if (isset($_GET['updated'])): ?><div class="notice success">Estado de la reserva actualizado.</div><?php endif; ?><?php if ($error): ?><div class="notice error"><?= escape($error) ?></div><?php endif; ?>
-<section class="panel table-panel"><div class="panel-toolbar"><div class="panel-heading"><span>Registros</span><h2>Reservas</h2></div><form class="search-form" method="get"><label for="q">Buscar</label><input id="q" name="q" value="<?= escape($search) ?>" placeholder="Código, cliente, correo o habitación"><button>Buscar</button></form></div><div class="table-wrap"><table><thead><tr><th>Código</th><th>Cliente</th><th>Habitación</th><th>Estadía</th><th>Pago</th><th>Estado</th></tr></thead><tbody>
-<?php foreach ($reservations as $reservation): ?><tr><td><strong><?= escape($reservation['reservation_code']) ?></strong></td><td><?= escape($reservation['full_name']) ?><small><?= escape($reservation['email']) ?></small></td><td><?= escape($reservation['room_number']) ?><small><?= escape($reservation['category']) ?></small></td><td><?= escape($reservation['check_in']) ?><small>hasta <?= escape($reservation['check_out']) ?></small></td><td><strong><?= money((float) $reservation['deposit_amount']) ?></strong><small>30 % de <?= money((float) $reservation['total_amount']) ?></small></td><td><form class="status-form" method="post"><input type="hidden" name="csrf_token" value="<?= escape(Auth::csrfToken()) ?>"><input type="hidden" name="id" value="<?= (int) $reservation['id'] ?>"><select name="status" aria-label="Estado de <?= escape($reservation['reservation_code']) ?>"><?php foreach ($labels as $value => $label): ?><option value="<?= $value ?>" <?= $reservation['status'] === $value ? 'selected' : '' ?>><?= $label ?></option><?php endforeach; ?></select><button>Guardar</button></form></td></tr><?php endforeach; ?>
-<?php if ($reservations === []): ?><tr><td colspan="6" class="empty">No se encontraron reservas.</td></tr><?php endif; ?></tbody></table></div></section>
-</main></body></html>
+<main>
+    <section class="page-heading">
+        <div>
+            <p>Operación</p>
+            <h1>Gestión de reservas</h1>
+            <span>Consulta y actualiza las reservas registradas.</span>
+        </div>
+    </section>
+
+    <?php if (isset($_GET['updated'])): ?>
+        <div class="notice success">Estado de la reserva actualizado.</div>
+    <?php endif; ?>
+
+    <?php if ($error !== null): ?>
+        <div class="notice error"><?= escape($error) ?></div>
+    <?php endif; ?>
+
+    <section class="panel table-panel">
+        <div class="panel-toolbar">
+            <div class="panel-heading">
+                <span>Registros</span>
+                <h2>Reservas</h2>
+            </div>
+            <form class="search-form" method="get">
+                <label for="q">Buscar</label>
+                <input
+                    id="q"
+                    name="q"
+                    value="<?= escape($search) ?>"
+                    placeholder="Código, cliente, correo o habitación"
+                >
+                <button>Buscar</button>
+            </form>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Cliente</th>
+                        <th>Habitación</th>
+                        <th>Estadía</th>
+                        <th>Pago</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($reservations as $reservation): ?>
+                        <tr>
+                            <td><strong><?= escape($reservation['reservation_code']) ?></strong></td>
+                            <td>
+                                <?= escape($reservation['full_name']) ?>
+                                <small><?= escape($reservation['email']) ?></small>
+                            </td>
+                            <td>
+                                <?= escape($reservation['room_number']) ?>
+                                <small><?= escape($reservation['category']) ?></small>
+                            </td>
+                            <td>
+                                <?= escape($reservation['check_in']) ?>
+                                <small>hasta <?= escape($reservation['check_out']) ?></small>
+                            </td>
+                            <td>
+                                <strong><?= money((float) $reservation['deposit_amount']) ?></strong>
+                                <small>30 % de <?= money((float) $reservation['total_amount']) ?></small>
+                                <?php if ($usdRate > 0 && $eurRate > 0): ?>
+                                    <small class="exchange-value">
+                                        Abono referencial:
+                                        <?= foreignMoney((float) $reservation['deposit_amount'] * $usdRate, 'USD') ?> ·
+                                        <?= foreignMoney((float) $reservation['deposit_amount'] * $eurRate, 'EUR') ?>
+                                    </small>
+                                    <small>
+                                        Total referencial:
+                                        <?= foreignMoney((float) $reservation['total_amount'] * $usdRate, 'USD') ?> ·
+                                        <?= foreignMoney((float) $reservation['total_amount'] * $eurRate, 'EUR') ?>
+                                    </small>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <form class="status-form" method="post">
+                                    <input type="hidden" name="csrf_token" value="<?= escape(Auth::csrfToken()) ?>">
+                                    <input type="hidden" name="id" value="<?= (int) $reservation['id'] ?>">
+                                    <select
+                                        name="status"
+                                        aria-label="Estado de <?= escape($reservation['reservation_code']) ?>"
+                                    >
+                                        <?php foreach ($labels as $value => $label): ?>
+                                            <option
+                                                value="<?= $value ?>"
+                                                <?= $reservation['status'] === $value ? 'selected' : '' ?>
+                                            >
+                                                <?= $label ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <button>Guardar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    <?php if ($reservations === []): ?>
+                        <tr><td colspan="6" class="empty">No se encontraron reservas.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <?php if ($usdRate > 0 && $eurRate > 0): ?>
+        <p class="exchange-attribution">
+            Equivalencias aproximadas; los pagos se registran en CLP.
+            <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">
+                Rates by Exchange Rate API
+            </a>
+        </p>
+    <?php endif; ?>
+</main>
+</body>
+</html>

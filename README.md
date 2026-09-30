@@ -10,6 +10,8 @@
 - Correo de confirmación generado en una bandeja local de prueba.
 - Panel operativo para trabajadores con calendario, huéspedes y servicios contratados.
 - Reportes administrativos filtrados por fecha y estado, con descarga en CSV.
+- API REST pública para consultar habitaciones disponibles por fechas y cantidad de huéspedes.
+- Conversión referencial de precios desde CLP a USD y EUR mediante ExchangeRate-API.
 
 El catálogo público y el módulo administrativo utilizan MariaDB. Los cambios realizados en el CRUD se reflejan automáticamente en las habitaciones disponibles del sitio.
 
@@ -27,6 +29,18 @@ El proyecto separa las responsabilidades principales para facilitar su mantenimi
 - `scripts/`: tareas de instalación y actualización ejecutadas desde la consola.
 
 Las clases utilizan carga automática y las páginas delegan la validación y la lógica de negocio a servicios, evitando consultas SQL y reglas duplicadas dentro de las vistas.
+
+## API REST y servicio externo
+
+La disponibilidad puede ser consultada por otras aplicaciones mediante una petición `GET`:
+
+```text
+/api/rooms.php?check_in=2026-10-10&check_out=2026-10-12&guests=2
+```
+
+La respuesta utiliza JSON e incluye las habitaciones disponibles y los datos de la consulta. Los parámetros son obligatorios, las fechas usan el formato `YYYY-MM-DD` y `check_out` debe ser posterior a `check_in`.
+
+Los valores aproximados en USD y EUR se obtienen desde el endpoint público de ExchangeRate-API. La aplicación conserva las tasas durante 24 horas, muestra la atribución requerida por el proveedor y continúa operativa si el servicio externo no está disponible.
 
 ## Puesta en marcha
 
@@ -79,7 +93,7 @@ Reportes administrativos: `http://localhost:8000/admin/reports.php`
 
 El código QR se genera como PNG dentro de la aplicación, sin servicios externos. Cada reserva recibe un token aleatorio de 256 bits y el QR abre una página dinámica que consulta en MariaDB el estado vigente del ticket. Se genera solamente después de confirmar el pago de prueba.
 
-Para probar el QR desde un teléfono en la misma red, iniciar PHP escuchando en la red y definir la URL alcanzable del equipo:
+
 
 ```powershell
 $env:APP_URL = "http://IP_DEL_EQUIPO:8000"
@@ -90,7 +104,7 @@ En un despliegue real, `APP_URL` debe ser la dirección HTTPS pública del siste
 
 ### Actualizar una base de datos anterior
 
-Si ya existen las tablas y quieres conservar sus datos, **no volver a importar `schema.sql`**: crear un respaldo y ejecutar, en orden, las migraciones pendientes de `database/migrations` sobre `hotel_pacific_reef`. `20260917_room_capacity.sql` incorpora la capacidad de las habitaciones y `20260927_reservation_verification_token.sql` añade los tokens seguros del QR dinámico sin borrar reservas. En una instalación nueva basta con `schema.sql`.
+Si ya existen las tablas y quiere conservar sus datos, **no volver a importar `schema.sql`**: crear un respaldo y ejecutar, en orden, las migraciones pendientes de `database/migrations` sobre `hotel_pacific_reef`. `20260917_room_capacity.sql` incorpora la capacidad de las habitaciones y `20260927_reservation_verification_token.sql` añade los tokens seguros del QR dinámico sin borrar reservas. En una instalación nueva basta con `schema.sql`.
 
 Comprobación automática de las cuatro operaciones se ejecuta con:
 
@@ -102,4 +116,5 @@ php -c config\php.ini tests\reservation_services_smoke.php
 php -c config\php.ini tests\confirmation_smoke.php
 php -c config\php.ini tests\operation_smoke.php
 php -c config\php.ini tests\report_smoke.php
+php -c config\php.ini tests\api_integration_smoke.php
 ```

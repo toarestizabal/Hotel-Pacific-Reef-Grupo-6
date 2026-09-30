@@ -18,6 +18,10 @@ try {
     // El catálogo local mantiene disponible el prototipo cuando MariaDB está apagado.
 }
 
+$referenceRates = referenceExchangeRates();
+$usdRate = $referenceRates['USD'];
+$eurRate = $referenceRates['EUR'];
+
 $authUser = Auth::user();
 ?>
 <!DOCTYPE html>
@@ -101,7 +105,7 @@ $authUser = Auth::user();
                 </div>
             </div>
 
-            <form id="bookingForm" novalidate>
+            <form id="bookingForm" data-usd-rate="<?= escape((string) $usdRate) ?>" data-eur-rate="<?= escape((string) $eurRate) ?>" novalidate>
                 <label>
                     <span data-i18n="checkIn">Llegada</span>
                     <input id="checkIn" name="check_in" type="date" required>
@@ -166,6 +170,9 @@ $authUser = Auth::user();
                                 <div class="room-price">
                                     <strong><?= money((float) $room['price']) ?></strong>
                                     <small>por noche</small>
+                                    <?php if ($usdRate > 0 && $eurRate > 0): ?>
+                                        <span class="foreign-price"><?= foreignMoney((float) $room['price'] * $usdRate, 'USD') ?> · <?= foreignMoney((float) $room['price'] * $eurRate, 'EUR') ?></span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <p class="room-location"><?= escape($room['location']) ?> · Capacidad para <?= (int) $room['capacity'] ?> personas</p>
@@ -202,6 +209,9 @@ $authUser = Auth::user();
                             <div class="dialog-price">
                                 <strong><?= money((float) $room['price']) ?></strong>
                                 <small>por noche</small>
+                                <?php if ($usdRate > 0 && $eurRate > 0): ?>
+                                    <span class="foreign-price"><?= foreignMoney((float) $room['price'] * $usdRate, 'USD') ?> · <?= foreignMoney((float) $room['price'] * $eurRate, 'EUR') ?></span>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <ul class="equipment-list dialog-equipment">
@@ -224,6 +234,7 @@ $authUser = Auth::user();
             <strong>Hotel Pacific Reef</strong>
             <span>Sistema de Gestión de Reserva Hotelera</span>
         </div>
+        <a class="rates-attribution" href="https://www.exchangerate-api.com" target="_blank" rel="noopener">Rates by Exchange Rate API</a>
     </footer>
 </body>
 </html>

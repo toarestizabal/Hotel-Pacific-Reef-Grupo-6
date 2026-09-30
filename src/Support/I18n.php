@@ -121,6 +121,8 @@ final class I18n
             'Pagar abono y confirmar' => 'Pay deposit and confirm',
             'Tarifa diaria' => 'Daily rate',
             'Total estadía' => 'Stay total',
+            'Valor referencial' => 'Reference value',
+            'Valores aproximados' => 'Approximate values',
             'Abono requerido (30 %)' => 'Required deposit (30%)',
             'Por definir' => 'To be defined',
             'Noches' => 'Nights',

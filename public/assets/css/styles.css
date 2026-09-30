@@ -428,6 +428,11 @@ main {
     white-space: nowrap;
 }
 
+.form-button:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
+
 .booking-result {
     display: none;
     grid-template-columns: repeat(4, 1fr);
@@ -446,6 +451,12 @@ main {
 .result-item span,
 .result-item strong {
     display: block;
+}
+
+.foreign-result {
+    grid-column: 1 / -1;
+    padding-top: 10px;
+    border-top: 1px solid #c8dadd;
 }
 
 .result-item span {
@@ -556,6 +567,15 @@ main {
 .room-price strong,
 .room-price small {
     display: block;
+}
+
+.foreign-price {
+    display: block;
+    margin-top: 5px;
+    color: var(--ocean);
+    font-size: 0.68rem;
+    font-weight: 750;
+    white-space: nowrap;
 }
 
 .room-price strong {
@@ -748,6 +768,24 @@ footer strong {
     margin-bottom: 3px;
     color: white;
     font-size: 0.9rem;
+}
+
+.rates-attribution {
+    align-self: center;
+    color: #d5e3e6;
+    text-underline-offset: 3px;
+}
+
+.rates-attribution:hover {
+    color: white;
+}
+
+.exchange-reference {
+    display: inline-block;
+    margin-top: 14px;
+    color: var(--ocean);
+    font-size: 0.68rem;
+    text-underline-offset: 3px;
 }
 
 @media (max-width: 1000px) {
