@@ -13,6 +13,21 @@
 
 El catálogo público y el módulo administrativo utilizan MariaDB. Los cambios realizados en el CRUD se reflejan automáticamente en las habitaciones disponibles del sitio.
 
+## Organización del código
+
+El proyecto separa las responsabilidades principales para facilitar su mantenimiento y sus pruebas:
+
+- `public/`: páginas y componentes de presentación accesibles desde el navegador.
+- `src/Services/`: reglas de negocio y coordinación de casos de uso, como reservas, habitaciones, confirmaciones y exportación de reportes.
+- `src/Repositories/`: consultas y persistencia de información en MariaDB.
+- `src/Auth/`: autenticación, sesión, roles y protección CSRF.
+- `src/Support/`: funciones reutilizables de idioma y presentación.
+- `src/Data/`: datos de respaldo utilizados por el prototipo cuando corresponde.
+- `tests/`: pruebas funcionales independientes de cada módulo.
+- `scripts/`: tareas de instalación y actualización ejecutadas desde la consola.
+
+Las clases utilizan carga automática y las páginas delegan la validación y la lógica de negocio a servicios, evitando consultas SQL y reglas duplicadas dentro de las vistas.
+
 ## Puesta en marcha
 
 1. Para una base nueva, importar `database/schema.sql` en MariaDB. Este archivo ya incluye la capacidad individual de cada habitación.

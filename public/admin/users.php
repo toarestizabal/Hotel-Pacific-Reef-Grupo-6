@@ -8,8 +8,6 @@ use App\Repositories\UserRepository;
 use App\Support\I18n;
 
 require dirname(__DIR__) . '/_bootstrap.php';
-require_once dirname(__DIR__, 2) . '/src/Database/Connection.php';
-require_once dirname(__DIR__, 2) . '/src/Repositories/UserRepository.php';
 Auth::requireRole('administrator');
 
 $error = null;

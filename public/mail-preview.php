@@ -8,9 +8,6 @@ use App\Repositories\ReservationRepository;
 use App\Services\ConfirmationService;
 
 require __DIR__ . '/_bootstrap.php';
-require_once dirname(__DIR__) . '/src/Database/Connection.php';
-require_once dirname(__DIR__) . '/src/Repositories/ReservationRepository.php';
-require_once dirname(__DIR__) . '/src/Services/ConfirmationService.php';
 
 $user = Auth::user();
 if ($user === null) {

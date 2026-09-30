@@ -5,10 +5,9 @@ declare(strict_types=1);
 use App\Database\Connection;
 use App\Repositories\ReservationRepository;
 use App\Repositories\UserRepository;
+use App\Services\ReservationService;
 
-require dirname(__DIR__) . '/src/Database/Connection.php';
-require dirname(__DIR__) . '/src/Repositories/ReservationRepository.php';
-require dirname(__DIR__) . '/src/Repositories/UserRepository.php';
+require dirname(__DIR__) . '/src/autoload.php';
 
 $pdo = Connection::create();
 $userId = 0;
@@ -29,7 +28,7 @@ try {
     $serviceIds = $pdo->query("SELECT id FROM services WHERE name = 'Traslado' ORDER BY id")->fetchAll(PDO::FETCH_COLUMN);
     $checkIn = date('Y-m-d', strtotime('+400 days'));
     $checkOut = date('Y-m-d', strtotime('+402 days'));
-    $confirmation = $repository->createConfirmed([
+    $confirmation = (new ReservationService($repository))->confirm([
         'room_id' => $roomId,
         'check_in' => $checkIn,
         'check_out' => $checkOut,

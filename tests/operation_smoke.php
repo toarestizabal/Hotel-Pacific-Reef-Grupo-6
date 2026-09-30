@@ -5,8 +5,7 @@ declare(strict_types=1);
 use App\Database\Connection;
 use App\Repositories\OperationRepository;
 
-require dirname(__DIR__) . '/src/Database/Connection.php';
-require dirname(__DIR__) . '/src/Repositories/OperationRepository.php';
+require dirname(__DIR__) . '/src/autoload.php';
 
 $pdo = Connection::create();
 $pdo->beginTransaction();

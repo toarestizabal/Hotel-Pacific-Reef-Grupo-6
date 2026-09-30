@@ -8,8 +8,6 @@ use App\Repositories\UserRepository;
 use App\Support\I18n;
 
 require __DIR__ . '/_bootstrap.php';
-require_once dirname(__DIR__) . '/src/Database/Connection.php';
-require_once dirname(__DIR__) . '/src/Repositories/UserRepository.php';
 
 $language = (string) ($_GET['lang'] ?? 'es');
 I18n::setLanguage($language);

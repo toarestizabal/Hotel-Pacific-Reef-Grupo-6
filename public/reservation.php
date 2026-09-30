@@ -6,23 +6,12 @@ use App\Auth\Auth;
 use App\Database\Connection;
 use App\Repositories\ReservationRepository;
 use App\Services\ConfirmationService;
+use App\Services\ReservationService;
 use App\Support\I18n;
 
 $projectRoot = dirname(__DIR__);
 require __DIR__ . '/_bootstrap.php';
-require $projectRoot . '/src/Database/Connection.php';
-require $projectRoot . '/src/Repositories/ReservationRepository.php';
-require $projectRoot . '/src/Services/ConfirmationService.php';
 $roomGalleries = require $projectRoot . '/src/Data/room_galleries.php';
-
-function money(float $value): string
-{
-    return '$' . number_format($value, 0, ',', '.');
-}
-
-if (empty($_SESSION['reservation_csrf'])) {
-    $_SESSION['reservation_csrf'] = bin2hex(random_bytes(32));
-}
 
 $error = null;
 $confirmation = null;
@@ -53,13 +42,13 @@ try {
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (!hash_equals($_SESSION['reservation_csrf'], (string) ($_POST['csrf_token'] ?? ''))) {
+        if (!Auth::validCsrf($_POST['csrf_token'] ?? null)) {
             throw new RuntimeException('La sesión del formulario expiró. Vuelve a intentarlo.');
         }
         if (!isset($_POST['confirm_terms'])) {
             throw new RuntimeException('Debes confirmar los datos y fechas de la reserva.');
         }
-        $confirmation = $repository->createConfirmed($_POST, (int) $authUser['id']);
+        $confirmation = (new ReservationService($repository))->confirm($_POST, (int) $authUser['id']);
         $confirmation = array_merge(
             $confirmation,
             (new ConfirmationService())->deliverToTestOutbox($confirmation, applicationUrl())
@@ -160,7 +149,7 @@ $deposit = round($total * 0.30, 2);
             <section class="reservation-form-card" aria-labelledby="formTitle">
                 <h2 id="formTitle">Datos de la reserva</h2>
                 <form method="post">
-                    <input type="hidden" name="csrf_token" value="<?= escape($_SESSION['reservation_csrf']) ?>">
+                    <input type="hidden" name="csrf_token" value="<?= escape(Auth::csrfToken()) ?>">
                     <input type="hidden" name="room_id" value="<?= (int) $room['id'] ?>">
                     <div class="field-grid">
                         <label>Nombre completo<input value="<?= escape((string) $authUser['full_name']) ?>" autocomplete="name" readonly></label>

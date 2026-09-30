@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Auth\Auth;
 use App\Database\Connection;
+use App\Repositories\RoomRepository;
 use App\Support\I18n;
 
 $projectRoot = dirname(__DIR__);
@@ -11,34 +12,8 @@ require __DIR__ . '/_bootstrap.php';
 $rooms = require $projectRoot . '/src/Data/rooms.php';
 $roomGalleries = require $projectRoot . '/src/Data/room_galleries.php';
 
-require $projectRoot . '/src/Database/Connection.php';
-
 try {
-    $statement = Connection::create()->query(
-        "SELECT
-            rooms.id,
-            rooms.room_number AS number,
-            room_types.name AS category,
-            rooms.location,
-            rooms.description,
-            rooms.capacity,
-            room_types.base_price AS price,
-            rooms.equipment
-         FROM rooms
-         INNER JOIN room_types ON room_types.id = rooms.room_type_id
-         WHERE rooms.status = 'available'
-         ORDER BY rooms.room_number"
-    );
-    $databaseRooms = array_map(
-        static function (array $room): array {
-            $equipment = json_decode((string) $room['equipment'], true);
-            $room['equipment'] = is_array($equipment) ? $equipment : [];
-            return $room;
-        },
-        $statement->fetchAll()
-    );
-
-    $rooms = $databaseRooms;
+    $rooms = (new RoomRepository(Connection::create()))->availableCatalog();
 } catch (Throwable) {
     // El catálogo local mantiene disponible el prototipo cuando MariaDB está apagado.
 }
@@ -89,11 +64,7 @@ $authUser = Auth::user();
     <main>
         <section class="overview" id="inicio">
             <div class="overview-copy">
-                <p class="context-label">Reservas en línea</p>
                 <h1 data-i18n="heroTitle">Hotel Pacific Reef</h1>
-                <p class="overview-text" data-i18n="heroText">
-                    Consulta fechas disponibles, compara nuestras habitaciones y calcula el valor de tu estadía.
-                </p>
                 <div class="overview-actions">
                     <a class="primary-button" href="#reserva" data-i18n="heroButton">Consultar disponibilidad</a>
                 </div>
@@ -116,7 +87,6 @@ $authUser = Auth::user();
                         <span>por noche</span>
                     </div>
                 </div>
-                <p>El abono para confirmar la reserva corresponde al 30 % del valor total.</p>
             </aside>
         </section>
 
@@ -129,7 +99,6 @@ $authUser = Auth::user();
                         <h2 id="bookingTitle" data-i18n="bookingTitle">Consulta de disponibilidad</h2>
                     </div>
                 </div>
-                <p>Ingresa los datos principales para obtener una estimación de la estadía.</p>
             </div>
 
             <form id="bookingForm" novalidate>
@@ -195,7 +164,7 @@ $authUser = Auth::user();
                                     <h3>Habitación <?= escape($room['number']) ?></h3>
                                 </div>
                                 <div class="room-price">
-                                    <strong>$<?= number_format((int) $room['price'], 0, ',', '.') ?></strong>
+                                    <strong><?= money((float) $room['price']) ?></strong>
                                     <small>por noche</small>
                                 </div>
                             </div>
@@ -231,7 +200,7 @@ $authUser = Auth::user();
                                 <p><?= escape($room['location']) ?> · Capacidad para <?= (int) $room['capacity'] ?> personas</p>
                             </div>
                             <div class="dialog-price">
-                                <strong>$<?= number_format((int) $room['price'], 0, ',', '.') ?></strong>
+                                <strong><?= money((float) $room['price']) ?></strong>
                                 <small>por noche</small>
                             </div>
                         </div>

@@ -8,9 +8,6 @@ use App\Services\ConfirmationService;
 use App\Support\I18n;
 
 require __DIR__ . '/_bootstrap.php';
-require_once dirname(__DIR__) . '/src/Database/Connection.php';
-require_once dirname(__DIR__) . '/src/Repositories/ReservationRepository.php';
-require_once dirname(__DIR__) . '/src/Services/ConfirmationService.php';
 
 $token = strtolower(trim((string) ($_GET['token'] ?? '')));
 $reservation = null;

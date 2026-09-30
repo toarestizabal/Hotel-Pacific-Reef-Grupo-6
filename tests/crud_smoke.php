@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 use App\Database\Connection;
 use App\Repositories\RoomRepository;
+use App\Services\RoomService;
 
-require dirname(__DIR__) . '/src/Database/Connection.php';
-require dirname(__DIR__) . '/src/Repositories/RoomRepository.php';
+require dirname(__DIR__) . '/src/autoload.php';
 
 $pdo = Connection::create();
 $repository = new RoomRepository($pdo);
+$service = new RoomService($repository);
 $roomNumber = 'CRUD-' . strtoupper(bin2hex(random_bytes(4)));
 $failed = false;
 
 try {
     $pdo->beginTransaction();
-    $repository->create([
+    $service->create([
         'room_type_id' => 1,
         'capacity' => 2,
         'room_number' => $roomNumber,
@@ -35,7 +36,7 @@ try {
     }
     echo "CREATE: OK\nREAD: OK\n";
 
-    $repository->update((int) $created['id'], [
+    $service->update((int) $created['id'], [
         'room_type_id' => 1,
         'capacity' => 3,
         'room_number' => $roomNumber,
@@ -51,7 +52,7 @@ try {
     }
     echo "UPDATE: OK\n";
 
-    $repository->delete((int) $created['id']);
+    $service->delete((int) $created['id']);
     if ($repository->find((int) $created['id']) !== null) {
         throw new RuntimeException('No se pudo verificar la eliminación.');
     }

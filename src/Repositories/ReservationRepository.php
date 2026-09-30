@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use DateTimeImmutable;
 use PDO;
 use RuntimeException;
 use Throwable;
@@ -53,52 +52,52 @@ final class ReservationRepository
         )->fetchAll();
     }
 
-    public function createConfirmed(array $data, int $userId): array
+    public function findActiveUser(int $userId): ?array
     {
-        $room = $this->room((int) $data['room_id']);
-        if ($room === null || $room['status'] !== 'available') {
-            throw new RuntimeException('La habitación seleccionada no está disponible.');
+        $statement = $this->pdo->prepare(
+            'SELECT id, full_name, email FROM users WHERE id = :id AND is_active = 1'
+        );
+        $statement->execute(['id' => $userId]);
+        $user = $statement->fetch();
+
+        return $user === false ? null : $user;
+    }
+
+    public function findSelectedServices(array $ids): array
+    {
+        $ids = array_values(array_unique(array_filter(
+            array_map('intval', $ids),
+            static fn (int $id): bool => $id > 0
+        )));
+        if ($ids === []) {
+            return [];
         }
 
-        $checkInText = (string) ($data['check_in'] ?? '');
-        $checkOutText = (string) ($data['check_out'] ?? '');
-        $checkIn = DateTimeImmutable::createFromFormat('!Y-m-d', $checkInText);
-        $checkOut = DateTimeImmutable::createFromFormat('!Y-m-d', $checkOutText);
-        if ($checkIn === false || $checkOut === false
-            || $checkIn->format('Y-m-d') !== $checkInText
-            || $checkOut->format('Y-m-d') !== $checkOutText) {
-            throw new RuntimeException('Ingresa fechas válidas para la reserva.');
-        }
-        $nights = (int) $checkIn->diff($checkOut)->format('%r%a');
-        $guests = (int) $data['guests'];
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $statement = $this->pdo->prepare(
+            "SELECT id, name, description, price FROM services
+             WHERE is_active = 1 AND name = 'Traslado' AND id IN ({$placeholders}) ORDER BY id"
+        );
+        $statement->execute($ids);
 
-        if ($checkIn < new DateTimeImmutable('today')) {
-            throw new RuntimeException('La fecha de llegada no puede estar en el pasado.');
-        }
-        if ($nights < 1) {
-            throw new RuntimeException('La fecha de salida debe ser posterior a la fecha de llegada.');
-        }
-        if ($guests < 1 || $guests > (int) $room['capacity']) {
-            throw new RuntimeException('La cantidad de huéspedes no es válida para esta habitación.');
-        }
+        return array_map(static function (array $service): array {
+            $service['quantity'] = 1;
+            $service['price'] = (float) $service['price'];
+            $service['subtotal'] = $service['price'];
 
-        $user = $this->activeUser($userId);
-        if ($user === null) {
-            throw new RuntimeException('Debes iniciar sesión con una cuenta activa para reservar.');
-        }
+            return $service;
+        }, $statement->fetchAll());
+    }
 
-        $dailyRate = (float) $room['price'];
-        $roomTotal = $dailyRate * $nights;
-        $services = $this->selectedServices((array) ($data['services'] ?? []), $guests, $nights);
-        $serviceTotal = array_sum(array_column($services, 'subtotal'));
-        $total = $roomTotal + $serviceTotal;
-        $deposit = round($total * 0.30, 2);
-        $reservationCode = 'HPR-' . date('ymd') . '-' . strtoupper(bin2hex(random_bytes(3)));
-        $verificationToken = bin2hex(random_bytes(32));
+    public function storeConfirmed(array $reservationData, array $services, array $paymentData): int
+    {
+        $roomId = (int) $reservationData['room_id'];
+        $checkIn = (string) $reservationData['check_in'];
+        $checkOut = (string) $reservationData['check_out'];
 
         $this->pdo->beginTransaction();
         try {
-            if (!$this->isAvailable((int) $room['id'], $checkIn->format('Y-m-d'), $checkOut->format('Y-m-d'))) {
+            if (!$this->isAvailable($roomId, $checkIn, $checkOut)) {
                 throw new RuntimeException('La habitación ya fue reservada para parte del período seleccionado.');
             }
 
@@ -110,18 +109,7 @@ final class ReservationRepository
                     (:code, :verification_token, :user_id, :room_id, :check_in, :check_out, :guests,
                      :daily_rate, :total_amount, :deposit_amount, 'confirmed')"
             );
-            $reservation->execute([
-                'code' => $reservationCode,
-                'verification_token' => $verificationToken,
-                'user_id' => $userId,
-                'room_id' => (int) $room['id'],
-                'check_in' => $checkIn->format('Y-m-d'),
-                'check_out' => $checkOut->format('Y-m-d'),
-                'guests' => $guests,
-                'daily_rate' => $dailyRate,
-                'total_amount' => $total,
-                'deposit_amount' => $deposit,
-            ]);
+            $reservation->execute($reservationData);
             $reservationId = (int) $this->pdo->lastInsertId();
 
             if ($services !== []) {
@@ -147,8 +135,8 @@ final class ReservationRepository
             );
             $payment->execute([
                 'reservation_id' => $reservationId,
-                'amount' => $deposit,
-                'reference' => 'TEST-' . strtoupper(bin2hex(random_bytes(4))),
+                'amount' => $paymentData['amount'],
+                'reference' => $paymentData['reference'],
             ]);
 
             $this->pdo->commit();
@@ -159,24 +147,7 @@ final class ReservationRepository
             throw $exception;
         }
 
-        return [
-            'id' => $reservationId,
-            'code' => $reservationCode,
-            'verification_token' => $verificationToken,
-            'room_number' => $room['room_number'],
-            'category' => $room['category'],
-            'check_in' => $checkIn->format('Y-m-d'),
-            'check_out' => $checkOut->format('Y-m-d'),
-            'nights' => $nights,
-            'guests' => $guests,
-            'room_total' => $roomTotal,
-            'service_total' => $serviceTotal,
-            'total' => $total,
-            'deposit' => $deposit,
-            'email' => $user['email'],
-            'full_name' => $user['full_name'],
-            'services' => $services,
-        ];
+        return $reservationId;
     }
 
     public function findByCode(string $code): ?array
@@ -297,41 +268,6 @@ final class ReservationRepository
         }
         $statement = $this->pdo->prepare('UPDATE reservations SET status = :status WHERE id = :id');
         $statement->execute(['status' => $status, 'id' => $id]);
-    }
-
-    private function activeUser(int $userId): ?array
-    {
-        $statement = $this->pdo->prepare(
-            'SELECT id, full_name, email FROM users WHERE id = :id AND is_active = 1'
-        );
-        $statement->execute(['id' => $userId]);
-        $user = $statement->fetch();
-
-        return $user === false ? null : $user;
-    }
-
-    private function selectedServices(array $ids, int $guests, int $nights): array
-    {
-        $ids = array_values(array_unique(array_filter(array_map('intval', $ids), static fn (int $id): bool => $id > 0)));
-        if ($ids === []) {
-            return [];
-        }
-
-        $placeholders = implode(',', array_fill(0, count($ids), '?'));
-        $statement = $this->pdo->prepare(
-            "SELECT id, name, description, price FROM services
-             WHERE is_active = 1 AND name = 'Traslado' AND id IN ({$placeholders}) ORDER BY id"
-        );
-        $statement->execute($ids);
-        $services = $statement->fetchAll();
-
-        return array_map(static function (array $service) use ($guests, $nights): array {
-            $quantity = 1;
-            $service['quantity'] = $quantity;
-            $service['price'] = (float) $service['price'];
-            $service['subtotal'] = $service['price'] * $quantity;
-            return $service;
-        }, $services);
     }
 
     private function servicesForReservation(int $reservationId): array

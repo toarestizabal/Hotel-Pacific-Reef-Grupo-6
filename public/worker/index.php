@@ -8,8 +8,6 @@ use App\Repositories\OperationRepository;
 use App\Support\I18n;
 
 require dirname(__DIR__) . '/_bootstrap.php';
-require dirname(__DIR__, 2) . '/src/Database/Connection.php';
-require dirname(__DIR__, 2) . '/src/Repositories/OperationRepository.php';
 Auth::requireAnyRole(['worker', 'administrator']);
 
 $from = (string) ($_GET['from'] ?? date('Y-m-d'));

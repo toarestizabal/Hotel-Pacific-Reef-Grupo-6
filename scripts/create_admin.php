@@ -5,8 +5,7 @@ declare(strict_types=1);
 use App\Database\Connection;
 use App\Repositories\UserRepository;
 
-require dirname(__DIR__) . '/src/Database/Connection.php';
-require dirname(__DIR__) . '/src/Repositories/UserRepository.php';
+require dirname(__DIR__) . '/src/autoload.php';
 
 if (PHP_SAPI !== 'cli') {
     http_response_code(404);

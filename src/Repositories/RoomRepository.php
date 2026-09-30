@@ -22,6 +22,32 @@ final class RoomRepository
         )->fetchAll();
     }
 
+    public function availableCatalog(): array
+    {
+        $rooms = $this->pdo->query(
+            "SELECT
+                rooms.id,
+                rooms.room_number AS number,
+                room_types.name AS category,
+                rooms.location,
+                rooms.description,
+                rooms.capacity,
+                room_types.base_price AS price,
+                rooms.equipment
+             FROM rooms
+             INNER JOIN room_types ON room_types.id = rooms.room_type_id
+             WHERE rooms.status = 'available'
+             ORDER BY rooms.room_number"
+        )->fetchAll();
+
+        return array_map(static function (array $room): array {
+            $equipment = json_decode((string) $room['equipment'], true);
+            $room['equipment'] = is_array($equipment) ? $equipment : [];
+
+            return $room;
+        }, $rooms);
+    }
+
     public function find(int $id): ?array
     {
         $statement = $this->pdo->prepare('SELECT * FROM rooms WHERE id = :id');
@@ -34,6 +60,17 @@ final class RoomRepository
     public function roomTypes(): array
     {
         return $this->pdo->query('SELECT id, name, description, base_price, max_guests FROM room_types ORDER BY name')->fetchAll();
+    }
+
+    public function findRoomType(int $id): ?array
+    {
+        $statement = $this->pdo->prepare(
+            'SELECT id, name, description, base_price, max_guests FROM room_types WHERE id = :id'
+        );
+        $statement->execute(['id' => $id]);
+        $roomType = $statement->fetch();
+
+        return $roomType === false ? null : $roomType;
     }
 
     public function updateRoomTypePrice(int $id, float $price): void
@@ -53,7 +90,7 @@ final class RoomRepository
              VALUES
                 (:room_type_id, :capacity, :room_number, :location, :description, :equipment, :image_url, :status)'
         );
-        $statement->execute($this->parameters($data));
+        $statement->execute($data);
     }
 
     public function update(int $id, array $data): void
@@ -70,7 +107,7 @@ final class RoomRepository
                 status = :status
              WHERE id = :id'
         );
-        $parameters = $this->parameters($data);
+        $parameters = $data;
         $parameters['id'] = $id;
         $statement->execute($parameters);
     }
@@ -81,35 +118,4 @@ final class RoomRepository
         $statement->execute(['id' => $id]);
     }
 
-    private function parameters(array $data): array
-    {
-        $roomTypeId = filter_var($data['room_type_id'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-        $capacity = filter_var($data['capacity'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-        if ($roomTypeId === false || $capacity === false) {
-            throw new \InvalidArgumentException('Selecciona un tipo y una capacidad válidos.');
-        }
-
-        $type = $this->pdo->prepare('SELECT max_guests FROM room_types WHERE id = :id');
-        $type->execute(['id' => $roomTypeId]);
-        $maxGuests = $type->fetchColumn();
-        if ($maxGuests === false || $capacity > (int) $maxGuests) {
-            throw new \InvalidArgumentException('La capacidad supera el máximo de la categoría.');
-        }
-
-        $equipment = array_values(array_filter(array_map(
-            static fn (string $item): string => trim($item),
-            explode(',', (string) $data['equipment'])
-        )));
-
-        return [
-            'room_type_id' => $roomTypeId,
-            'capacity' => $capacity,
-            'room_number' => trim((string) $data['room_number']),
-            'location' => trim((string) $data['location']),
-            'description' => trim((string) $data['description']),
-            'equipment' => json_encode($equipment, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR),
-            'image_url' => trim((string) ($data['image_url'] ?? '')) ?: null,
-            'status' => (string) $data['status'],
-        ];
-    }
 }

@@ -5,9 +5,7 @@ declare(strict_types=1);
 use App\Services\ConfirmationService;
 use App\Services\QrCodeService;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
-require dirname(__DIR__) . '/src/Services/ConfirmationService.php';
-require dirname(__DIR__) . '/src/Services/QrCodeService.php';
+require dirname(__DIR__) . '/src/autoload.php';
 
 $directory = dirname(__DIR__) . '/.local/test-mail-' . bin2hex(random_bytes(4));
 $service = new ConfirmationService($directory);

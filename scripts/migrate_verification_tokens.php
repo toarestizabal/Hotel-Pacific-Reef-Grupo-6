@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Database\Connection;
 
-require dirname(__DIR__) . '/src/Database/Connection.php';
+require dirname(__DIR__) . '/src/autoload.php';
 
 $pdo = Connection::create();
 $pdo->exec('ALTER TABLE reservations ADD COLUMN IF NOT EXISTS verification_token CHAR(64) NULL AFTER reservation_code');
