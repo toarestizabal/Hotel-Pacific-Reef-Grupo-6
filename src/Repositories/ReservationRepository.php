@@ -275,11 +275,17 @@ final class ReservationRepository
                 INNER JOIN room_types ON room_types.id = rooms.room_type_id";
         $parameters = [];
         if ($search !== '') {
-            $sql .= ' WHERE reservations.reservation_code LIKE :search
-                      OR users.full_name LIKE :search
-                      OR users.email LIKE :search
-                      OR rooms.room_number LIKE :search';
-            $parameters['search'] = '%' . $search . '%';
+            $sql .= ' WHERE reservations.reservation_code LIKE :search_code
+                      OR users.full_name LIKE :search_name
+                      OR users.email LIKE :search_email
+                      OR rooms.room_number LIKE :search_room';
+            $searchTerm = '%' . $search . '%';
+            $parameters = [
+                'search_code' => $searchTerm,
+                'search_name' => $searchTerm,
+                'search_email' => $searchTerm,
+                'search_room' => $searchTerm,
+            ];
         }
         $sql .= ' ORDER BY reservations.created_at DESC';
         $statement = $this->pdo->prepare($sql);
