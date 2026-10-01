@@ -55,7 +55,9 @@ final class ReservationRepository
     public function findActiveUser(int $userId): ?array
     {
         $statement = $this->pdo->prepare(
-            'SELECT id, full_name, email FROM users WHERE id = :id AND is_active = 1'
+            "SELECT id, full_name, email
+             FROM users
+             WHERE id = :id AND role = 'client' AND is_active = 1"
         );
         $statement->execute(['id' => $userId]);
         $user = $statement->fetch();
@@ -97,6 +99,16 @@ final class ReservationRepository
 
         $this->pdo->beginTransaction();
         try {
+            $roomLock = $this->pdo->prepare('SELECT status FROM rooms WHERE id = :id FOR UPDATE');
+            $roomLock->execute(['id' => $roomId]);
+            $lockedRoomStatus = $roomLock->fetchColumn();
+            if ($lockedRoomStatus === false) {
+                throw new RuntimeException('La habitación seleccionada no existe.');
+            }
+            if ($lockedRoomStatus !== 'available') {
+                throw new RuntimeException('La habitación seleccionada no está disponible.');
+            }
+
             if (!$this->isAvailable($roomId, $checkIn, $checkOut)) {
                 throw new RuntimeException('La habitación ya fue reservada para parte del período seleccionado.');
             }
@@ -215,8 +227,24 @@ final class ReservationRepository
     {
         return [
             'rooms' => (int) $this->pdo->query('SELECT COUNT(*) FROM rooms')->fetchColumn(),
-            'available_rooms' => (int) $this->pdo->query("SELECT COUNT(*) FROM rooms WHERE status = 'available'")->fetchColumn(),
-            'confirmed_reservations' => (int) $this->pdo->query("SELECT COUNT(*) FROM reservations WHERE status = 'confirmed'")->fetchColumn(),
+            'available_rooms' => (int) $this->pdo->query(
+                "SELECT COUNT(*)
+                 FROM rooms
+                 WHERE rooms.status = 'available'
+                   AND NOT EXISTS (
+                       SELECT 1
+                       FROM reservations
+                       WHERE reservations.room_id = rooms.id
+                         AND reservations.status IN ('pending', 'confirmed')
+                         AND reservations.check_in <= CURRENT_DATE
+                         AND reservations.check_out > CURRENT_DATE
+                   )"
+            )->fetchColumn(),
+            'confirmed_reservations' => (int) $this->pdo->query(
+                "SELECT COUNT(*)
+                 FROM reservations
+                 WHERE status = 'confirmed' AND check_out >= CURRENT_DATE"
+            )->fetchColumn(),
             'clients' => (int) $this->pdo->query("SELECT COUNT(*) FROM users WHERE role = 'client'")->fetchColumn(),
         ];
     }

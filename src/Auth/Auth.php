@@ -12,7 +12,10 @@ final class Auth
             return;
         }
 
+        ini_set('session.use_strict_mode', '1');
+        ini_set('session.use_only_cookies', '1');
         session_set_cookie_params([
+            'path' => '/',
             'httponly' => true,
             'samesite' => 'Lax',
             'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
@@ -32,6 +35,12 @@ final class Auth
     {
         self::start();
         session_regenerate_id(true);
+        self::refresh($user);
+    }
+
+    public static function refresh(array $user): void
+    {
+        self::start();
         $_SESSION['auth_user'] = [
             'id' => (int) $user['id'],
             'full_name' => (string) $user['full_name'],
@@ -46,28 +55,16 @@ final class Auth
     {
         self::start();
         $_SESSION = [];
-        session_regenerate_id(true);
-    }
-
-    public static function requireRole(string $role): void
-    {
-        self::requireAnyRole([$role]);
-    }
-
-    public static function requireAnyRole(array $roles): void
-    {
-        $user = self::user();
-        if ($user === null) {
-            $return = rawurlencode((string) ($_SERVER['REQUEST_URI'] ?? '/index.php'));
-            header('Location: /login.php?return=' . $return);
-            exit;
-        }
-
-        if (!in_array($user['role'], $roles, true)) {
-            http_response_code(403);
-            echo 'No tienes permisos para acceder a esta página.';
-            exit;
-        }
+        $cookie = session_get_cookie_params();
+        setcookie(session_name(), '', [
+            'expires' => time() - 3600,
+            'path' => $cookie['path'],
+            'domain' => $cookie['domain'],
+            'secure' => $cookie['secure'],
+            'httponly' => $cookie['httponly'],
+            'samesite' => $cookie['samesite'] ?? 'Lax',
+        ]);
+        session_destroy();
     }
 
     public static function csrfToken(): string

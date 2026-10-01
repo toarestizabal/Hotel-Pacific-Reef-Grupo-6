@@ -37,6 +37,21 @@ final class View
         return '/language.php?lang=' . rawurlencode($language) . '&return=' . rawurlencode($returnPath);
     }
 
+    public static function localPath(string $value, string $fallback = '/index.php'): string
+    {
+        $path = rawurldecode(trim($value));
+        if ($path === ''
+            || strlen($path) > 2048
+            || !str_starts_with($path, '/')
+            || str_starts_with($path, '//')
+            || str_contains($path, '\\')
+            || preg_match('/[\x00-\x1F\x7F]/', $path) === 1) {
+            return $fallback;
+        }
+
+        return $path;
+    }
+
     public static function applicationUrl(string $configuredUrl, array $server): string
     {
         $configuredUrl = rtrim(trim($configuredUrl), '/');

@@ -9,7 +9,7 @@ use App\Services\RoomService;
 use App\Support\I18n;
 
 require dirname(__DIR__) . '/_bootstrap.php';
-Auth::requireRole('administrator');
+requireUserRole('administrator');
 
 $messages = [
     'created' => 'Habitación creada correctamente.',
@@ -38,8 +38,16 @@ try {
         }
 
         $action = (string) ($_POST['action'] ?? '');
+        $roomId = filter_var(
+            $_POST['id'] ?? null,
+            FILTER_VALIDATE_INT,
+            ['options' => ['min_range' => 1]]
+        );
         if ($action === 'delete') {
-            $roomService->delete((int) $_POST['id']);
+            if ($roomId === false) {
+                throw new RuntimeException('La habitación seleccionada no es válida.');
+            }
+            $roomService->delete($roomId);
             header('Location: rooms.php?result=deleted');
             exit;
         }
@@ -50,7 +58,10 @@ try {
             exit;
         }
         if ($action === 'update') {
-            $roomService->update((int) $_POST['id'], $_POST);
+            if ($roomId === false) {
+                throw new RuntimeException('La habitación seleccionada no es válida.');
+            }
+            $roomService->update($roomId, $_POST);
             header('Location: rooms.php?result=updated');
             exit;
         }
@@ -59,7 +70,15 @@ try {
     $roomTypes = $repository->roomTypes();
     $rooms = $repository->all();
     if (isset($_GET['edit'])) {
-        $editingRoom = $repository->find((int) $_GET['edit']);
+        $editingRoomId = filter_var(
+            $_GET['edit'],
+            FILTER_VALIDATE_INT,
+            ['options' => ['min_range' => 1]]
+        );
+        if ($editingRoomId === false) {
+            throw new RuntimeException('La habitación seleccionada no es válida.');
+        }
+        $editingRoom = $repository->find($editingRoomId);
     }
 } catch (Throwable $exception) {
     $error = $exception->getMessage();
@@ -90,7 +109,10 @@ $form = $editingRoom ?? [
 <?php renderAdminHeader('rooms'); ?>
 <main>
     <section class="page-heading">
-        <div><p>Gestión interna</p><h1>Administración de habitaciones</h1></div>
+        <div>
+            <p>Gestión interna</p>
+            <h1>Administración de habitaciones</h1>
+        </div>
     </section>
 
     <?php if (isset($_GET['result'], $messages[$_GET['result']])): ?>
@@ -102,29 +124,147 @@ $form = $editingRoom ?? [
 
     <div class="admin-layout">
         <section class="panel form-panel">
-            <div class="panel-heading"><span><?= $editingRoom ? 'Editar' : 'Nueva' ?></span><h2><?= $editingRoom ? 'Actualizar habitación' : 'Registrar habitación' ?></h2></div>
+            <div class="panel-heading">
+                <span><?= $editingRoom ? 'Editar' : 'Nueva' ?></span>
+                <h2><?= $editingRoom ? 'Actualizar habitación' : 'Registrar habitación' ?></h2>
+            </div>
             <form method="post">
                 <input type="hidden" name="csrf_token" value="<?= escape(Auth::csrfToken()) ?>">
                 <input type="hidden" name="action" value="<?= $editingRoom ? 'update' : 'create' ?>">
                 <input type="hidden" name="id" value="<?= (int) $form['id'] ?>">
-                <label>Tipo de habitación<select name="room_type_id" required><?php foreach ($roomTypes as $type): ?><option value="<?= (int) $type['id'] ?>" <?= (int) $form['room_type_id'] === (int) $type['id'] ? 'selected' : '' ?>><?= escape($type['name']) ?></option><?php endforeach; ?></select></label>
-                <label>Capacidad <small>Personas por habitación</small><input name="capacity" type="number" min="1" max="255" value="<?= (int) $form['capacity'] ?>" required></label>
-                <label>Número<input name="room_number" value="<?= escape((string) $form['room_number']) ?>" maxlength="20" required></label>
-                <label>Ubicación<input name="location" value="<?= escape((string) $form['location']) ?>" maxlength="120" required></label>
-                <label>Descripción<textarea name="description" maxlength="500" required><?= escape((string) $form['description']) ?></textarea></label>
-                <label>Equipamiento <small>Separado por comas</small><input name="equipment" value="<?= escape(is_string($form['equipment']) && str_starts_with($form['equipment'], '[') ? equipmentText($form['equipment']) : (string) $form['equipment']) ?>" required></label>
-                <label>Imagen URL <small>Opcional</small><input name="image_url" type="url" value="<?= escape((string) ($form['image_url'] ?? '')) ?>"></label>
-                <label>Estado<select name="status" required><?php foreach ($statusOptions as $value => $label): ?><option value="<?= $value ?>" <?= $form['status'] === $value ? 'selected' : '' ?>><?= $label ?></option><?php endforeach; ?></select></label>
-                <div class="form-actions"><button type="submit"><?= $editingRoom ? 'Guardar cambios' : 'Crear habitación' ?></button><?php if ($editingRoom): ?><a href="rooms.php">Cancelar</a><?php endif; ?></div>
+                <label>
+                    Tipo de habitación
+                    <select name="room_type_id" required>
+                        <?php foreach ($roomTypes as $type): ?>
+                            <option
+                                value="<?= (int) $type['id'] ?>"
+                                <?= (int) $form['room_type_id'] === (int) $type['id'] ? 'selected' : '' ?>
+                            >
+                                <?= escape($type['name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+                <label>
+                    Capacidad
+                    <small>Personas por habitación</small>
+                    <input
+                        name="capacity"
+                        type="number"
+                        min="1"
+                        max="255"
+                        value="<?= (int) $form['capacity'] ?>"
+                        required
+                    >
+                </label>
+                <label>
+                    Número
+                    <input name="room_number" value="<?= escape((string) $form['room_number']) ?>" maxlength="20" required>
+                </label>
+                <label>
+                    Ubicación
+                    <input name="location" value="<?= escape((string) $form['location']) ?>" maxlength="120" required>
+                </label>
+                <label>
+                    Descripción
+                    <textarea name="description" maxlength="500" required><?= escape((string) $form['description']) ?></textarea>
+                </label>
+                <label>
+                    Equipamiento
+                    <small>Separado por comas</small>
+                    <input
+                        name="equipment"
+                        value="<?= escape(
+                            is_string($form['equipment']) && str_starts_with($form['equipment'], '[')
+                                ? equipmentText($form['equipment'])
+                                : (string) $form['equipment']
+                        ) ?>"
+                        required
+                    >
+                </label>
+                <label>
+                    Imagen URL
+                    <small>Opcional</small>
+                    <input name="image_url" type="url" value="<?= escape((string) ($form['image_url'] ?? '')) ?>">
+                </label>
+                <label>
+                    Estado
+                    <select name="status" required>
+                        <?php foreach ($statusOptions as $value => $label): ?>
+                            <option value="<?= escape($value) ?>" <?= $form['status'] === $value ? 'selected' : '' ?>>
+                                <?= escape($label) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+                <div class="form-actions">
+                    <button type="submit"><?= $editingRoom ? 'Guardar cambios' : 'Crear habitación' ?></button>
+                    <?php if ($editingRoom): ?>
+                        <a href="rooms.php">Cancelar</a>
+                    <?php endif; ?>
+                </div>
             </form>
         </section>
 
         <section class="panel table-panel">
-            <div class="panel-heading"><span>Registros</span><h2>Habitaciones</h2><small><?= count($rooms) ?> registros</small></div>
-            <div class="table-wrap"><table><thead><tr><th>Número</th><th>Tipo</th><th>Capacidad</th><th>Ubicación</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
-            <?php foreach ($rooms as $room): ?><tr><td><strong><?= escape($room['room_number']) ?></strong><small><?= escape(equipmentText($room['equipment'])) ?></small></td><td><?= escape($room['room_type_name']) ?></td><td><?= (int) $room['capacity'] ?> personas</td><td><?= escape($room['location']) ?></td><td><span class="status status-<?= escape($room['status']) ?>"><?= escape($statusOptions[$room['status']] ?? $room['status']) ?></span></td><td><div class="row-actions"><a href="?edit=<?= (int) $room['id'] ?>">Editar</a><form method="post" onsubmit="return confirm('¿Eliminar esta habitación?');"><input type="hidden" name="csrf_token" value="<?= escape(Auth::csrfToken()) ?>"><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= (int) $room['id'] ?>"><button class="delete" type="submit">Eliminar</button></form></div></td></tr><?php endforeach; ?>
-            <?php if ($rooms === []): ?><tr><td colspan="6" class="empty">No existen habitaciones registradas.</td></tr><?php endif; ?>
-            </tbody></table></div>
+            <div class="panel-heading">
+                <span>Registros</span>
+                <h2>Habitaciones</h2>
+                <small><?= count($rooms) ?> registros</small>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Número</th>
+                            <th>Tipo</th>
+                            <th>Capacidad</th>
+                            <th>Ubicación</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($rooms as $room): ?>
+                            <tr>
+                                <td>
+                                    <strong><?= escape($room['room_number']) ?></strong>
+                                    <small><?= escape(equipmentText($room['equipment'])) ?></small>
+                                </td>
+                                <td><?= escape($room['room_type_name']) ?></td>
+                                <td><?= (int) $room['capacity'] ?> personas</td>
+                                <td><?= escape($room['location']) ?></td>
+                                <td>
+                                    <span class="status status-<?= escape($room['status']) ?>">
+                                        <?= escape($statusOptions[$room['status']] ?? $room['status']) ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="row-actions">
+                                        <a href="?edit=<?= (int) $room['id'] ?>">Editar</a>
+                                        <form method="post" onsubmit="return confirm('¿Eliminar esta habitación?');">
+                                            <input
+                                                type="hidden"
+                                                name="csrf_token"
+                                                value="<?= escape(Auth::csrfToken()) ?>"
+                                            >
+                                            <input type="hidden" name="action" value="delete">
+                                            <input type="hidden" name="id" value="<?= (int) $room['id'] ?>">
+                                            <button class="delete" type="submit">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+
+                        <?php if ($rooms === []): ?>
+                            <tr>
+                                <td colspan="6" class="empty">No existen habitaciones registradas.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </div>
 </main>

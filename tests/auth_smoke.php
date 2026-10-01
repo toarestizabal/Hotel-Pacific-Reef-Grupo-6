@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Database\Connection;
 use App\Repositories\UserRepository;
+use App\Support\View;
 
 require dirname(__DIR__) . '/src/autoload.php';
 
@@ -36,9 +37,17 @@ try {
     if ($updated === null || $updated['role'] !== 'worker' || $updated['preferred_language'] !== 'en') {
         throw new RuntimeException('No fue posible actualizar el rol o idioma.');
     }
+    foreach (['https://example.test', '//example.test', '/\\example.test', "/index.php\r\nX-Test: 1"] as $unsafePath) {
+        if (View::localPath($unsafePath, '') !== '') {
+            throw new RuntimeException('Se aceptó una redirección externa o mal formada.');
+        }
+    }
+    if (View::localPath('/reservation.php?room=1') !== '/reservation.php?room=1') {
+        throw new RuntimeException('Se rechazó una redirección interna válida.');
+    }
 
     $pdo->rollBack();
-    echo "REGISTER OK\nLOGIN OK\nROLE OK\nLANGUAGE OK\n";
+    echo "REGISTER OK\nLOGIN OK\nROLE OK\nLANGUAGE OK\nREDIRECCIONES LOCALES OK\n";
 } catch (Throwable $exception) {
     if ($pdo->inTransaction()) {
         $pdo->rollBack();

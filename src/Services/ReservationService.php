@@ -18,20 +18,33 @@ final class ReservationService
 
     public function confirm(array $input, int $userId): array
     {
-        $room = $this->reservations->room((int) ($input['room_id'] ?? 0));
+        $roomId = filter_var(
+            $input['room_id'] ?? null,
+            FILTER_VALIDATE_INT,
+            ['options' => ['min_range' => 1]]
+        );
+        if ($roomId === false) {
+            throw new RuntimeException('La habitación seleccionada no es válida.');
+        }
+
+        $room = $this->reservations->room($roomId);
         if ($room === null || $room['status'] !== 'available') {
             throw new RuntimeException('La habitación seleccionada no está disponible.');
         }
 
         [$checkIn, $checkOut, $nights] = $this->validatedStay($input);
-        $guests = (int) ($input['guests'] ?? 0);
-        if ($guests < 1 || $guests > (int) $room['capacity']) {
+        $guests = filter_var(
+            $input['guests'] ?? null,
+            FILTER_VALIDATE_INT,
+            ['options' => ['min_range' => 1, 'max_range' => (int) $room['capacity']]]
+        );
+        if ($guests === false) {
             throw new RuntimeException('La cantidad de huéspedes no es válida para esta habitación.');
         }
 
         $user = $this->reservations->findActiveUser($userId);
         if ($user === null) {
-            throw new RuntimeException('Debes iniciar sesión con una cuenta activa para reservar.');
+            throw new RuntimeException('Debes iniciar sesión con una cuenta de cliente activa para reservar.');
         }
 
         $services = $this->reservations->findSelectedServices((array) ($input['services'] ?? []));

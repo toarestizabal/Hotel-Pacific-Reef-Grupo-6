@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Database\Connection;
 use App\Repositories\ReportRepository;
+use App\Services\ReservationCsvExporter;
 
 require dirname(__DIR__) . '/src/autoload.php';
 
@@ -34,7 +35,27 @@ try {
     if ($summary['reservations'] !== 1 || $summary['guests'] !== 3 || (float) $summary['total'] !== 204000.0 || (float) $summary['deposits'] !== 61200.0) {
         throw new RuntimeException('Los totales del reporte son incorrectos.');
     }
-    echo "FILTRO POR FECHA Y ESTADO: OK\nTOTALES DEL REPORTE: OK\nDATOS PARA CSV: OK\n";
+    try {
+        $repository->reservations('2026-02-30', '2026-03-05');
+        throw new RuntimeException('El reporte aceptó una fecha inexistente.');
+    } catch (RuntimeException $exception) {
+        if (!str_contains($exception->getMessage(), 'rango de fechas válido')) {
+            throw $exception;
+        }
+    }
+
+    $csvRow = $row;
+    $csvRow['full_name'] = '=HYPERLINK("https://example.test")';
+    $csv = fopen('php://memory', 'w+b');
+    (new ReservationCsvExporter())->write($csv, [$csvRow]);
+    rewind($csv);
+    $csvContents = stream_get_contents($csv);
+    fclose($csv);
+    if (!str_contains((string) $csvContents, "'=HYPERLINK")) {
+        throw new RuntimeException('El CSV no neutralizó una fórmula peligrosa.');
+    }
+
+    echo "FILTRO POR FECHA Y ESTADO: OK\nTOTALES DEL REPORTE: OK\nFECHAS INVÁLIDAS: RECHAZADAS\nCSV SEGURO: OK\n";
 } finally {
     if ($pdo->inTransaction()) {
         $pdo->rollBack();

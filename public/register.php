@@ -15,10 +15,7 @@ if (Auth::user() !== null) {
 }
 
 $error = null;
-$return = rawurldecode((string) ($_POST['return'] ?? $_GET['return'] ?? ''));
-if ($return !== '' && (!str_starts_with($return, '/') || str_starts_with($return, '//'))) {
-    $return = '';
-}
+$return = localReturnPath((string) ($_POST['return'] ?? $_GET['return'] ?? ''), '');
 $values = [
     'full_name' => trim((string) ($_POST['full_name'] ?? '')),
     'email' => trim((string) ($_POST['email'] ?? '')),
@@ -54,7 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="auth-page">
 <header class="site-header compact-header">
-    <a class="brand" href="index.php"><span class="brand-mark" aria-hidden="true">HPR</span><span class="brand-copy"><strong>Hotel Pacific Reef</strong><small>Sistema de reservas</small></span></a>
+    <a class="brand" href="index.php">
+        <span class="brand-mark" aria-hidden="true">HPR</span>
+        <span class="brand-copy"><strong>Hotel Pacific Reef</strong><small>Sistema de reservas</small></span>
+    </a>
     <a class="language-button" href="<?= escape(languageUrl(I18n::language() === 'es' ? 'en' : 'es')) ?>" aria-label="Cambiar idioma">ES <span>/</span> EN</a>
 </header>
 <main class="auth-main">
@@ -70,7 +70,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Correo electrónico<input name="email" type="email" autocomplete="email" value="<?= escape($values['email']) ?>" required></label>
             <label>Contraseña<input name="password" type="password" minlength="8" autocomplete="new-password" required></label>
             <label>Confirmar contraseña<input name="password_confirmation" type="password" minlength="8" autocomplete="new-password" required></label>
-            <label>Idioma preferido<select name="preferred_language"><option value="es" <?= $values['preferred_language'] === 'es' ? 'selected' : '' ?>>Español</option><option value="en" <?= $values['preferred_language'] === 'en' ? 'selected' : '' ?>>Inglés</option></select></label>
+            <label>
+                Idioma preferido
+                <select name="preferred_language">
+                    <option value="es" <?= $values['preferred_language'] === 'es' ? 'selected' : '' ?>>Español</option>
+                    <option value="en" <?= $values['preferred_language'] === 'en' ? 'selected' : '' ?>>Inglés</option>
+                </select>
+            </label>
             <button class="primary-button" type="submit">Registrarme</button>
         </form>
         <a class="auth-alternative" href="login.php<?= $return !== '' ? '?return=' . rawurlencode($return) : '' ?>">Ya tengo una cuenta</a>

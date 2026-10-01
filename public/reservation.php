@@ -14,18 +14,12 @@ require __DIR__ . '/_bootstrap.php';
 $roomGalleries = require $projectRoot . '/src/Data/room_galleries.php';
 
 $error = null;
+$mailError = null;
 $confirmation = null;
 $repository = null;
 $services = [];
+requireUserRole('client');
 $authUser = Auth::user();
-
-if ($authUser === null) {
-    $return = $_SERVER['REQUEST_METHOD'] === 'GET'
-        ? (string) ($_SERVER['REQUEST_URI'] ?? '/index.php#reserva')
-        : '/index.php#reserva';
-    header('Location: /login.php?return=' . rawurlencode($return));
-    exit;
-}
 
 $roomId = (int) ($_POST['room_id'] ?? $_GET['room'] ?? 0);
 $checkIn = (string) ($_POST['check_in'] ?? $_GET['check_in'] ?? '');
@@ -49,13 +43,27 @@ try {
             throw new RuntimeException('Debes confirmar los datos y fechas de la reserva.');
         }
         $confirmation = (new ReservationService($repository))->confirm($_POST, (int) $authUser['id']);
-        $confirmation = array_merge(
-            $confirmation,
-            (new ConfirmationService())->deliverToTestOutbox($confirmation, applicationUrl())
-        );
+        $confirmationService = new ConfirmationService();
+        try {
+            $confirmation = array_merge(
+                $confirmation,
+                $confirmationService->deliverToTestOutbox($confirmation, applicationUrl())
+            );
+        } catch (Throwable) {
+            $confirmation = array_merge(
+                $confirmation,
+                $confirmationService->links($confirmation, applicationUrl()),
+                ['mail_preview_url' => null, 'delivery' => 'unavailable']
+            );
+            $mailError = 'La reserva quedó confirmada, pero no fue posible generar el correo de prueba.';
+        }
     }
-} catch (Throwable $exception) {
+} catch (PDOException) {
+    $error = 'No fue posible procesar la reserva en este momento.';
+} catch (RuntimeException $exception) {
     $error = $exception->getMessage();
+} catch (Throwable) {
+    $error = 'No fue posible procesar la reserva en este momento.';
 }
 
 $gallery = $room !== null ? ($roomGalleries[$room['category']] ?? $roomGalleries['Turista']) : [];
@@ -93,7 +101,14 @@ $eurRate = $referenceRates['EUR'];
         <span class="brand-mark" aria-hidden="true">HPR</span>
         <span class="brand-copy"><strong>Hotel Pacific Reef</strong><small>Sistema de reservas</small></span>
     </a>
-    <div class="account-links"><a class="back-link" href="index.php#habitaciones">← Volver al catálogo</a><a class="language-button" href="<?= escape(languageUrl(I18n::language() === 'es' ? 'en' : 'es')) ?>" aria-label="Cambiar idioma">ES <span>/</span> EN</a></div>
+    <div class="account-links">
+        <a class="back-link" href="index.php#habitaciones">← Volver al catálogo</a>
+        <a
+            class="language-button"
+            href="<?= escape(languageUrl(I18n::language() === 'es' ? 'en' : 'es')) ?>"
+            aria-label="Cambiar idioma"
+        >ES <span>/</span> EN</a>
+    </div>
 </header>
 
 <main class="reservation-main">
@@ -116,7 +131,13 @@ $eurRate = $referenceRates['EUR'];
                         <div><dt>Servicios</dt><dd><?= money((float) $confirmation['service_total']) ?></dd></div>
                         <div><dt>Total</dt><dd><?= money((float) $confirmation['total']) ?></dd></div>
                         <?php if ($usdRate > 0 && $eurRate > 0): ?>
-                            <div><dt>Valor referencial</dt><dd><?= foreignMoney((float) $confirmation['total'] * $usdRate, 'USD') ?><br><?= foreignMoney((float) $confirmation['total'] * $eurRate, 'EUR') ?></dd></div>
+                            <div>
+                                <dt>Valor referencial</dt>
+                                <dd>
+                                    <?= foreignMoney((float) $confirmation['total'] * $usdRate, 'USD') ?><br>
+                                    <?= foreignMoney((float) $confirmation['total'] * $eurRate, 'EUR') ?>
+                                </dd>
+                            </div>
                         <?php endif; ?>
                         <div><dt>Abono pagado</dt><dd><?= money((float) $confirmation['deposit']) ?></dd></div>
                     </dl>
@@ -131,10 +152,17 @@ $eurRate = $referenceRates['EUR'];
                 </div>
                 <img src="<?= escape($confirmation['qr_url']) ?>" width="260" height="260" alt="Código QR del ticket <?= escape($confirmation['code']) ?>">
             </div>
-            <p class="mail-status">El pago fue procesado y el correo quedó disponible en la bandeja de prueba del sistema.</p>
+            <?php if ($mailError === null): ?>
+                <p class="mail-status">El pago fue procesado y el correo quedó disponible en la bandeja de prueba del sistema.</p>
+            <?php endif; ?>
+            <?php if ($mailError !== null): ?>
+                <div class="auth-alert" role="alert"><?= escape($mailError) ?></div>
+            <?php endif; ?>
             <div class="confirmation-actions">
                 <a class="secondary-button" href="<?= escape($confirmation['ticket_url']) ?>" target="_blank" rel="noopener">Abrir ticket verificable</a>
-                <a class="secondary-button" href="<?= escape($confirmation['mail_preview_url']) ?>" target="_blank" rel="noopener">Ver correo generado</a>
+                <?php if ($confirmation['mail_preview_url'] !== null): ?>
+                    <a class="secondary-button" href="<?= escape($confirmation['mail_preview_url']) ?>" target="_blank" rel="noopener">Ver correo generado</a>
+                <?php endif; ?>
                 <a class="primary-button" href="index.php">Volver al inicio</a>
             </div>
         </section>
@@ -171,7 +199,13 @@ $eurRate = $referenceRates['EUR'];
                             <p class="included-services">Desayuno y estacionamiento incluidos sin costo adicional.</p>
                             <?php foreach ($services as $service): ?>
                                 <label class="service-option">
-                                    <input type="checkbox" name="services[]" value="<?= (int) $service['id'] ?>" data-price="<?= escape((string) $service['price']) ?>" data-name="<?= escape((string) $service['name']) ?>">
+                                    <input
+                                        type="checkbox"
+                                        name="services[]"
+                                        value="<?= (int) $service['id'] ?>"
+                                        data-price="<?= escape((string) $service['price']) ?>"
+                                        data-name="<?= escape((string) $service['name']) ?>"
+                                    >
                                     <span><strong><?= escape((string) $service['name']) ?></strong><small><?= escape((string) $service['description']) ?></small></span>
                                     <span class="service-price"><?= money((float) $service['price']) ?></span>
                                 </label>
@@ -184,7 +218,15 @@ $eurRate = $referenceRates['EUR'];
                 </form>
             </section>
 
-            <aside class="reservation-summary" aria-labelledby="summaryTitle" data-daily-rate="<?= escape((string) $room['price']) ?>" data-usd-rate="<?= escape((string) $usdRate) ?>" data-eur-rate="<?= escape((string) $eurRate) ?>" data-guests="<?= $guests ?>" data-nights="<?= $nights ?>">
+            <aside
+                class="reservation-summary"
+                aria-labelledby="summaryTitle"
+                data-daily-rate="<?= escape((string) $room['price']) ?>"
+                data-usd-rate="<?= escape((string) $usdRate) ?>"
+                data-eur-rate="<?= escape((string) $eurRate) ?>"
+                data-guests="<?= $guests ?>"
+                data-nights="<?= $nights ?>"
+            >
                 <?php if ($gallery !== []): ?><img src="<?= escape($gallery[0]['src']) ?>" alt="<?= escape($gallery[0]['alt']) ?>"><?php endif; ?>
                 <div>
                     <span class="room-code"><?= escape($room['category']) ?></span>
@@ -198,7 +240,13 @@ $eurRate = $referenceRates['EUR'];
                         <div><dt>Servicios adicionales</dt><dd id="serviceTotal"><?= money(0) ?></dd></div>
                         <div><dt>Total general</dt><dd id="grandTotal"><?= money($total) ?></dd></div>
                         <?php if ($usdRate > 0 && $eurRate > 0): ?>
-                            <div><dt>Valor referencial</dt><dd id="foreignTotal"><?= foreignMoney($total * $usdRate, 'USD') ?><br><?= foreignMoney($total * $eurRate, 'EUR') ?></dd></div>
+                            <div>
+                                <dt>Valor referencial</dt>
+                                <dd id="foreignTotal">
+                                    <?= foreignMoney($total * $usdRate, 'USD') ?><br>
+                                    <?= foreignMoney($total * $eurRate, 'EUR') ?>
+                                </dd>
+                            </div>
                         <?php endif; ?>
                         <div class="deposit"><dt>Abono requerido (30 %)</dt><dd id="depositTotal"><?= money($deposit) ?></dd></div>
                     </dl>
@@ -209,7 +257,11 @@ $eurRate = $referenceRates['EUR'];
             </aside>
         </div>
     <?php else: ?>
-        <section class="confirmation-card"><h1>No fue posible abrir la reserva</h1><p><?= escape($error ?? 'Selecciona una habitación desde el catálogo.') ?></p><a class="primary-button" href="index.php#habitaciones">Ver habitaciones</a></section>
+        <section class="confirmation-card">
+            <h1>No fue posible abrir la reserva</h1>
+            <p><?= escape($error ?? 'Selecciona una habitación desde el catálogo.') ?></p>
+            <a class="primary-button" href="index.php#habitaciones">Ver habitaciones</a>
+        </section>
     <?php endif; ?>
 </main>
 <script src="assets/js/reservation.js" defer></script>

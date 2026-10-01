@@ -9,11 +9,8 @@ use App\Services\ConfirmationService;
 
 require __DIR__ . '/_bootstrap.php';
 
+requireAnyUserRole(['client', 'administrator']);
 $user = Auth::user();
-if ($user === null) {
-    header('Location: /login.php?return=' . rawurlencode((string) ($_SERVER['REQUEST_URI'] ?? '/index.php')));
-    exit;
-}
 $code = strtoupper(trim((string) ($_GET['code'] ?? '')));
 $repository = new ReservationRepository(Connection::create());
 $reservation = $repository->findForUserByCode($code, (int) $user['id'], $user['role'] === 'administrator');

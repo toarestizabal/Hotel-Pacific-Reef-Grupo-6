@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use DateTimeImmutable;
+use App\Support\DateRange;
 use PDO;
-use RuntimeException;
 
 final class OperationRepository
 {
@@ -61,13 +60,6 @@ final class OperationRepository
 
     private function validateRange(string $from, string $to): void
     {
-        $start = DateTimeImmutable::createFromFormat('!Y-m-d', $from);
-        $end = DateTimeImmutable::createFromFormat('!Y-m-d', $to);
-        if ($start === false || $end === false || $end < $start) {
-            throw new RuntimeException('Selecciona un rango de fechas válido.');
-        }
-        if ((int) $start->diff($end)->format('%a') > 93) {
-            throw new RuntimeException('El calendario permite consultar hasta 93 días por vez.');
-        }
+        DateRange::validate($from, $to, 93);
     }
 }

@@ -8,7 +8,7 @@ use App\Repositories\ReservationRepository;
 use App\Support\I18n;
 
 require dirname(__DIR__) . '/_bootstrap.php';
-Auth::requireRole('administrator');
+requireUserRole('administrator');
 
 $labels = ['pending' => 'Pendiente', 'confirmed' => 'Confirmada', 'cancelled' => 'Cancelada', 'completed' => 'Completada'];
 $search = trim((string) ($_GET['q'] ?? ''));

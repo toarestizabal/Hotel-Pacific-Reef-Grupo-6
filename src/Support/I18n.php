@@ -281,6 +281,23 @@ final class I18n
             'Ticket no encontrado' => 'Ticket not found',
             'Ingresa fechas válidas para la reserva.' => 'Enter valid booking dates.',
             'La fecha de llegada no puede estar en el pasado.' => 'The check-in date cannot be in the past.',
+            'Ingresa un nombre completo válido de hasta 120 caracteres.' => 'Enter a valid full name of up to 120 characters.',
+            'La contraseña debe tener entre 8 y 128 caracteres.' => 'The password must contain between 8 and 128 characters.',
+            'No fue posible verificar los permisos de acceso.' => 'Access permissions could not be verified.',
+            'La cuenta seleccionada no es válida.' => 'The selected account is invalid.',
+            'La habitación seleccionada no es válida.' => 'The selected room is invalid.',
+            'La habitación seleccionada no existe.' => 'The selected room does not exist.',
+            'La habitación seleccionada no está disponible.' => 'The selected room is not available.',
+            'Selecciona una categoría y un precio válidos.' => 'Select a valid category and rate.',
+            'Selecciona un rango de fechas válido.' => 'Select a valid date range.',
+            'El período permite consultar hasta ' => 'The period allows searches of up to ',
+            ' días por vez.' => ' days at a time.',
+            'Ingresa entre 1 y 20 elementos de equipamiento.' => 'Enter between 1 and 20 equipment items.',
+            'Cada elemento de equipamiento admite hasta 80 caracteres.' => 'Each equipment item allows up to 80 characters.',
+            'Uno de los textos supera el largo permitido.' => 'One of the texts exceeds the allowed length.',
+            'La URL de la imagen no es válida.' => 'The image URL is invalid.',
+            'La reserva quedó confirmada, pero no fue posible generar el correo de prueba.' => 'The booking was confirmed, but the test email could not be generated.',
+            'No fue posible verificar la reserva en este momento.' => 'The booking could not be verified at this time.',
         ];
     }
 }

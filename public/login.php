@@ -16,10 +16,7 @@ if (Auth::user() !== null) {
 
 $error = null;
 $email = trim((string) ($_POST['email'] ?? ''));
-$return = rawurldecode((string) ($_POST['return'] ?? $_GET['return'] ?? ''));
-if ($return !== '' && (!str_starts_with($return, '/') || str_starts_with($return, '//'))) {
-    $return = '';
-}
+$return = localReturnPath((string) ($_POST['return'] ?? $_GET['return'] ?? ''), '');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -56,7 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="auth-page">
 <header class="site-header compact-header">
-    <a class="brand" href="index.php"><span class="brand-mark" aria-hidden="true">HPR</span><span class="brand-copy"><strong>Hotel Pacific Reef</strong><small>Sistema de reservas</small></span></a>
+    <a class="brand" href="index.php">
+        <span class="brand-mark" aria-hidden="true">HPR</span>
+        <span class="brand-copy"><strong>Hotel Pacific Reef</strong><small>Sistema de reservas</small></span>
+    </a>
     <a class="language-button" href="<?= escape(languageUrl(I18n::language() === 'es' ? 'en' : 'es')) ?>" aria-label="Cambiar idioma">ES <span>/</span> EN</a>
 </header>
 <main class="auth-main">

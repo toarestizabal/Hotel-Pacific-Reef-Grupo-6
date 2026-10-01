@@ -14,7 +14,7 @@ final class AvailabilityService
     {
     }
 
-    public function search(string $checkInText, string $checkOutText, int $guests): array
+    public function search(string $checkInText, string $checkOutText, int|string $guestsInput): array
     {
         $checkIn = DateTimeImmutable::createFromFormat('!Y-m-d', $checkInText);
         $checkOut = DateTimeImmutable::createFromFormat('!Y-m-d', $checkOutText);
@@ -31,13 +31,19 @@ final class AvailabilityService
         if ($nights < 1) {
             throw new InvalidArgumentException('La fecha de salida debe ser posterior a la fecha de llegada.');
         }
-        if ($guests < 1 || $guests > 255) {
+        $guests = filter_var(
+            $guestsInput,
+            FILTER_VALIDATE_INT,
+            ['options' => ['min_range' => 1, 'max_range' => 255]]
+        );
+        if ($guests === false) {
             throw new InvalidArgumentException('La cantidad de huéspedes no es válida.');
         }
 
         return [
             'rooms' => $this->rooms->availableForStay($checkInText, $checkOutText, $guests),
             'nights' => $nights,
+            'guests' => $guests,
         ];
     }
 }

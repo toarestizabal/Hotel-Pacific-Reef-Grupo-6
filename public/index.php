@@ -11,9 +11,15 @@ $projectRoot = dirname(__DIR__);
 require __DIR__ . '/_bootstrap.php';
 $rooms = require $projectRoot . '/src/Data/rooms.php';
 $roomGalleries = require $projectRoot . '/src/Data/room_galleries.php';
+$startingPrices = ['Turista' => 68000.0, 'Premium' => 125000.0];
 
 try {
-    $rooms = (new RoomRepository(Connection::create()))->availableCatalog();
+    $roomRepository = new RoomRepository(Connection::create());
+    $rooms = $roomRepository->availableCatalog();
+    $startingPrices = [];
+    foreach ($roomRepository->roomTypes() as $roomType) {
+        $startingPrices[(string) $roomType['name']] = (float) $roomType['base_price'];
+    }
 } catch (Throwable) {
     // El catálogo local mantiene disponible el prototipo cuando MariaDB está apagado.
 }
@@ -59,7 +65,10 @@ $authUser = Auth::user();
                 <span class="account-name"><?= escape($authUser['full_name']) ?></span>
                 <?php if ($authUser['role'] === 'administrator'): ?><a href="admin/index.php">Administración</a><?php endif; ?>
                 <?php if ($authUser['role'] === 'worker'): ?><a href="worker/index.php">Panel trabajador</a><?php endif; ?>
-                <form action="logout.php" method="post"><input type="hidden" name="csrf_token" value="<?= escape(Auth::csrfToken()) ?>"><button type="submit">Cerrar sesión</button></form>
+                <form action="logout.php" method="post">
+                    <input type="hidden" name="csrf_token" value="<?= escape(Auth::csrfToken()) ?>">
+                    <button type="submit">Cerrar sesión</button>
+                </form>
             <?php endif; ?>
             <a class="language-button" href="<?= escape(languageUrl(I18n::language() === 'es' ? 'en' : 'es')) ?>" aria-label="Cambiar idioma">ES <span>/</span> EN</a>
         </div>
@@ -82,12 +91,12 @@ $authUser = Auth::user();
                 <div class="visual-content">
                     <div>
                         <small>Habitación Turista</small>
-                        <strong>Desde $68.000</strong>
+                        <strong>Desde <?= money((float) ($startingPrices['Turista'] ?? 68000)) ?></strong>
                         <span>por noche</span>
                     </div>
                     <div>
                         <small>Habitación Premium</small>
-                        <strong>Desde $125.000</strong>
+                        <strong>Desde <?= money((float) ($startingPrices['Premium'] ?? 125000)) ?></strong>
                         <span>por noche</span>
                     </div>
                 </div>
@@ -171,7 +180,10 @@ $authUser = Auth::user();
                                     <strong><?= money((float) $room['price']) ?></strong>
                                     <small>por noche</small>
                                     <?php if ($usdRate > 0 && $eurRate > 0): ?>
-                                        <span class="foreign-price"><?= foreignMoney((float) $room['price'] * $usdRate, 'USD') ?> · <?= foreignMoney((float) $room['price'] * $eurRate, 'EUR') ?></span>
+                                        <span class="foreign-price">
+                                            <?= foreignMoney((float) $room['price'] * $usdRate, 'USD') ?> ·
+                                            <?= foreignMoney((float) $room['price'] * $eurRate, 'EUR') ?>
+                                        </span>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -210,7 +222,10 @@ $authUser = Auth::user();
                                 <strong><?= money((float) $room['price']) ?></strong>
                                 <small>por noche</small>
                                 <?php if ($usdRate > 0 && $eurRate > 0): ?>
-                                    <span class="foreign-price"><?= foreignMoney((float) $room['price'] * $usdRate, 'USD') ?> · <?= foreignMoney((float) $room['price'] * $eurRate, 'EUR') ?></span>
+                                    <span class="foreign-price">
+                                        <?= foreignMoney((float) $room['price'] * $usdRate, 'USD') ?> ·
+                                        <?= foreignMoney((float) $room['price'] * $eurRate, 'EUR') ?>
+                                    </span>
                                 <?php endif; ?>
                             </div>
                         </div>

@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Auth\Auth;
 use App\Database\Connection;
 use App\Repositories\ReportRepository;
 use App\Services\ReservationCsvExporter;
 use App\Support\I18n;
 
 require dirname(__DIR__) . '/_bootstrap.php';
-Auth::requireRole('administrator');
+requireUserRole('administrator');
 
 $from = (string) ($_GET['from'] ?? date('Y-m-01'));
 $to = (string) ($_GET['to'] ?? date('Y-m-t'));

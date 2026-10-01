@@ -33,18 +33,25 @@ final class ReservationCsvExporter
 
         foreach ($rows as $row) {
             fputcsv($stream, [
-                $row['reservation_code'],
-                $row['full_name'],
-                $row['email'],
-                $row['room_number'],
-                $row['category'],
-                $row['check_in'],
-                $row['check_out'],
-                $row['guests'],
-                $row['total_amount'],
-                $row['deposit_amount'],
-                $row['status'],
+                $this->safeCell($row['reservation_code']),
+                $this->safeCell($row['full_name']),
+                $this->safeCell($row['email']),
+                $this->safeCell($row['room_number']),
+                $this->safeCell($row['category']),
+                $this->safeCell($row['check_in']),
+                $this->safeCell($row['check_out']),
+                $this->safeCell($row['guests']),
+                $this->safeCell($row['total_amount']),
+                $this->safeCell($row['deposit_amount']),
+                $this->safeCell($row['status']),
             ], ';');
         }
+    }
+
+    private function safeCell(string|int|float $value): string
+    {
+        $cell = (string) $value;
+
+        return preg_match('/^[=+\-@]/', ltrim($cell)) === 1 ? "'" . $cell : $cell;
     }
 }

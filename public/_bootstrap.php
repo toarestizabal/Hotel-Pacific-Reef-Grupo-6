@@ -3,7 +3,10 @@
 declare(strict_types=1);
 
 use App\Auth\Auth;
+use App\Auth\AccessGuard;
+use App\Database\Connection;
 use App\Http\NativeJsonHttpClient;
+use App\Repositories\UserRepository;
 use App\Services\ExchangeRateService;
 use App\Support\I18n;
 use App\Support\View;
@@ -14,6 +17,13 @@ require_once $projectRoot . '/src/autoload.php';
 Auth::start();
 I18n::boot();
 I18n::beginOutputTranslation();
+
+if (!headers_sent()) {
+    header('X-Content-Type-Options: nosniff');
+    header('X-Frame-Options: SAMEORIGIN');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+    header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
+}
 
 if (!function_exists('escape')) {
     function escape(string $value): string
@@ -60,6 +70,29 @@ if (!function_exists('referenceExchangeRates')) {
     }
 }
 
+if (!function_exists('accessGuard')) {
+    function accessGuard(): AccessGuard
+    {
+        static $guard = null;
+
+        return $guard ??= new AccessGuard(new UserRepository(Connection::create()));
+    }
+}
+
+if (!function_exists('requireUserRole')) {
+    function requireUserRole(string $role): void
+    {
+        accessGuard()->requireRole($role);
+    }
+}
+
+if (!function_exists('requireAnyUserRole')) {
+    function requireAnyUserRole(array $roles): void
+    {
+        accessGuard()->requireAnyRole($roles);
+    }
+}
+
 if (!function_exists('equipmentText')) {
     function equipmentText(string $json): string
     {
@@ -73,6 +106,13 @@ if (!function_exists('languageUrl')) {
         $return = (string) ($_SERVER['REQUEST_URI'] ?? '/index.php');
 
         return View::languageUrl($language, $return);
+    }
+}
+
+if (!function_exists('localReturnPath')) {
+    function localReturnPath(string $value, string $fallback = '/index.php'): string
+    {
+        return View::localPath($value, $fallback);
     }
 }
 

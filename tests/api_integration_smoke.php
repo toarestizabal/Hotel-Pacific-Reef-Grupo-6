@@ -24,6 +24,15 @@ foreach ($result['rooms'] as $room) {
     }
 }
 
+foreach (['2abc', '2.9'] as $invalidGuests) {
+    try {
+        $availability->search($checkIn, $checkOut, $invalidGuests);
+        throw new RuntimeException('La API aceptó una cantidad de huéspedes mal formada.');
+    } catch (InvalidArgumentException) {
+        // Resultado esperado.
+    }
+}
+
 $httpClient = new class implements JsonHttpClientInterface {
     public int $requests = 0;
 
@@ -54,6 +63,7 @@ try {
     }
 
     echo "API DE DISPONIBILIDAD: OK\n";
+    echo "VALIDACIÓN ESTRICTA DE PARÁMETROS: OK\n";
     echo "SERVICIO EXTERNO DE MONEDAS: OK\n";
     echo "CACHÉ DE TASAS: OK\n";
 } finally {

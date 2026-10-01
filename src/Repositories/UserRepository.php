@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use PDO;
+use PDOException;
 use RuntimeException;
 
 final class UserRepository
@@ -17,22 +18,13 @@ final class UserRepository
 
     public function register(array $data, string $role = 'client'): array
     {
-        $fullName = trim((string) ($data['full_name'] ?? ''));
-        $email = strtolower(trim((string) ($data['email'] ?? '')));
-        $password = (string) ($data['password'] ?? '');
+        $fullName = $this->validFullName((string) ($data['full_name'] ?? ''));
+        $email = $this->validEmail((string) ($data['email'] ?? ''));
+        $password = $this->validPassword((string) ($data['password'] ?? ''));
         $language = in_array(($data['preferred_language'] ?? 'es'), ['es', 'en'], true)
             ? (string) $data['preferred_language']
             : 'es';
 
-        if (strlen($fullName) < 3) {
-            throw new RuntimeException('Ingresa un nombre completo válido.');
-        }
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new RuntimeException('Ingresa un correo electrónico válido.');
-        }
-        if (strlen($password) < 8) {
-            throw new RuntimeException('La contraseña debe tener al menos 8 caracteres.');
-        }
         if (!in_array($role, self::ROLES, true)) {
             throw new RuntimeException('El rol seleccionado no es válido.');
         }
@@ -47,21 +39,33 @@ final class UserRepository
             'INSERT INTO users (full_name, email, password_hash, role, preferred_language, is_active)
              VALUES (:full_name, :email, :password_hash, :role, :preferred_language, 1)'
         );
-        $statement->execute([
-            'full_name' => $fullName,
-            'email' => $email,
-            'password_hash' => password_hash($password, PASSWORD_DEFAULT),
-            'role' => $role,
-            'preferred_language' => $language,
-        ]);
+        try {
+            $statement->execute([
+                'full_name' => $fullName,
+                'email' => $email,
+                'password_hash' => password_hash($password, PASSWORD_DEFAULT),
+                'role' => $role,
+                'preferred_language' => $language,
+            ]);
+        } catch (PDOException $exception) {
+            if ($exception->getCode() === '23000') {
+                throw new RuntimeException('El correo ya está registrado.', 0, $exception);
+            }
+            throw $exception;
+        }
 
         return $this->find((int) $this->pdo->lastInsertId()) ?? throw new RuntimeException('No fue posible crear la cuenta.');
     }
 
     public function authenticate(string $email, string $password): ?array
     {
+        $email = strtolower(trim($email));
+        if (strlen($email) > 190 || strlen($password) > 128) {
+            return null;
+        }
+
         $statement = $this->pdo->prepare('SELECT * FROM users WHERE email = :email LIMIT 1');
-        $statement->execute(['email' => strtolower(trim($email))]);
+        $statement->execute(['email' => $email]);
         $user = $statement->fetch();
 
         if ($user === false || !(bool) $user['is_active'] || !password_verify($password, (string) $user['password_hash'])) {
@@ -142,8 +146,12 @@ final class UserRepository
         if (!in_array($role, self::ROLES, true) || $role === 'client') {
             throw new RuntimeException('El rol de demostración no es válido.');
         }
+        $fullName = $this->validFullName($fullName);
+        $email = $this->validEmail($email);
+        $password = $this->validPassword($password);
+
         $statement = $this->pdo->prepare('SELECT id FROM users WHERE email = :email');
-        $statement->execute(['email' => strtolower(trim($email))]);
+        $statement->execute(['email' => $email]);
         $id = $statement->fetchColumn();
         if ($id === false) {
             return $this->register([
@@ -154,9 +162,6 @@ final class UserRepository
             ], $role);
         }
 
-        if (strlen($password) < 8) {
-            throw new RuntimeException('La contraseña debe tener al menos 8 caracteres.');
-        }
         $update = $this->pdo->prepare(
             'UPDATE users
              SET full_name = :full_name, password_hash = :password_hash,
@@ -164,12 +169,43 @@ final class UserRepository
              WHERE id = :id'
         );
         $update->execute([
-            'full_name' => trim($fullName),
+            'full_name' => $fullName,
             'password_hash' => password_hash($password, PASSWORD_DEFAULT),
             'role' => $role,
             'id' => (int) $id,
         ]);
 
         return $this->find((int) $id) ?? throw new RuntimeException('No fue posible actualizar la cuenta.');
+    }
+
+    private function validFullName(string $fullName): string
+    {
+        $fullName = trim($fullName);
+        $length = mb_strlen($fullName);
+        if ($length < 3 || $length > 120) {
+            throw new RuntimeException('Ingresa un nombre completo válido de hasta 120 caracteres.');
+        }
+
+        return $fullName;
+    }
+
+    private function validEmail(string $email): string
+    {
+        $email = strtolower(trim($email));
+        if (strlen($email) > 190 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new RuntimeException('Ingresa un correo electrónico válido.');
+        }
+
+        return $email;
+    }
+
+    private function validPassword(string $password): string
+    {
+        $length = strlen($password);
+        if ($length < 8 || $length > 128) {
+            throw new RuntimeException('La contraseña debe tener entre 8 y 128 caracteres.');
+        }
+
+        return $password;
     }
 }

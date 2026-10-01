@@ -37,7 +37,15 @@ try {
     if ($summary !== ['reservations' => 1, 'guests' => 2, 'with_services' => 1]) {
         throw new RuntimeException('Los indicadores operativos son incorrectos.');
     }
-    echo "CALENDARIO OPERATIVO: OK\nSERVICIOS CONTRATADOS: OK\nINDICADORES: OK\n";
+    try {
+        $repository->schedule('2026-02-30', '2026-03-05');
+        throw new RuntimeException('El calendario aceptó una fecha inexistente.');
+    } catch (RuntimeException $exception) {
+        if (!str_contains($exception->getMessage(), 'rango de fechas válido')) {
+            throw $exception;
+        }
+    }
+    echo "CALENDARIO OPERATIVO: OK\nSERVICIOS CONTRATADOS: OK\nINDICADORES: OK\nFECHAS INVÁLIDAS: RECHAZADAS\n";
 } finally {
     if ($pdo->inTransaction()) {
         $pdo->rollBack();

@@ -22,9 +22,6 @@ if ($user !== null) {
     }
 }
 
-$return = rawurldecode((string) ($_GET['return'] ?? '/index.php'));
-if (!str_starts_with($return, '/') || str_starts_with($return, '//')) {
-    $return = '/index.php';
-}
+$return = localReturnPath((string) ($_GET['return'] ?? '/index.php'));
 header('Location: ' . $return);
 exit;

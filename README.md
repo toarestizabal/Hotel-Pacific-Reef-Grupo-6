@@ -23,12 +23,13 @@ El proyecto separa las responsabilidades principales para facilitar su mantenimi
 - `src/Services/`: reglas de negocio y coordinación de casos de uso, como reservas, habitaciones, confirmaciones y exportación de reportes.
 - `src/Repositories/`: consultas y persistencia de información en MariaDB.
 - `src/Auth/`: autenticación, sesión, roles y protección CSRF.
+- `src/Presentation/`: renderizado de contenidos de presentación, como el correo de confirmación.
 - `src/Support/`: funciones reutilizables de idioma y presentación.
 - `src/Data/`: datos de respaldo utilizados por el prototipo cuando corresponde.
 - `tests/`: pruebas funcionales independientes de cada módulo.
 - `scripts/`: tareas de instalación y actualización ejecutadas desde la consola.
 
-Las clases utilizan carga automática y las páginas delegan la validación y la lógica de negocio a servicios, evitando consultas SQL y reglas duplicadas dentro de las vistas.
+Las clases utilizan carga automática y las páginas delegan la validación y la lógica de negocio a servicios, evitando consultas SQL y reglas duplicadas dentro de las vistas. Los accesos protegidos vuelven a comprobar en MariaDB que la cuenta continúe activa y conserve el rol requerido.
 
 ## API REST y servicio externo
 
@@ -38,7 +39,7 @@ La disponibilidad puede ser consultada por otras aplicaciones mediante una petic
 /api/rooms.php?check_in=2026-10-10&check_out=2026-10-12&guests=2
 ```
 
-La respuesta utiliza JSON e incluye las habitaciones disponibles y los datos de la consulta. Los parámetros son obligatorios, las fechas usan el formato `YYYY-MM-DD` y `check_out` debe ser posterior a `check_in`.
+La respuesta utiliza JSON e incluye las habitaciones disponibles y los datos de la consulta. Los parámetros son obligatorios, las fechas usan estrictamente el formato `YYYY-MM-DD`, `check_out` debe ser posterior a `check_in` y la cantidad de huéspedes debe ser un número entero válido.
 
 Los valores aproximados en USD y EUR se obtienen desde el endpoint público de ExchangeRate-API. La aplicación conserva las tasas durante 24 horas, muestra la atribución requerida por el proveedor y continúa operativa si el servicio externo no está disponible.
 

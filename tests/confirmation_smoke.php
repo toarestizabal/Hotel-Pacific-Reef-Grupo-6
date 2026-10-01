@@ -34,11 +34,15 @@ try {
     if ($result['ticket_url'] !== 'http://localhost:8000/ticket.php?token=' . $token) {
         throw new RuntimeException('El enlace seguro del ticket es incorrecto.');
     }
+    $links = $service->links($reservation, 'http://localhost:8000/');
+    if ($links['qr_url'] !== $result['qr_url'] || $links['ticket_url'] !== $result['ticket_url']) {
+        throw new RuntimeException('Los enlaces de confirmación no se pueden recuperar de forma independiente.');
+    }
     $png = (new QrCodeService())->png($result['ticket_url']);
     if (!str_starts_with($png, "\x89PNG\r\n\x1a\n")) {
         throw new RuntimeException('El código QR no fue generado como una imagen PNG válida.');
     }
-    echo "TICKET DINÁMICO: OK\nCÓDIGO QR PNG: OK\nCORREO DE PRUEBA: OK\n";
+    echo "TICKET DINÁMICO: OK\nCÓDIGO QR PNG: OK\nCORREO DE PRUEBA: OK\nENLACES INDEPENDIENTES: OK\n";
 } finally {
     $file = $directory . DIRECTORY_SEPARATOR . $reservation['code'] . '.html';
     if (is_file($file)) {

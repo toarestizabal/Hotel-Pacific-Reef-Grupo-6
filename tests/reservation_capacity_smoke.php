@@ -41,6 +41,20 @@ try {
         'room_id' => $roomId,
         'check_in' => $checkIn->format('Y-m-d'),
         'check_out' => $checkOut->format('Y-m-d'),
+        'guests' => '2abc',
+    ], 0);
+    throw new RuntimeException('Se aceptó una cantidad de huéspedes mal formada.');
+} catch (RuntimeException $exception) {
+    if (!str_contains($exception->getMessage(), 'cantidad de huéspedes')) {
+        throw $exception;
+    }
+}
+
+try {
+    $service->confirm([
+        'room_id' => $roomId,
+        'check_in' => $checkIn->format('Y-m-d'),
+        'check_out' => $checkOut->format('Y-m-d'),
         'guests' => 1,
     ], 0);
     throw new RuntimeException('Se aceptó una reserva sin una cuenta autenticada.');
@@ -50,9 +64,29 @@ try {
     }
 }
 
+$administratorId = (int) $pdo->query(
+    "SELECT id FROM users WHERE role = 'administrator' AND is_active = 1 LIMIT 1"
+)->fetchColumn();
+
+if ($administratorId > 0) {
+    try {
+        $service->confirm([
+            'room_id' => $roomId,
+            'check_in' => $checkIn->format('Y-m-d'),
+            'check_out' => $checkOut->format('Y-m-d'),
+            'guests' => 1,
+        ], $administratorId);
+        throw new RuntimeException('Se aceptó una reserva creada con una cuenta administrativa.');
+    } catch (RuntimeException $exception) {
+        if (!str_contains($exception->getMessage(), 'cuenta de cliente activa')) {
+            throw $exception;
+        }
+    }
+}
+
 $after = (int) $pdo->query('SELECT COUNT(*) FROM reservations')->fetchColumn();
 if ($after !== $before) {
     throw new RuntimeException('La prueba dejó una reserva en la base.');
 }
 
-echo "CAPACIDAD POR HABITACIÓN: OK\nRESERVA EXCEDIDA: RECHAZADA\nRESERVA SIN USUARIO: RECHAZADA\nSIN DATOS DE PRUEBA PERMANENTES: OK\n";
+echo "CAPACIDAD POR HABITACIÓN: OK\nRESERVA EXCEDIDA: RECHAZADA\nPARÁMETROS MAL FORMADOS: RECHAZADOS\nRESERVA SIN USUARIO: RECHAZADA\nRESERVA CON ROL INCORRECTO: RECHAZADA\nSIN DATOS DE PRUEBA PERMANENTES: OK\n";

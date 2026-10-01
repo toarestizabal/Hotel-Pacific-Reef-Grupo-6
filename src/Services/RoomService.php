@@ -67,15 +67,40 @@ final class RoomService
             static fn (string $item): string => trim($item),
             explode(',', (string) $input['equipment'])
         )));
+        if ($equipment === [] || count($equipment) > 20) {
+            throw new InvalidArgumentException('Ingresa entre 1 y 20 elementos de equipamiento.');
+        }
+
+        $roomNumber = trim((string) $input['room_number']);
+        $location = trim((string) $input['location']);
+        $description = trim((string) $input['description']);
+        if (mb_strlen($roomNumber) > 20 || mb_strlen($location) > 120 || mb_strlen($description) > 500) {
+            throw new InvalidArgumentException('Uno de los textos supera el largo permitido.');
+        }
+        foreach ($equipment as $item) {
+            if (mb_strlen($item) > 80) {
+                throw new InvalidArgumentException('Cada elemento de equipamiento admite hasta 80 caracteres.');
+            }
+        }
+
+        $imageUrl = trim((string) ($input['image_url'] ?? ''));
+        if ($imageUrl !== '') {
+            $scheme = strtolower((string) parse_url($imageUrl, PHP_URL_SCHEME));
+            if (mb_strlen($imageUrl) > 500
+                || filter_var($imageUrl, FILTER_VALIDATE_URL) === false
+                || !in_array($scheme, ['http', 'https'], true)) {
+                throw new InvalidArgumentException('La URL de la imagen no es válida.');
+            }
+        }
 
         return [
             'room_type_id' => $roomTypeId,
             'capacity' => $capacity,
-            'room_number' => trim((string) $input['room_number']),
-            'location' => trim((string) $input['location']),
-            'description' => trim((string) $input['description']),
+            'room_number' => $roomNumber,
+            'location' => $location,
+            'description' => $description,
             'equipment' => json_encode($equipment, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR),
-            'image_url' => trim((string) ($input['image_url'] ?? '')) ?: null,
+            'image_url' => $imageUrl !== '' ? $imageUrl : null,
             'status' => $status,
         ];
     }

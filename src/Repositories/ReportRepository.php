@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use DateTimeImmutable;
+use App\Support\DateRange;
 use PDO;
 use RuntimeException;
 
@@ -52,11 +52,7 @@ final class ReportRepository
 
     private function validate(string $from, string $to, string $status): void
     {
-        $start = DateTimeImmutable::createFromFormat('!Y-m-d', $from);
-        $end = DateTimeImmutable::createFromFormat('!Y-m-d', $to);
-        if ($start === false || $end === false || $end < $start) {
-            throw new RuntimeException('Selecciona un rango de fechas válido.');
-        }
+        DateRange::validate($from, $to);
         if (!in_array($status, self::STATUSES, true)) {
             throw new RuntimeException('El estado seleccionado no es válido.');
         }

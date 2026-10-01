@@ -9,19 +9,26 @@ use App\Services\AvailabilityService;
 require __DIR__ . '/_bootstrap.php';
 
 try {
+    $checkIn = $_GET['check_in'] ?? '';
+    $checkOut = $_GET['check_out'] ?? '';
+    $guests = $_GET['guests'] ?? '';
+    if (!is_string($checkIn) || !is_string($checkOut) || !is_string($guests)) {
+        throw new InvalidArgumentException('Los parámetros de búsqueda no son válidos.');
+    }
+
     $availability = (new AvailabilityService(new RoomRepository(Connection::create())))->search(
-        (string) ($_GET['check_in'] ?? ''),
-        (string) ($_GET['check_out'] ?? ''),
-        (int) ($_GET['guests'] ?? 0)
+        $checkIn,
+        $checkOut,
+        $guests
     );
 
     jsonResponse([
         'success' => true,
         'data' => $availability['rooms'],
         'meta' => [
-            'check_in' => (string) $_GET['check_in'],
-            'check_out' => (string) $_GET['check_out'],
-            'guests' => (int) $_GET['guests'],
+            'check_in' => $checkIn,
+            'check_out' => $checkOut,
+            'guests' => $availability['guests'],
             'nights' => $availability['nights'],
             'count' => count($availability['rooms']),
         ],
